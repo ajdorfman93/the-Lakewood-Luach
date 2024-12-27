@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>index</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" 			rel="stylesheet">
+    <link href="https://db.onlinewebfonts.com/c/22db60d19480ba0274c9eb6ba877ea9b?family=Aharoni+Bold+V1" rel="stylesheet">
+    <script src="time.js"></script>
+    <script src="prayertimes.js" defer></script>
+    <!-- Google Maps API  -->
+    <script 
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU&libraries=places"
+      async
+      defer
+    ></script>
+    <script src="markers.js"></script>
+    
+    <!-- CSS Links -->	  
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <div class="container-header">
+      <div class="md-12">
+    <h1>Jewish Calendar Event Checker</h1>
+      <h1>Dynamic Iframe Map with Autocomplete</h1>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row" style="height: 60vw">
+      <div class="column lg-6 md-12 border-left">
+      <div id="map-container" class="map-container">
+        <div id="map" class="map"></div></div></div>
+        <div class="column lg-6 md-12 border-left">
+        <h1>Filtered Prayer Times</h1>
+        <input id="search-input" type="text" placeholder="Search location..." />
+
+      <label for="datePicker">Select a Date:</label>
+      <input type="date" id="datePicker" />
+
+      <!-- Tefilah Filter Buttons -->
+      <button class="tefilah-button" data-tefilah="Maariv">Maariv</button>
+      <button class="tefilah-button" data-tefilah="Mincha">Mincha</button>
+      <button class="tefilah-button" data-tefilah="Shachris">Shachris</button>
+      <button class="tefilah-button" data-tefilah="Special">Special</button>
+    </div>
+  </div>
+    <!-- 
+      Dynamic JSON block:
+      Note that inside #prayerTimesOutput we have a <pre> that holds the raw data.
+    -->
+ 
+    <!-- Button to trigger the map update -->
+    <button 
+      type="button" 
+      id="checkPrayerTimesButton" 
+      class="checkPrayerTimesButton"
+    >
+      Check Prayer Times
+    </button>     </div>
+    </div>
+    <div id="prayerTimesOutput" style="display: none;">
+      <pre>
+[ 
+  {
+    "Shul": "Testing1",
+    "Tefilah": "['Shachris']",
+    "Time": "12:06 PM",
+    "Data": "44 Coles Way, Lakewood, NJ",
+    "strCode": "['#ERS']",
+    "position": {
+      "lat": 40.0684484,
+      "lng": -74.2056221
+    }
+  },
+  {
+    "Shul": "Testing3",
+    "Tefilah": "['Shachris']",
+    "Time": "4:00 AM | 4:40 AM | 5:20 AM | 6:00 AM | 6:40 AM | 7:20 AM | 8:00 AM | 8:40 AM | 9:20 AM | 10:00 AM",
+    "Data": "269 John St, Lakewood, NJ",
+    "strCode": "['#RET']",
+    "position": {
+      "lat": 40.0820026,
+      "lng": -74.2080522
+    }
+  },
+  {
+    "Shul": "Testing",
+    "Tefilah": "['Maariv']",
+    "Time": "11:55 AM",
+    "Data": "347 Coles Way, Lakewood, NJ",
+    "strCode": "['#RSE']",
+    "position": {
+      "lat": 40.0668637,
+      "lng": -74.2032031
+    }
+  },
+  {
+    "Shul": "Testing1",
+    "Tefilah": "['Mincha']",
+    "Time": "10:00 AM",
+    "Data": "44 Coles Way, Lakewood, NJ",
+    "strCode": "['#CUT']",
+    "position": {
+      "lat": 40.0684484,
+      "lng": -74.2056221
+    }
+  },
+  {
+    "Shul": "Testing3",
+    "Tefilah": "['Shachris']",
+    "Time": "8:18 AM",
+    "Data": "269 John St, Lakewood, NJ",
+    "strCode": "['#UST']",
+    "position": {
+      "lat": 40.0820026,
+      "lng": -74.2080522
+    }
+  }
+]
+      </pre>
+    </div>
+  </div>
+</div>
+  <div class="container-header">
+    <div class="md-12">
+      <span>DAILY ZMANIM</span>
+      <h1>Monday, November 11, 2024</h1>
+      <b>י׳ חשון תשפ״ה</b>
+    </div>
+  </div>
+	
+    <div class="container">
+      <div class="row" style="height: 60vw">
+		  
+     <!-- Left Column -->
+<div class="column lg-6 md-12 border-left">
+  <div class="dawn">
+    <img src="SVG/s_DAWN.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="dawn"></h3>
+  </div>
+  <div class="misheyakirMachmir">
+    <img src="SVG/s_TALISTEFILIN.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="misheyakirMachmir"></h3>
+  </div>
+  <div class="sunrise">
+    <img src="SVG/s_SUNRISE.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="sunrise"></h3>
+  </div>
+  <div class="sofZmanShmaMGA">
+    <img src="SVG/s_SHEMA MGA.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="sofZmanShmaMGA"></h3>
+  </div>
+  <div class="sofZmanShma">
+    <img src="SVG/s_SHEMA GRA.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="sofZmanShma"></h3>
+  </div>
+  <div class="sofZmanTfilla">
+    <img src="SVG/s_SHACRIS GRA.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="sofZmanTfilla"></h3>
+  </div>
+</div>
+
+<!-- Right Column -->
+<div class="column lg-6 md-12 border-left">
+  <div class="chatzot">
+    <img src="SVG/s_MIDDAY.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="chatzot"></h3>
+  </div>
+  <div class="minchaGedola">
+    <img src="SVG/s_EARLY MINCHA.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="minchaGedola"></h3>
+  </div>
+  <div class="plagHaMincha">
+    <img src="SVG/s_PLAG HAMINCHA.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="plagHaMincha"></h3>
+  </div>
+  <div class="sunset">
+    <img src="SVG/s_SUNSET.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="sunset"></h3>
+  </div>
+  <div class="tzeit85deg">
+    <img src="SVG/s_NIGHT 3 STARS.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="tzeit85deg"></h3>
+  </div>
+  <div class="tzeit72min">
+    <img src="SVG/s_NIGHT 72.svg" class="zman-svg" alt="zman-svg" />
+    <h3 id="tzeit72min"></h3>
+  </div>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
