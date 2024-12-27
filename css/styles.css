@@ -179,6 +179,57 @@
     --vspace-btn : var(--vspace-2);
 }
 
+/* ==============================================
+   4. Hero
+===============================================*/
+
+#hero {
+	background-color: #f6f8f9;
+}
+
+#hero h1 {
+	font-size: 50px;
+	font-weight: 300;
+}
+
+#hero p {
+	font-size: 24px;
+    font-weight: 300;
+    color: #8da2b5;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+
+#hero span {
+	font-weight: 400;
+    color: #0095f7;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+/* ==============================================
+   5. Marketing
+===============================================*/
+
+#marketing p {
+	font-size: 20px;
+    font-weight: 300;
+    color: #8da2b5;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+
+#marketing span {
+	font-weight: 400;
+	color: #0095f7;
+	text-transform: uppercase;
+	letter-spacing: .05em;
+}
+
+.content-box {
+	padding: 60px 20px;
+}
+
 /* on mobile devices below 600px, change the value of '--multiplier' 
  * to adjust the values of base font size and vertical space unit.
  */
@@ -333,37 +384,25 @@ sup {
 img {
     border-style : none;
 }
-#map-container {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px;
-  }
-
-  .map {
-    height: 250px;
-    width: 250px;
-    margin-right: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-
-
   .tefilah-button,
   .checkPrayerTimesButton {
     margin: 5px 0;
     padding: 10px 15px;
-    font-size: 14px;
     border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
-    color: white;
+    background-color: transparent;
+    color: #42ade1;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-size: 12pt;
+    margin-left: 2px;
   }
 
   .tefilah-button:hover,
   .checkPrayerTimesButton:hover {
-    background-color: #0056b3;
+    background-color: #e2f2f1;
   }
 
   /* Just a bit of spacing and styling for the JSON output block */
@@ -2021,9 +2060,9 @@ button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover {
-    background-color : var(--color-btn-hover);
+    background-color : #e2f2f1;
     border-color     : var(--color-btn-hover);
-    color            : var(--color-btn-hover-text);
+    color            : #3bbda1;
     outline          : 0;
 }
 
