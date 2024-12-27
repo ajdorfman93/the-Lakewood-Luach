@@ -187,7 +187,16 @@ const conditionMapping = {
     
     // #CHAN8: Chanukah Day 8
     '#CHAN8': (htmlContent) => htmlContent.includes("2 Tevet"),
-    
+
+      // #XCH: Excluding Chanukah — returns FALSE on Chanukah (thus excludes)
+    '#XCH': (htmlContent) => {
+          const eightdays = [
+            "25 Kislev","26 Kislev","27 Kislev","28 Kislev",
+            "29 Kislev","30 Kislev","1 Tevet","2 Tevet"
+          ];
+          return !eightdays.some(day => htmlContent.includes(day));
+        },
+
     // #BHZ: Bein HaZmanim from RC Nisan till RC Iyyar & 10th Tishri till Rosh Chodesh Cheshvan
         '#BHZ': (htmlContent) => {
             const daysNisanToCheshvan = [
@@ -242,14 +251,14 @@ const conditionMapping = {
     // #AMH: All Major Holidays
     '#AMH': (htmlContent) => htmlContent.includes("major") && htmlContent.includes("yomtov"),
 
-        // Additional codes to be processed by custom logic:
-        '#ERS': null,  // handleERSLogic
-        '#RSE': null,  // handleRSELogic
-        '#UCT': null,  // handleUCTLogic
-        '#RET': null,  // handleRETLogic
-        '#UST': null,  // handleUSTLogic
-        // #CUT => exclude if (Cut_off_Time) <= (Zman Start Time + Zman_Start_Adjustment)
-        '#CUT': null
+    // Additional codes to be processed by custom logic:
+    '#ERS': null,  // Earliest (Zman Start Time) Of The Week + (Time For Formula)
+    '#RSE': null,  // Rounded (To Nearest 5 Min) Earliest (Zman Start Time) Of Week + (Time For Formula)
+    '#UCT': null,  // Record excluded if (Zman Cutoff Time) + (Zman Cutoff Adjustment) is before or equal to (Time)
+    '#RET': null,  // Repeat Every (Time For Formula) Till (Cut Off Time); if #UCT is applied or (Zman Cutoff Time) + (Zman Cutoff Adjustment); if #UST is applied, starting time is set at (Zman Start Time) + (Zman Start Adjustment)
+    '#UST': null,  // Use (Zman Start Time) + (Time for formula)
+    // #CUT => exclude if (Cut_off_Time) <= (Zman Start Time + Zman_Start_Adjustment)
+    '#CUT': null
     };
 
     // We'll store the final filtered records here
@@ -768,9 +777,7 @@ function displayRecords(records) {
     // Pretty print JSON and display
     container.innerHTML = `<pre>${JSON.stringify(jsonOutput, null, 2)}</pre>`;
 }
-/****************************************************
- * 8) Button listener for "Check Prayer Times"
- ****************************************************/
+// 8) Button listener for "Check Prayer Times"
 if (checkPrayerTimesButton) {
     checkPrayerTimesButton.addEventListener('click', async () => {
       try {
@@ -788,9 +795,7 @@ if (checkPrayerTimesButton) {
     });
   }
   
-  /****************************************************
-   * TEFILAH BUTTONS: handle filter + geocode subset
-   ****************************************************/
+  // TEFILAH BUTTONS: handle filter + geocode subset
   document.addEventListener('click', async function(e) {
     if (e.target.classList.contains('tefilah-button')) {
       const tefilahFilter = e.target.getAttribute('data-tefilah');
@@ -832,7 +837,7 @@ if (checkPrayerTimesButton) {
     }
   });
   
-  /* parseTefilahArray*/
+  // parseTefilahArray
   function parseTefilahArray(raw) {
     if (!raw) return [];
     if (Array.isArray(raw)) return raw;
@@ -846,5 +851,4 @@ if (checkPrayerTimesButton) {
     return [raw];
   }
   
-    });
-    
+    });    
