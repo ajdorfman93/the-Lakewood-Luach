@@ -5,9 +5,9 @@ class EntryTime {
 
     // Method to update the date object
     setDate(date) {
-        // Parse the date string as UTC to avoid timezone mismatches
+        // Parse the date string as EST to avoid timezone mismatches
         const [year, month, day] = date.split('-').map(Number);
-        this.date = new Date(Date.UTC(year, month - 1, day)); // Month is zero-based
+        this.date = new Date(Date.EST(year, month - 1, day)); // Month is zero-based
     }
 
     // Getter to format date as YYYY-MM-DD
@@ -23,7 +23,7 @@ class EntryTime {
     // Getter to return the day of the week as a string
     get dayOfWeek() {
         const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        return weekday[this.date.getUTCDay()]; // Use getUTCDay to ensure consistency
+        return weekday[this.date.getESTDay()]; // Use getESTDay to ensure consistency
     }
 }
 

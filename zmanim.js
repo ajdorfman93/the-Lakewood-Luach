@@ -79,3 +79,41 @@ datePicker.addEventListener("change", () => {
   }
 });
 // --- End of integrated Zmanim code ---
+
+/***************************************************
+ * NEW FUNCTION: fetchHebrewDate
+ * Fetches from Hebcal and inserts the Hebrew date.
+ ***************************************************/
+async function fetchHebrewDate(date) {
+  const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${date}&end=${date}&maj=on&min=on&nx=on&ss=on&mf=on&d=on&c=on&geo=geoname&geonameid=5100280&M=on&s=on&leyning=off`;
+  try {
+    const response = await fetch(hebcalUrl);
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+    const data = await response.json();
+    const items = data.items || [];
+
+    // 1) Check for "heDateParts" if available
+    const itemWithParts = items.find(item => item.heDateParts);
+    const hebrewDateDiv = document.getElementById('hebrewDate');
+    if (!hebrewDateDiv) return; // if the div is missing, just return
+
+    if (itemWithParts?.heDateParts) {
+      // Format "א׳ תשרי תשפ״ו"
+      const { d, m, y } = itemWithParts.heDateParts;
+      hebrewDateDiv.textContent = `${d} ${m} ${y}`;
+    } else {
+      // 2) Otherwise fallback to old "hebrew" if present
+      const itemWithHebrew = items.find(item => item.hebrew);
+      if (itemWithHebrew?.hebrew) {
+        hebrewDateDiv.textContent = itemWithHebrew.hebrew;
+      } else {
+        // If neither found, clear or show placeholder
+        hebrewDateDiv.textContent = "";
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching Hebrew date from Hebcal:", error);
+  }
+}
