@@ -3,32 +3,21 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>index</title>
-
     <!-- Google Fonts -->
     <link href="https://db.onlinewebfonts.com/c/22db60d19480ba0274c9eb6ba877ea9b?family=Aharoni+Bold+V1" rel="stylesheet">
     <script src="time.js"></script>
     <script src="prayertimes.js" defer></script>
     <script src="zmanim.js" defer></script>
 
-
-  <!-- 1) data-loader.js: fetches prayertimes.json, restaurants.json, businesses.json -->
-  <script src="data-loader.js" defer></script>
-
-  <!-- 2) markers.js: sets up Google Map, draws markers from a final merged subset -->
-  <script src="markers.js" defer></script>
-
-  <!-- 3) filter-ui.js: handles the category/filters, merges + displays data, updates map -->
-  <script src="filter-ui.js" defer></script>
-
-  <!-- If needed: distance matrix, etc. -->
-  <script src="distance matrix.js" defer></script>
-    
     <!-- Google Maps API  -->
     <script 
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU&libraries=places"
       async
       defer
     ></script>
+    <script src="markers.js"></script>
+    
+    <script src="distance matrix.js" defer></script>
     <!-- CSS Links -->	  
     <link rel="stylesheet" href="css/vendor.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -41,7 +30,16 @@
     </div>
   </div>
   <!-- Initialize the map and load data once page is fully loaded -->
+  <script>
+    window.addEventListener("load", () => {
+      // 1) Initialize the map
+      initMap();
 
+      // 2) Load external prayer time data
+      //    (will be stored in the global 'prayerTimeData' array)
+      loadPrayerTimeData();
+    });
+  </script>
   <section id="hero">
   <div class="container">
     <div class="row"  style="min-height: 400px; margin-bottom: 2rem;">
@@ -55,64 +53,18 @@
       <label for="datePicker">Select a Date:</label>
       <input type="date" id="datePicker" />
 
-  <!-- Category Buttons -->
-  <div id="categoryButtons" style="margin-bottom:1rem;">
-    <button class="category-button" data-category="minyanim">Minyanim</button>
-    <button class="category-button" data-category="restaurants">Restaurants</button>
-    <button class="category-button" data-category="businesses">Businesses</button>
-  </div>
+      <!-- Tefilah Filter Buttons -->
+      <div class="row"> <button class="tefilah-button" data-tefilah="Maariv">Maariv</button>
+      <button class="tefilah-button" data-tefilah="Mincha">Mincha</button>
+      <button class="tefilah-button" data-tefilah="Shachris">Shachris</button>
+      <button class="tefilah-button" data-tefilah="Special">Special</button>    
 
-  <!-- Filter Rows (shown/hidden by JS) -->
-  <!-- MINYANIM FILTERS -->
-  <div id="minyanimFilters" style="display:none; margin-bottom:1rem;">
-    <!-- Primary: Denomination -->
-    <strong>Denomination:</strong>
-    <button class="minyanim-denomination" data-value="Sephardi">Sephardi</button>
-    <button class="minyanim-denomination" data-value="Ashkenaz">Ashkenaz</button>
-    <button class="minyanim-denomination" data-value="Sfard">Sfard</button>
-
-    <!-- Secondary: Prayer Type -->
-    <strong> Prayer Type:</strong>
-    <button class="minyanim-prayer" data-value="Shachris">Shachris</button>
-    <button class="minyanim-prayer" data-value="Mincha">Mincha</button>
-    <button class="minyanim-prayer" data-value="Maariv">Maariv</button>
-    <button class="minyanim-prayer" data-value="Special">Special</button>
-  </div>
-
-  <!-- RESTAURANTS FILTERS -->
-  <div id="restaurantsFilters" style="display:none; margin-bottom:1rem;">
-    <!-- Primary: Price Point -->
-    <strong>Price Point:</strong>
-    <button class="rest-price" data-value="$100+">$100+</button>
-    <button class="rest-price" data-value="$50–100">$50–100</button>
-    <button class="rest-price" data-value="$30–50">$30–50</button>
-    <button class="rest-price" data-value="$20–30">$20–30</button>
-    <button class="rest-price" data-value="$10–20">$10–20</button>
-    <button class="rest-price" data-value="$1–10">$1–10</button>
-    
-
-    <!-- Primary: Cuisine Type -->
-    <strong> Cuisine Type:</strong>
-    <button class="rest-cuisine" data-value="Dairy">Dairy (Milchig)</button>
-    <button class="rest-cuisine" data-value="Meat">Meat (Fleishig)</button>
-
-    <!-- Secondary: Service Options -->
-    <strong> Service Options:</strong>
-    <button class="rest-service" data-value="Dine-in">Dine-in</button>
-    <button class="rest-service" data-value="Takeout">Takeout</button>
-  </div>
-
-  <!-- BUSINESSES FILTERS -->
-<!-- Businesses Filters (Dynamic area) -->
-<div id="businessesFilters" style="display:none;">
-  <strong>Primary Category:</strong>
-  <div id="businessPrimaryContainer"></div> <!-- We'll add primary-cat buttons here dynamically -->
-
-  <strong>Sub Type (strTyp):</strong>
-  <div id="businessSubTypeContainer"></div>  <!-- We'll add sub-type buttons here dynamically -->
-</div>
+    <!-- Button to trigger the map update -->
+    <button class="tefilah-button"
+      id="checkPrayerTimesButton" 
+      class="checkPrayerTimesButton">Check Prayer Times
+    </button>    </div>
     <div id="prayerTimesOutput" style="display: none;">
-   
       <pre>
 [ 
   {
@@ -138,8 +90,9 @@
     <div class="md-12">
       <span>DAILY ZMANIM</span>
       <h1>Monday, November 11, 2024</h1>
-      <b class="hebrewDate" id="hebrewDate">
-      </b>
+      <div class="hebrewDate" id="hebrewDate">
+      </div>
+      <b>י׳ חשון תשפ״ה</b>
     </div>
       <div class="row"  style="min-height: 400px; margin-bottom: 2rem;">		  
      <!-- Left Column -->

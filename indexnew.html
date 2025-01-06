@@ -3,14 +3,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>index</title>
-
     <!-- Google Fonts -->
     <link href="https://db.onlinewebfonts.com/c/22db60d19480ba0274c9eb6ba877ea9b?family=Aharoni+Bold+V1" rel="stylesheet">
-    <script src="time.js"></script>
-    <script src="prayertimes.js" defer></script>
-    <script src="zmanim.js" defer></script>
 
 
+  <!-- Our JS Files (in order) -->
+  <script src="time.js"></script>       <!-- if you still need time.js -->
+  <script src="zmanim.js"></script>     <!-- if you still need zmanim.js -->
+  
   <!-- 1) data-loader.js: fetches prayertimes.json, restaurants.json, businesses.json -->
   <script src="data-loader.js" defer></script>
 
@@ -69,7 +69,7 @@
     <strong>Denomination:</strong>
     <button class="minyanim-denomination" data-value="Sephardi">Sephardi</button>
     <button class="minyanim-denomination" data-value="Ashkenaz">Ashkenaz</button>
-    <button class="minyanim-denomination" data-value="Sfard">Sfard</button>
+    <button class="minyanim-denomination" data-value="Chassidish">Chassidish</button>
 
     <!-- Secondary: Prayer Type -->
     <strong> Prayer Type:</strong>
@@ -83,13 +83,9 @@
   <div id="restaurantsFilters" style="display:none; margin-bottom:1rem;">
     <!-- Primary: Price Point -->
     <strong>Price Point:</strong>
-    <button class="rest-price" data-value="$100+">$100+</button>
-    <button class="rest-price" data-value="$50–100">$50–100</button>
-    <button class="rest-price" data-value="$30–50">$30–50</button>
-    <button class="rest-price" data-value="$20–30">$20–30</button>
-    <button class="rest-price" data-value="$10–20">$10–20</button>
-    <button class="rest-price" data-value="$1–10">$1–10</button>
-    
+    <button class="rest-price" data-value="Affordable">Affordable</button>
+    <button class="rest-price" data-value="Mid-range">Mid-range</button>
+    <button class="rest-price" data-value="Premium">Premium</button>
 
     <!-- Primary: Cuisine Type -->
     <strong> Cuisine Type:</strong>
@@ -103,15 +99,14 @@
   </div>
 
   <!-- BUSINESSES FILTERS -->
-<!-- Businesses Filters (Dynamic area) -->
-<div id="businessesFilters" style="display:none;">
-  <strong>Primary Category:</strong>
-  <div id="businessPrimaryContainer"></div> <!-- We'll add primary-cat buttons here dynamically -->
-
-  <strong>Sub Type (strTyp):</strong>
-  <div id="businessSubTypeContainer"></div>  <!-- We'll add sub-type buttons here dynamically -->
-</div>
-    <div id="prayerTimesOutput" style="display: none;">
+  <div id="businessesFilters" style="display:none; margin-bottom:1rem;">
+    <!-- Primary: Business Type -->
+    <strong>Business Type:</strong>
+    <button class="biz-type" data-value="Retail">Retail</button>
+    <button class="biz-type" data-value="Services">Services</button>
+    <button class="biz-type" data-value="Wholesale">Wholesale</button>
+  </div>
+    <div id="prayerTimesOutput" style="display: nne;">
    
       <pre>
 [ 
