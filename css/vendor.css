@@ -127,12 +127,14 @@ pre[class*="language-"] {
         display: flex;
         align-items: flex-start;
         margin-bottom: 20px;
+        margin-top: 20px;
       }
 
       #map {
         height: 40vw;
         width: 100%;
         margin-right: 20px;
+        margin-left: 20px;
         border: 1px solid #ccc;
         border-radius: 8px;}
 

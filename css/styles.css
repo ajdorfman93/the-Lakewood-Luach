@@ -615,7 +615,12 @@ template {
     display : none;
 }
 
-
+#custom-background {
+    background: url(SVG/background.svg) no-repeat;
+    height: 36vw; 
+    padding: 50px 40px 40px 40px; 
+    margin: 50px 40px 40px 40px;
+}
 
 /* ===================================================================
  * # BASE SETUP
