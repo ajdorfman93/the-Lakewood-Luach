@@ -76,7 +76,7 @@
     /* text
      */
     --color-text        : var(--color-gray-4);
-    --color-text-dark   : var(--color-white);
+    --color-text-dark   : var(--color-black);
     --color-text-light  : var(--color-gray-7);
     --color-placeholder : var(--color-gray-7);
 
@@ -207,6 +207,96 @@
     letter-spacing: .05em;
 }
 
+
+.nav {
+    height: 50px;
+    width: 100%;
+    background-color: #fff;
+    position: relative;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,.09);
+  }
+  
+  .nav > .nav-header {
+    display: inline;
+  }
+  
+  .nav > .nav-header > .nav-title {
+    display: inline-block;
+    font-size: 22px;
+    color: #fff;
+    padding: 10px 10px 10px 10px;
+  }
+  
+  .nav > .nav-btn {
+    display: none;
+  }
+  
+  .nav > .nav-links {
+    display: inline;
+    float: right;
+    font-size: 18px;
+  }
+  
+  .nav > .nav-links > a {
+    display: inline-block;
+    padding: 13px 10px 13px 10px;
+    text-decoration: none;
+    color: #627188;
+  }
+  
+  .nav > .nav-links > a:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  
+  .nav > #nav-check {
+    display: none;
+  }
+  
+  @media (max-width:600px) {
+    .nav > .nav-btn {
+      display: inline-block;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
+    .nav > .nav-btn > label {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      padding: 13px;
+    }
+    .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+    .nav > .nav-btn > label > span {
+      display: block;
+      width: 25px;
+      height: 10px;
+      border-top: 2px solid #eee;
+    }
+    .nav > .nav-links {
+      position: absolute;
+      display: block;
+      width: 100%;
+      background-color: #333;
+      height: 0px;
+      transition: all 0.3s ease-in;
+      overflow-y: hidden;
+      top: 50px;
+      left: 0px;
+    }
+    .nav > .nav-links > a {
+      display: block;
+      width: 100%;
+    }
+    .nav > #nav-check:not(:checked) ~ .nav-links {
+      height: 0px;
+    }
+    .nav > #nav-check:checked ~ .nav-links {
+      height: calc(100vh - 50px);
+      overflow-y: auto;
+    }
+  }
 /* ==============================================
    5. Marketing
 ===============================================*/
@@ -321,7 +411,7 @@ span {
 
 body {
 	font-family: 'Roboto', sans-serif;
-    margin : 0;
+    margin: 0px;
 }
 
 h2 {
@@ -384,8 +474,7 @@ sup {
 img {
     border-style : none;
 }
-  .tefilah-button,
-  .checkPrayerTimesButton {
+button{
     margin: 5px 0;
     padding: 10px 15px;
     border: none;
@@ -400,8 +489,7 @@ img {
     margin-left: 2px;
   }
 
-  .tefilah-button:hover,
-  .checkPrayerTimesButton:hover {
+button:hover{
     background-color: #e2f2f1;
   }
 
@@ -414,6 +502,7 @@ img {
     border-radius: 8px;
     padding: 10px;
   }
+
 
   #prayerTimesOutput pre {
     margin: 0;
@@ -1263,8 +1352,6 @@ textarea {
     float : right;
 }
 
-
-
 /* ===================================================================
  * # TYPOGRAPHY 
  *
@@ -2023,7 +2110,6 @@ select:-webkit-autofill:focus {
  * ------------------------------------------------------------------- */
 
 .btn,
-button,
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
@@ -3095,6 +3181,7 @@ img.u-pull-left {
     transform : rotate(-45deg);
 }
 
+
 /* ------------------------------------------------------------------- 
  * responsive:
  * site-header
@@ -3761,4 +3848,4 @@ img.u-pull-left {
     .ss-go-top {
         right : 6vw;
     }
-}  
+}

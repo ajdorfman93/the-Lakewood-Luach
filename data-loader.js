@@ -4,7 +4,7 @@
       restaurants: [],
       businesses: []
     };
-  
+    window.bizCategoryMap = {};
     document.addEventListener("DOMContentLoaded", async function(){
       try {
         // 1) Load Minyanim
@@ -26,60 +26,59 @@
         const busJson = await busResp.json();
         globalData.businesses = busJson.records || [];
   
-        // After loading, build dynamic buttons for business categories & sub-types
-        buildBusinessFilterButtons(globalData.businesses);
+        // 2) Build our big mapping for businesses
+        buildBusinessCategoryMap(globalData.businesses);
   
-        console.log("All JSON data loaded into globalData!");
+        // 3) Create only the *Primary* category buttons (one for each unique category)
+        createPrimaryCatButtons();
+  
+        console.log("All JSON data loaded into globalData (and category map built)!");
       } catch(err) {
         console.error("Error loading data:", err);
       }
     });
   
     /**
-     * Build unique sets of primary categories (fields.Categories) and sub-types (fields.strTyp).
-     * Create <button> elements inside #businessPrimaryContainer and #businessSubTypeContainer.
+     * Creates a map of:
+     *   bizCategoryMap[primaryCatName] = new Set of subTypes
+     *
+     * For each record, for each cat in fields.Categories => add fields.strTyp to that cat’s set.
      */
-    function buildBusinessFilterButtons(bizArray) {
-      const primaryDiv = document.getElementById("businessPrimaryContainer");
-      const subTypeDiv = document.getElementById("businessSubTypeContainer");
-      if (!primaryDiv || !subTypeDiv) return;
-  
-      const primarySet = new Set();
-      const subTypeSet = new Set();
-  
+    function buildBusinessCategoryMap(bizArray) {
       for (const rec of bizArray) {
         const f = rec.fields || {};
-        // f.Categories might be array: ["Professional Services","Marketing & Media"]
-        if (Array.isArray(f.Categories)) {
-          for (const catName of f.Categories) {
-            if (catName) primarySet.add(catName.trim());
+        const catArr = Array.isArray(f.Categories) ? f.Categories : [];
+        const subTyp = (f.strTyp || "").trim();
+        catArr.forEach(cat => {
+          const catName = cat.trim();
+          if (!catName) return;
+          if (!bizCategoryMap[catName]) {
+            bizCategoryMap[catName] = new Set();
           }
-        }
-        // f.strTyp => e.g. "Accountants"
-        if (f.strTyp) {
-          subTypeSet.add(f.strTyp.trim());
-        }
+          // e.g. "Accountants"
+          if (subTyp) {
+            bizCategoryMap[catName].add(subTyp);
+          }
+        });
       }
+    }
   
-      // Now build the primary-cat buttons
-      primarySet.forEach(catName => {
+    /**
+     * Creates dynamic <button class="biz-primary-cat" data-value="..." /> for each key in bizCategoryMap
+     * and appends to #businessPrimaryContainer
+     */
+    function createPrimaryCatButtons() {
+      const container = document.getElementById("businessPrimaryContainer");
+      if (!container) return;
+  
+      // The keys of bizCategoryMap are all the distinct categories
+      Object.keys(bizCategoryMap).forEach(catName => {
         const btn = document.createElement("button");
-        btn.classList.add("biz-primary-cat"); // we'll listen for this class
+        btn.classList.add("biz-primary-cat");
         btn.dataset.value = catName;
         btn.textContent = catName;
-        primaryDiv.appendChild(btn);
+        container.appendChild(btn);
       });
-  
-      // Build the sub-type buttons
-      subTypeSet.forEach(stName => {
-        const btn = document.createElement("button");
-        btn.classList.add("biz-subtype-cat"); // we'll listen for this class
-        btn.dataset.value = stName;
-        btn.textContent = stName;
-        subTypeDiv.appendChild(btn);
-      });
-  
-      console.log("Dynamic business buttons created!");
     }
   
   })();

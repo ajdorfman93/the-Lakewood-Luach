@@ -57,12 +57,27 @@
     });
 
     // BUSINESSES subfilters
-    document.querySelectorAll(".biz-type").forEach(b => {
-      b.addEventListener("click", () => {
-        filterState.bizType = b.dataset.value;
-        runFilterAndDisplay();
+    const primaryDiv = document.getElementById("businessPrimaryContainer");
+    if (primaryDiv) {
+      primaryDiv.addEventListener("click", (e) => {
+        if (e.target.classList.contains("biz-primary-cat")) {
+          filterState.primaryCat = e.target.dataset.value;
+          filterState.subType = null; // reset if switching primary cat
+          buildBusinessSubTypes(filterState.primaryCat); 
+          runFilterAndDisplay();
+        }
       });
-    });
+    }
+   // Sub-types => .biz-subtype-cat, but we build them dynamically when picking primary
+   const subDiv = document.getElementById("businessSubTypeContainer");
+   if (subDiv) {
+     subDiv.addEventListener("click", (e) => {
+       if (e.target.classList.contains("biz-subtype-cat")) {
+         filterState.subType = e.target.dataset.value;
+         runFilterAndDisplay();
+       }
+     });
+   }
 
     // Optionally default to "minyanim" or none:
     // filterState.category = "minyanim";
@@ -84,16 +99,35 @@
       filterState.service = null;
     }
     if (chosenCat !== "businesses") {
-      filterState.bizType = null;
+      filterState.primaryCat = null;
+      filterState.subType = null;
+      const subDiv = document.getElementById("businessSubTypeContainer");
+      if (subDiv) subDiv.innerHTML = "";
     }
   }
 
+  // Show/hide the relevant filter panel
   function showRelevantFilters(cat) {
     document.getElementById("minyanimFilters").style.display    = (cat === "minyanim")    ? "block" : "none";
     document.getElementById("restaurantsFilters").style.display = (cat === "restaurants") ? "block" : "none";
     document.getElementById("businessesFilters").style.display  = (cat === "businesses")  ? "block" : "none";
   }
+  function buildBusinessSubTypes(primaryCat) {
+    const subDiv = document.getElementById("businessSubTypeContainer");
+    if (!subDiv) return;
+    subDiv.innerHTML = ""; // clear old
 
+    if (!primaryCat || !window.bizCategoryMap[primaryCat]) return;
+
+    const stSet = window.bizCategoryMap[primaryCat]; // a Set of e.g. "Accountants","Bookkeeping", ...
+    stSet.forEach(stName => {
+      const btn = document.createElement("button");
+      btn.classList.add("biz-subtype-cat");
+      btn.dataset.value = stName;
+      btn.textContent = stName;
+      subDiv.appendChild(btn);
+    });
+  }
   /**
    * Called whenever we change category or a subfilter.
    * Grabs the relevant data from globalData, applies filters, merges (for minyanim),
@@ -128,8 +162,11 @@
     } else if (cat === "restaurants") {
       finalRecords = filterRestaurants(rawData, filterState);
     } else if (cat === "businesses") {
-      finalRecords = filterBusinesses(rawData, filterState);
+      rawData = globalData.businesses.slice();
+      finalRecords = filterBusinessesDynamic(rawData, filterState);
     }
+
+
 
     // 3) Convert => marker shape
     const finalItems = finalRecords.map(r => recordToMarker(r, cat));
@@ -269,17 +306,29 @@
     });
   }
 
-  // ----------------- BUSINESSES -----------------
-  function filterBusinesses(records, fs) {
+  // -------------- BUSINESSES --------------
+  function filterBusinessesDynamic(records, fs) {
     return records.filter(r => {
       const f = r.fields || {};
-      if (fs.bizType) {
-        const cat = (f.Category || "").toLowerCase();
-        if (!cat.includes(fs.bizType.toLowerCase())) return false;
+
+      // If user selected a primaryCat => must appear in f.Categories
+      if (fs.primaryCat) {
+        const catArr = Array.isArray(f.Categories) ? f.Categories.map(s => s.toLowerCase()) : [];
+        if (!catArr.includes(fs.primaryCat.toLowerCase())) {
+          return false;
+        }
       }
+
+      // If user selected a subType => must match f.strTyp
+      if (fs.subType) {
+        const st = (f.strTyp || "").toLowerCase();
+        if (st !== fs.subType.toLowerCase()) return false;
+      }
+
       return true;
     });
   }
+
 
   // ----------------- RECORD => MARKER ---------------
   function recordToMarker(rec, cat) {

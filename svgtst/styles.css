@@ -1,0 +1,91 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    background: #ffffff;
+  }
+  
+  .svg-container {
+    width: 100%;
+    max-width: 900px;   /* your preferred max width */
+    margin: 0 auto;     
+    padding: 1rem;      /* optional spacing */
+    background: #f0f2f3;
+  }
+  
+  svg {
+    width: 100%;
+    height: auto;
+    display: block; 
+    /* This ensures the SVG scales responsively while maintaining aspect ratio */
+  }
+  
+  /* 
+     “L” shapes sized in percentages based on the original 800×600 viewBox.
+  
+     -----------
+     BOTTOM “L”
+     -----------
+     - bottom-l-horizontal = originally x=36, y=560, width=600, height=32
+         => x = 36/800  = 4.5%
+            y = 560/600 = 93.3%
+            w = 600/800 = 75%
+            h = 32/600  = ~5.3%
+  
+     - bottom-l-vertical = originally x=36, y=340, width=32, height=220
+         => x = 36/800  = 4.5%
+            y = 340/600 = ~56.7%
+            w = 32/800  = 4%
+            h = 220/600 = ~36.7%
+  */
+  
+  .bottom-l-horizontal {
+    fill: #2196F3;
+    x: 4.5%;
+    y: 93.3%;
+    width: 75%;
+    height: 5.3%;
+  }
+  
+  .bottom-l-vertical {
+    fill: #2196F3;
+    x: 4.5%;
+    y: 56.7%;
+    width: 4%;
+    height: 36.7%;
+  }
+  
+  /* 
+     -----------
+     TOP “L”
+     -----------
+     - top-l-horizontal = originally x=358, y=42, width=400, height=18
+         => x = 358/800  = 44.75%
+            y = 42/600   = 7%
+            w = 400/800  = 50%
+            h = 18/600   = 3%
+  
+     - top-l-vertical = originally x=758, y=42, width=18, height=200
+         => x = 758/800  = 94.75%
+            y = 42/600   = 7%
+            w = 18/800   = 2.25%
+            h = 200/600  = 33.3%
+  */
+  
+  .top-l-horizontal {
+    fill: #2196F3;
+    x: 44.75%;
+    y: 7%;
+    width: 50%;
+    height: 3%;
+  }
+  
+  .top-l-vertical {
+    fill: #2196F3;
+    x: 94.75%;
+    y: 7%;
+    width: 2.25%;
+    height: 33.3%;
+  }
+  

@@ -4,11 +4,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>index</title>
 
+
+
     <!-- Google Fonts -->
     <link href="https://db.onlinewebfonts.com/c/22db60d19480ba0274c9eb6ba877ea9b?family=Aharoni+Bold+V1" rel="stylesheet">
     <script src="time.js"></script>
     <script src="prayertimes.js" defer></script>
     <script src="zmanim.js" defer></script>
+    <script src="responsive-navbar.js" defer></script>
 
 
   <!-- 1) data-loader.js: fetches prayertimes.json, restaurants.json, businesses.json -->
@@ -34,10 +37,32 @@
     <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
+
+    <!-- Navigation --><div class="nav">
+  <input type="checkbox" id="nav-check">
+  <div class="nav-header">
+  </div>
+  <div class="nav-btn">
+    <label for="nav-check">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+  
+  <div class="nav-links">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+    <a href="#">Link 4</a>
+    <a href="#">Link 5</a>
+  </div>
+</div>
+
+  <!-- Header -->
+
     <div class="container-header">
       <div class="md-12">
-    <h1>Jewish Calendar Event Checker</h1>
-      <h1>Dynamic Iframe Map with Autocomplete</h1>
     </div>
   </div>
   <!-- Initialize the map and load data once page is fully loaded -->
@@ -48,15 +73,18 @@
       <div class="column lg-6 md-12">
       <div id="map-container" class="map-container">
         <div id="map" class="map"></div></div></div>
-        <div class="column lg-6 md-12">
-        <h1>Filtered Prayer Times</h1>
-        <input id="search-input" type="text" placeholder="Search location..." />
-
+        <div class="column lg-6 md-12 custom-background" style="background: url(SVG/background.svg) no-repeat; height: 36vw; padding: 50px 40px 40px 40px; margin: 0;">
+          <div class="row">
       <label for="datePicker">Select a Date:</label>
-      <input type="date" id="datePicker" />
+      
+      <input type="date" id="datePicker" /></div>
+       
+      <div class="row">
+      <label>Search Address:</label> <input id="search-input" type="text" placeholder="Search location..." /></div>
+
 
   <!-- Category Buttons -->
-  <div id="categoryButtons" style="margin-bottom:1rem;">
+  <div id="categoryButtons">
     <button class="category-button" data-category="minyanim">Minyanim</button>
     <button class="category-button" data-category="restaurants">Restaurants</button>
     <button class="category-button" data-category="businesses">Businesses</button>
@@ -66,21 +94,26 @@
   <!-- MINYANIM FILTERS -->
   <div id="minyanimFilters" style="display:none; margin-bottom:1rem;">
     <!-- Primary: Denomination -->
-    <strong>Denomination:</strong>
+     <div class="row">
+    <strong>Nusach:</strong>
     <button class="minyanim-denomination" data-value="Sephardi">Sephardi</button>
     <button class="minyanim-denomination" data-value="Ashkenaz">Ashkenaz</button>
     <button class="minyanim-denomination" data-value="Sfard">Sfard</button>
-
-    <!-- Secondary: Prayer Type -->
-    <strong> Prayer Type:</strong>
+  </div>
+  
+  <div class="row">
+    <!-- Secondary: Tefilah Type -->
+    <strong> Tefilah Type:</strong>
     <button class="minyanim-prayer" data-value="Shachris">Shachris</button>
     <button class="minyanim-prayer" data-value="Mincha">Mincha</button>
     <button class="minyanim-prayer" data-value="Maariv">Maariv</button>
     <button class="minyanim-prayer" data-value="Special">Special</button>
   </div>
+</div>
 
   <!-- RESTAURANTS FILTERS -->
   <div id="restaurantsFilters" style="display:none; margin-bottom:1rem;">
+    <div class="row">
     <!-- Primary: Price Point -->
     <strong>Price Point:</strong>
     <button class="rest-price" data-value="$100+">$100+</button>
@@ -90,6 +123,7 @@
     <button class="rest-price" data-value="$10–20">$10–20</button>
     <button class="rest-price" data-value="$1–10">$1–10</button>
     
+  </div>
 
     <!-- Primary: Cuisine Type -->
     <strong> Cuisine Type:</strong>
@@ -102,15 +136,15 @@
     <button class="rest-service" data-value="Takeout">Takeout</button>
   </div>
 
-  <!-- BUSINESSES FILTERS -->
-<!-- Businesses Filters (Dynamic area) -->
-<div id="businessesFilters" style="display:none;">
-  <strong>Primary Category:</strong>
-  <div id="businessPrimaryContainer"></div> <!-- We'll add primary-cat buttons here dynamically -->
+<!-- Businesses Filters -->
+<div id="businessesFilters" style="display: none;">
+  <strong>Category:</strong>
+  <div id="businessPrimaryContainer"></div> <!-- dynamic buttons go here -->
 
-  <strong>Sub Type (strTyp):</strong>
-  <div id="businessSubTypeContainer"></div>  <!-- We'll add sub-type buttons here dynamically -->
+  <strong>Type:</strong>
+  <div id="businessSubTypeContainer"></div>  <!-- dynamic sub-type buttons go here -->
 </div>
+
     <div id="prayerTimesOutput" style="display: none;">
    
       <pre>
