@@ -3,174 +3,167 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>index</title>
-
-
-
     <!-- Google Fonts -->
     <link href="https://db.onlinewebfonts.com/c/22db60d19480ba0274c9eb6ba877ea9b?family=Aharoni+Bold+V1" rel="stylesheet">
+    <script src="responsive-navbar.js"></script>
     <script src="time.js"></script>
+    <script src="filter-ui.js"></script>
     <script src="prayertimes.js" defer></script>
     <script src="zmanim.js" defer></script>
-    <script src="responsive-navbar.js" defer></script>
 
-
-  <!-- 1) data-loader.js: fetches prayertimes.json, restaurants.json, businesses.json -->
-  <script src="data-loader.js" defer></script>
-
-  <!-- 2) markers.js: sets up Google Map, draws markers from a final merged subset -->
-  <script src="markers.js" defer></script>
-
-  <!-- 3) filter-ui.js: handles the category/filters, merges + displays data, updates map -->
-  <script src="filter-ui.js" defer></script>
-
-  <!-- If needed: distance matrix, etc. -->
-  <script src="distance matrix.js" defer></script>
-    
     <!-- Google Maps API  -->
     <script 
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU&libraries=places"
       async
       defer
     ></script>
+  <!-- Our two map scripts -->
+  <script src="markers.js"></script>
+  <script src="markers-minyanim.js"></script>
+    
+    <script src="data-loader.js"></script>
+    <script src="distance matrix.js" defer></script>
     <!-- CSS Links -->	  
     <link rel="stylesheet" href="css/vendor.css">
     <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
-
-    <!-- Navigation --><div class="nav">
-  <input type="checkbox" id="nav-check">
-  <div class="nav-header">
-  </div>
-  <div class="nav-btn">
-    <label for="nav-check">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
-  </div>
-  
-  <div class="nav-links">
-    <a href="#marketing">DAILY ZMANIM</a>
-  </div>
-</div>
-
-  <!-- Header -->
-
-    <div class="container-header">
-      <div class="md-12">
+    <body>
+      <!-- Navigation -->
+       <div class="nav">
+    <input type="checkbox" id="nav-check">
+    <div class="nav-header">
     </div>
-  </div>
-  <!-- Initialize the map and load data once page is fully loaded -->
-
-  <section id="hero">
-  <div class="container">
-    <div class="row"  style="min-height: 400px; margin-bottom: 2rem;">
-      <div class="column lg-6 md-12">
-      <div id="map-container" class="map-container">
-        <div id="map" class="map"></div></div></div>
-        <div class="column lg-6 md-12"> <div id="custom-background" style="background: url(SVG/background.svg) no-repeat;" type="image/svg+xml">
-          <div class="row">
-      <label for="datePicker">Select a Date:</label>
-      
-      <input type="date" id="datePicker" /></div>
-       
-      <div class="row">
-      <label>Search Address:</label> <input id="search-input" type="text" placeholder="Search location..." /></div>
-
-
-  <!-- Category Buttons -->
-  <div id="categoryButtons">
-    <button class="category-button" data-category="minyanim">Minyanim</button>
-    <button class="category-button" data-category="restaurants">Restaurants</button>
-    <button class="category-button" data-category="businesses">Businesses</button>
-  </div>
-
-  <!-- Filter Rows (shown/hidden by JS) -->
-  <!-- MINYANIM FILTERS -->
-  <div id="minyanimFilters" style="display:none; margin-bottom:1rem;">
-    <!-- Primary: Denomination -->
-     <div class="row">
-    <strong>Nusach:</strong>
-    <button class="minyanim-denomination" data-value="Sephardi">Sephardi</button>
-    <button class="minyanim-denomination" data-value="Ashkenaz">Ashkenaz</button>
-    <button class="minyanim-denomination" data-value="Sfard">Sfard</button>
-  </div>
-  
-  <div class="row">
-    <!-- Secondary: Tefilah Type -->
-    <strong> Tefilah Type:</strong>
-    <button class="minyanim-prayer" data-value="Shachris">Shachris</button>
-    <button class="minyanim-prayer" data-value="Mincha">Mincha</button>
-    <button class="minyanim-prayer" data-value="Maariv">Maariv</button>
-    <button class="minyanim-prayer" data-value="Special">Special</button>
-  </div>
-</div>
-
-  <!-- RESTAURANTS FILTERS -->
-  <div id="restaurantsFilters" style="display:none; margin-bottom:1rem;">
-    <div class="row">
-    <!-- Primary: Price Point -->
-    <strong>Price Point:</strong>
-    <button class="rest-price" data-value="$100+">$100+</button>
-    <button class="rest-price" data-value="$50–100">$50–100</button>
-    <button class="rest-price" data-value="$30–50">$30–50</button>
-    <button class="rest-price" data-value="$20–30">$20–30</button>
-    <button class="rest-price" data-value="$10–20">$10–20</button>
-    <button class="rest-price" data-value="$1–10">$1–10</button>
+    <div class="nav-btn">
+      <label for="nav-check">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+    </div>
     
-  </div>
-
-    <!-- Primary: Cuisine Type -->
-    <strong> Cuisine Type:</strong>
-    <button class="rest-cuisine" data-value="Dairy">Dairy (Milchig)</button>
-    <button class="rest-cuisine" data-value="Meat">Meat (Fleishig)</button>
-
-    <!-- Secondary: Service Options -->
-    <strong> Service Options:</strong>
-    <button class="rest-service" data-value="Dine-in">Dine-in</button>
-    <button class="rest-service" data-value="Takeout">Takeout</button>
-  </div>
-
-<!-- Businesses Filters -->
-<div id="businessesFilters" style="display: none;">
-  <strong>Category:</strong>
-  <div id="businessPrimaryContainer"></div> <!-- dynamic buttons go here -->
-
-  <strong>Type:</strong>
-  <div id="businessSubTypeContainer"></div>  <!-- dynamic sub-type buttons go here -->
-</div>
-
-    <div id="prayerTimesOutput" style="display: none;">
-   
-      <pre>
-[ 
-  {
-    "Shul": "Testing1",
-    "Tefilah": "['Shachris']",
-    "Time": "12:06 PM",
-    "Data": "44 Coles Way, Lakewood, NJ",
-    "strCode": "['#ERS']",
-    "position": {
-      "lat": 40.0684484,
-      "lng": -74.2056221
-    }
-  }
-]
-      </pre>
+    <div class="nav-links">
+      <a href="#marketing">DAILY ZMANIM</a>
     </div>
   </div>
- </div>
- </div>
-</div>
-</section>
+  
+    <!-- Header -->
+  
+      <div class="container-header">
+        <div class="md-12">
+      </div>
+    </div>
+
+    <section id="hero">
+      <div class="container">
+        <div class="row"  style="min-height: 400px; margin-bottom: 2rem;">
+          <div class="column lg-6 md-12">
+          <div id="map-container" class="map-container">
+            <div id="map" class="map"></div></div></div>
+            <div class="column lg-6 md-12"> <div id="custom-background" style="background: url(SVG/background.svg) no-repeat;" type="image/svg+xml">
+              <div class="row">
+          <label for="datePicker">Select a Date:</label>
+          
+          <input type="date" id="datePicker" /></div>
+           
+          <div class="row">
+          <label>Search Address:</label> <input id="search-input" type="text" placeholder="Search location..." /></div>
+    
+    
+      <!-- Category Buttons -->
+      <div id="categoryButtons">
+        <button class="category-button" data-category="minyanim">Minyanim</button>
+        <button class="category-button" data-category="restaurants">Restaurants</button>
+        <button class="category-button" data-category="businesses">Businesses</button>
+      </div>
+    
+      <!-- Filter Rows (shown/hidden by JS) -->
+      <!-- MINYANIM FILTERS -->
+      <div id="minyanimFilters" style="display:none; margin-bottom:1rem;">
+    <!-- Nusach Filter Buttons -->
+    <!-- Nusach Filter Buttons -->
+    <div class="row">
+      <button class="nusach-button" data-nusach="Adus Hamizrach">Adus Hamizrach</button> 
+      <button class="nusach-button" data-nusach="Ashkenaz">Ashkenaz</button>
+      <button class="nusach-button" data-nusach="Sfard">Sfard</button>
+      <button class="nusach-button" data-nusach="All">All</button>
+      <button class="nusach-button" data-nusach="Other">Other</button>
+      <button class="nusach-button" data-nusach="Unknown">Unknown</button>
+    </div>
+    
+    <!-- Tefilah Filter Buttons -->
+    <div class="row">
+      <button class="tefilah-button" data-tefilah="Shachris">Shachris</button>
+      <button class="tefilah-button" data-tefilah="Mincha">Mincha</button>
+      <button class="tefilah-button" data-tefilah="Maariv">Maariv</button>
+      <button class="tefilah-button" data-tefilah="Special">Special</button>
+    </div>
+    </div>
+      <!-- RESTAURANTS FILTERS -->
+      <div id="restaurantsFilters" style="display:none; margin-bottom:1rem;">
+        <div class="busi">   
+    <div class="row">    <!-- Primary: Price Point -->
+        <strong>Price Point:</strong>
+        <button class="rest-price" data-value="$100+">$100+</button>
+        <button class="rest-price" data-value="$50–100">$50–100</button>
+        <button class="rest-price" data-value="$30–50">$30–50</button>
+        <button class="rest-price" data-value="$20–30">$20–30</button>
+        <button class="rest-price" data-value="$10–20">$10–20</button>
+        <button class="rest-price" data-value="$1–10">$1–10</button>
+        
+      </div>
+    
+        <!-- Primary: Cuisine Type -->
+        <strong> Cuisine Type:</strong>
+        <button class="rest-cuisine" data-value="Dairy">Dairy (Milchig)</button>
+        <button class="rest-cuisine" data-value="Meat">Meat (Fleishig)</button>
+    
+        <!-- Secondary: Service Options -->
+        <strong> Service Options:</strong>
+        <button class="rest-service" data-value="Dine-in">Dine-in</button>
+        <button class="rest-service" data-value="Takeout">Takeout</button>
+      </div>
+    </div>
+    <!-- Businesses Filters -->
+    <div id="businessesFilters" style="display: none;">
+      <strong>Category:</strong>
+      <div id="businessPrimaryContainer"></div> <!-- dynamic buttons go here -->
+    
+      <strong>Type:</strong>
+      <div id="businessSubTypeContainer"></div>  <!-- dynamic sub-type buttons go here -->
+    </div>
+    
+        <div id="prayerTimesOutput" style="display: none;">
+       
+          <pre>
+    [ 
+      {
+        "Shul": "Testing1",
+        "Tefilah": "['Shachris']",
+        "Time": "12:06 PM",
+        "Data": "44 Coles Way, Lakewood, NJ",
+        "strCode": "['#ERS']",
+        "position": {
+          "lat": 40.0684484,
+          "lng": -74.2056221
+        }
+      }
+    ]
+          </pre>
+        </div>
+      </div>
+     </div>
+     </div>
+    </div>
+    </section>
 <section id="marketing">
   <div class="container">
     <div class="md-12">
       <span>DAILY ZMANIM</span>
       <h1>Monday, November 11, 2024</h1>
-      <b class="hebrewDate" id="hebrewDate">
-      </b>
+      <div class="hebrewDate" id="hebrewDate">
+      </div>
+      <b>י׳ חשון תשפ״ה</b>
     </div>
       <div class="row"  style="min-height: 400px; margin-bottom: 2rem;">		  
      <!-- Left Column -->
@@ -230,6 +223,34 @@
 </div>
       </div>
     </div>
-  </section>
+  </section>  <script>
+    // Keep track of which category is currently loaded, to avoid re-initializing
+    let currentCategory = "";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // By default, let’s load the "Markers" map for restaurants/businesses
+      currentCategory = "restaurants";
+      initMarkersMap(); 
+
+      // Listen on each category button
+      document.querySelectorAll(".category-button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const category = btn.dataset.category;
+
+          // If we’re already on that category, do nothing
+          if (category === currentCategory) return;
+          currentCategory = category;
+
+          if (category === "minyanim") {
+            // Initialize the minyanim map
+            initMinyanimMap();
+          } else {
+            // Restaurants/Businesses => use the markers map
+            initMarkersMap();
+          }
+        });
+      });
+    });
+  </script>
   </body>
 </html>

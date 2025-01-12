@@ -1,11 +1,7 @@
-// --- Integrated Zmanim for today's date ---
-function setDateToToday() {
-  const today = new Date();
-  const formattedDate = today.toISOString().split("T")[0];
-  datePicker.value = formattedDate;
-  fetchZmanim(formattedDate);
-}
 
+// ------------------------
+// 1) Integrated Zmanim
+// ------------------------
 async function fetchZmanim(date) {
   const url = `https://www.hebcal.com/zmanim?cfg=json&geonameid=5100280&date=${date}`;
   try {
@@ -31,6 +27,7 @@ async function fetchZmanim(date) {
       tzeit72min: "tzeit72min",
     };
 
+    // Loop through each zmanim key -> DOM element
     for (const [timeKey, elementId] of Object.entries(zmanimMapping)) {
       const timeValue = data.times[timeKey];
       if (timeValue && document.getElementById(elementId)) {
@@ -53,7 +50,6 @@ function formatTime(isoString) {
 }
 
 /**
- * Renamed function to avoid conflict:
  * Convert "HH:mm" (24-hour) => "h:mm AM/PM"
  */
 function convertToAmPmZmanim(time24) {
@@ -67,23 +63,13 @@ function convertToAmPmZmanim(time24) {
 
   const suffix = hours >= 12 ? 'PM' : 'AM';
   hours = hours % 12 || 12;
+
   return `${hours}:${String(minutes).padStart(2, '0')} ${suffix}`;
 }
 
-setDateToToday();
-
-datePicker.addEventListener("change", () => {
-  const selectedDate = datePicker.value;
-  if (selectedDate) {
-    fetchZmanim(selectedDate);
-  }
-});
-// --- End of integrated Zmanim code ---
-
-/***************************************************
- * NEW FUNCTION: fetchHebrewDate
- * Fetches from Hebcal and inserts the Hebrew date.
- ***************************************************/
+// ------------------------
+// 2) Hebrew Date
+// ------------------------
 async function fetchHebrewDate(date) {
   const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${date}&end=${date}&maj=on&min=on&nx=on&ss=on&mf=on&d=on&c=on&geo=geoname&geonameid=5100280&M=on&s=on&leyning=off`;
   try {
@@ -94,22 +80,22 @@ async function fetchHebrewDate(date) {
     const data = await response.json();
     const items = data.items || [];
 
-    // 1) Check for "heDateParts" if available
-    const itemWithParts = items.find(item => item.heDateParts);
+    // Grab our #hebrewDate div
     const hebrewDateDiv = document.getElementById('hebrewDate');
-    if (!hebrewDateDiv) return; // if the div is missing, just return
+    if (!hebrewDateDiv) return;
 
+    // 1) Check for "heDateParts"
+    const itemWithParts = items.find(item => item.heDateParts);
     if (itemWithParts?.heDateParts) {
-      // Format "א׳ תשרי תשפ״ו"
       const { d, m, y } = itemWithParts.heDateParts;
+      // Example: "א׳ תשרי תשפ״ו"
       hebrewDateDiv.textContent = `${d} ${m} ${y}`;
     } else {
-      // 2) Otherwise fallback to old "hebrew" if present
+      // 2) Fallback to old "hebrew" field
       const itemWithHebrew = items.find(item => item.hebrew);
       if (itemWithHebrew?.hebrew) {
         hebrewDateDiv.textContent = itemWithHebrew.hebrew;
       } else {
-        // If neither found, clear or show placeholder
         hebrewDateDiv.textContent = "";
       }
     }
@@ -117,3 +103,30 @@ async function fetchHebrewDate(date) {
     console.error("Error fetching Hebrew date from Hebcal:", error);
   }
 }
+
+// ------------------------
+// 3) Initialization
+// ------------------------
+const datePicker = document.getElementById("datePicker");
+
+function setDateToToday() {
+  const today = new Date();
+  const formattedDate = today.toISOString().split("T")[0];
+  datePicker.value = formattedDate;
+
+  // Fetch both Zmanim + Hebrew date
+  fetchZmanim(formattedDate);
+  fetchHebrewDate(formattedDate);
+}
+
+// Automatically set & fetch for today's date on load
+setDateToToday();
+
+// Also fetch whenever user picks a new date
+datePicker.addEventListener("change", () => {
+  const selectedDate = datePicker.value;
+  if (selectedDate) {
+    fetchZmanim(selectedDate);
+    fetchHebrewDate(selectedDate);
+  }
+});
