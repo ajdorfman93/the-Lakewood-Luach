@@ -4,8 +4,8 @@ let mapMinyanim, infoWindowMinyanim, autocompleteMinyanim;
 function initMinyanimMap() {
   // Create the map
   mapMinyanim = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 40.067, lng: -74.205 }, // Lakewood area
-    zoom: 13,
+    center: { lat: 40.095, lng: -74.222 },
+    zoom: 12,
     disableDefaultUI: true,
   });
 

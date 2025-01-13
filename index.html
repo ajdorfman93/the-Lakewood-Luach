@@ -20,6 +20,7 @@
   <!-- Our two map scripts -->
   <script src="markers.js"></script>
   <script src="markers-minyanim.js"></script>
+    <script src="search-autocomplete.js"></script>
     
     <script src="data-loader.js"></script>
     <script src="distance matrix.js" defer></script>
@@ -66,8 +67,9 @@
           
           <input type="date" id="datePicker" /></div>
            
-          <div class="row">
-          <label>Search Address:</label> <input id="search-input" type="text" placeholder="Search location..." /></div>
+          <div class="row" style="margin-top: 10px;">
+          <label>Search Address:</label> 
+          <input id="search-input" type="text" placeholder="Search location..." /></div>
     
     
       <!-- Category Buttons -->
@@ -161,9 +163,8 @@
     <div class="md-12">
       <span>DAILY ZMANIM</span>
       <h1>Monday, November 11, 2024</h1>
-      <div class="hebrewDate" id="hebrewDate">
-      </div>
-      <b>י׳ חשון תשפ״ה</b>
+      <b class="hebrewDate" id="hebrewDate">
+      </b>
     </div>
       <div class="row"  style="min-height: 400px; margin-bottom: 2rem;">		  
      <!-- Left Column -->

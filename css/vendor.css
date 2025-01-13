@@ -135,14 +135,26 @@ pre[class*="language-"] {
         border: 1px solid #ccc;
         border-radius: 8px;}
 
-    #search-input {
-        width: 300px;
-        padding: 10px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-      }
+        #search-input {
+            width: 300px;
+            height: 40px;
+            transform: translateY(-10px);
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+          }
+          #datePicker {
+              width: 130px;
+              height: 40px;
+              transform: translateY(-10px);
+              padding: 10px;
+              font-size: 14px;
+              border: 1px solid #ccc;
+              border-radius: 8px;
+              box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            }
 /* ===================================================================
  * # Swiper 6.4.5
  *   Most modern mobile touch slider and framework with hardware accelerated transitions
