@@ -67,9 +67,7 @@ function convertToAmPmZmanim(time24) {
   return `${hours}:${String(minutes).padStart(2, '0')} ${suffix}`;
 }
 
-// ------------------------
 // 2) Hebrew Date
-// ------------------------
 async function fetchHebrewDate(date) {
   const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${date}&end=${date}&maj=on&min=on&nx=on&ss=on&mf=on&d=on&c=on&geo=geoname&geonameid=5100280&M=on&s=on&leyning=off`;
   try {
@@ -104,9 +102,7 @@ async function fetchHebrewDate(date) {
   }
 }
 
-// ------------------------
 // 3) Initialization
-// ------------------------
 const datePicker = document.getElementById("datePicker");
 
 function setDateToToday() {
