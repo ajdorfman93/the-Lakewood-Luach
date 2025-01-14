@@ -2405,7 +2405,7 @@ button.btn--pill {
       }
       /* Style for active button */
       .category-button.active {
-        background-color: #ddd;
+        background-color: #e2f2f1;
       }
       /* Optional styling for buttons */
       .category-button {

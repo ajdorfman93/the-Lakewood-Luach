@@ -121,9 +121,8 @@
                 <!-- RESTAURANTS FILTERS -->
                 <div id="restaurantsFilters" style="display:none; margin-bottom:1rem;">
 <!-- Primary: Price Point -->
-<label>Price Point:</label>
 <div class="dropdown">
-  <button class="dropdown-toggle" onclick="toggleDropdown()">Select Price Range</button>
+  <button class="dropdown-toggle" onclick="toggleDropdown()">Select Price Range<img src="SVG/caret-down-fill.svg" style="transform: translateY(7px);"/></button>
   <div id="dropdownMenu" class="dropdown-menu">
     <label><input type="checkbox" value="$100+" onchange="updateSelectedOptions()" /> $100+</label>
     <label><input type="checkbox" value="$50–100" onchange="updateSelectedOptions()" /> $50–100</label>
@@ -136,11 +135,11 @@
 </div>
 
                     <!-- Primary: Cuisine Type -->
-                    <label> Cuisine Type:</label>
+                     <div class="row">
                     <button class="rest-cuisine" data-value="Dairy">Dairy (Milchig)</button>
-                    <button class="rest-cuisine" data-value="Meat">Meat (Fleishig)</button>
+                    <button class="rest-cuisine" data-value="Meat">Meat (Fleishig)</button></div>
                     <!-- Secondary: Service Options -->
-                    <strong> Service Options:</strong>
+                    <label> Options:</label>
                     <div id="service-options-container">
                       <!-- JavaScript will fill in buttons here -->
                     </div>
