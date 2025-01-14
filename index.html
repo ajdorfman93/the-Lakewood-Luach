@@ -24,6 +24,7 @@
     <script src="active-buttons-dynamic.js"></script>
     <script src="active-buttons.js"></script>
     <script src="toggleDropdown.js"></script>
+    <script src="cat-title-containers.js"></script>
 
     <!-- CSS Links -->
     <link rel="stylesheet" href="css/vendor.css">
@@ -53,7 +54,8 @@
 
     <!-- Navigation links -->
     <div class="nav-links">
-      <a href="#hero" class="page-scroll">LOCATIONS</a>
+      <a href="#hero" class="page-scroll">SEARCH</a>
+      <a href="#locations" class="page-scroll">LOCATIONS</a>
       <a href="#zmanim" class="page-scroll">DAILY ZMANIM</a>
     </div>
   </div>
@@ -179,6 +181,28 @@
       </section>
       <section id="locations">
         <div class="container">
+           <!-- DEFAULT CONTAINER (shown initially) -->
+  <div id="default-container" class="category-container">
+    <h2>Welcome!</h2>
+    <p>Please select a category above to see the corresponding content.</p>
+  </div>
+
+  <!-- CATEGORY CONTAINERS (hidden initially) -->
+  <div id="minyanim-container" class="category-container">
+    <h2>Minyanim</h2>
+    <p>Minyanim-related content goes here.</p>
+  </div>
+
+  <div id="restaurants-container" class="category-container">
+    <h2>Restaurants</h2>
+    <p>Restaurant-related content goes here.</p>
+  </div>
+
+  <div id="businesses-container" class="category-container">
+    <h2>Businesses</h2>
+    <p>Business-related content goes here.</p>
+  </div>
+</div>
       <div id="locations-list">
       </div>
       </section>

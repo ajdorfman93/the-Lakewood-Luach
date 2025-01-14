@@ -2392,7 +2392,27 @@ button.btn--pill {
     border-radius : 1000px !important;
 }
 
-
+    /* Basic styling for containers */
+    .category-container {
+        display: none; /* By default, hide all containers */
+        margin-top: 0px;
+        padding: 1rem;
+        border: none;
+      }
+      /* Make the default container visible on page load */
+      #default-container {
+        display: block; 
+      }
+      /* Style for active button */
+      .category-button.active {
+        background-color: #ddd;
+      }
+      /* Optional styling for buttons */
+      .category-button {
+        padding: 0.5rem 1rem;
+        margin-right: 0.5rem;
+        cursor: pointer;
+      }
 
 /* ===================================================================
  * # TABLE
