@@ -1,0 +1,12 @@
+
+    <!-- Inline SVG -->
+    <svg 
+      viewBox="0 0 800 630" 
+      preserveAspectRatio="xMidYMid meet" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- “Corner” lines (blue) -->
+      <!-- Bottom-left “L” shape -->
+      <rect x="6" y="600" width="600" height="32" fill="#2196F3" />
+      <rect x="6" y="375" width="32" height="225" fill="#2196F3" />
+    </svg>

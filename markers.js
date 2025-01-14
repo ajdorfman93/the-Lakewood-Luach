@@ -11,7 +11,7 @@ function initMarkersMap() {
 
   infoWindowMarkers = new google.maps.InfoWindow();
 
-  // If you have a search box:
+  // Setup Autocomplete
   const input = document.getElementById("search-input");
   if (input) {
     autocompleteMarkers = new google.maps.places.Autocomplete(input);
@@ -24,16 +24,11 @@ function initMarkersMap() {
     });
   }
 }
-
-/**
- * finalItems = [
- *   { lat, lng, html }
- * ]
- */
 function drawMarkers(finalItems) {
   // Clear old data
   mapMarkers.data.forEach((f) => mapMarkers.data.remove(f));
 
+  // Convert finalItems to GeoJSON
   const features = finalItems.map((item) => {
     return {
       type: "Feature",
@@ -55,6 +50,7 @@ function drawMarkers(finalItems) {
     features,
   };
 
+  // Add new data
   mapMarkers.data.addGeoJson(geojson);
   mapMarkers.data.setStyle({
     icon: { url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png" },
@@ -66,4 +62,22 @@ function drawMarkers(finalItems) {
     infoWindowMarkers.setPosition(event.latLng);
     infoWindowMarkers.open(mapMarkers);
   });
+
+  // ====== DYNAMICALLY POPULATE knownLocations ======
+  // This ensures knownLocations is updated whenever we draw markers for restaurants, businesses, etc.
+  window.knownLocations = [];
+  finalItems.forEach((item) => {
+    window.knownLocations.push({
+      name: item.html || "(No details)",
+      lat: Number(item.lat) || 0,
+      lng: Number(item.lng) || 0,
+      details: item,
+    });
+  });
+
+  // Update the UI
+  displayKnownLocations();
+
+
+  console.log("knownLocations updated from finalItems:", window.knownLocations);
 }

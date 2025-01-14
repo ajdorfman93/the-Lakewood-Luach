@@ -1,32 +1,49 @@
 // markers-minyanim.js
-let mapMinyanim, infoWindowMinyanim, autocompleteMinyanim;
+let mapMinyanim, infoWindowMinyanim, autocompleteMinyanim, searchMarker;
 
-function initMinyanimMap() {
-  // Create the map
+/**
+ * Initializes the Google Map, autocomplete, and default center/zoom.
+ */
+const initMinyanimMap = () => {
   mapMinyanim = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 40.095, lng: -74.222 },
     zoom: 12,
     disableDefaultUI: true,
   });
 
-  // Create a single InfoWindow to reuse
   infoWindowMinyanim = new google.maps.InfoWindow();
 
-  // Setup Autocomplete
+  // Set up Autocomplete on #search-input
   const input = document.getElementById("search-input");
   autocompleteMinyanim = new google.maps.places.Autocomplete(input);
   autocompleteMinyanim.addListener("place_changed", () => {
     const place = autocompleteMinyanim.getPlace();
+
     if (place.geometry && place.geometry.location) {
+      // Center the map on the user’s selected place
       mapMinyanim.setCenter(place.geometry.location);
       mapMinyanim.setZoom(14);
+
+      // ---- NEW CODE: Place a RED marker at the search-input location ----
+      if (searchMarker) {
+        searchMarker.setMap(null); // remove old marker if any
+      }
+      searchMarker = new google.maps.Marker({
+        position: place.geometry.location,
+        map: mapMinyanim,
+        icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+        title: "Searched Location",
+      });
     }
   });
-}
+};
 
-// This function reads the raw JSON from #prayerTimesOutput,
-// then converts it into a valid GeoJSON FeatureCollection.
-function getPrayerTimesGeoJSON() {
+/**
+ * Reads the raw JSON from #prayerTimesOutput <pre> tag
+ * and converts it into a valid GeoJSON FeatureCollection.
+ * @returns {Object|null} GeoJSON FeatureCollection or null
+ */
+const getPrayerTimesGeoJSON = () => {
   const pre = document.querySelector("#prayerTimesOutput pre");
   if (!pre) {
     console.warn("No <pre> found in #prayerTimesOutput => returning null => remove markers.");
@@ -35,7 +52,7 @@ function getPrayerTimesGeoJSON() {
 
   const rawText = pre.innerText.trim();
   if (!rawText) {
-    console.warn("Empty prayer times JSON text => returning null => remove markers.");
+    console.warn("Empty prayer times JSON => returning null => remove markers.");
     return null;
   }
 
@@ -47,18 +64,18 @@ function getPrayerTimesGeoJSON() {
     return null;
   }
 
-  // Convert to GeoJSON
+  // Convert each item to a GeoJSON Feature
   const features = data.map((item) => {
     const lat = parseFloat(item.position.lat) || 0;
     const lng = parseFloat(item.position.lng) || 0;
     return {
       type: "Feature",
       properties: {
-        Shul: item.Shul,
+        Shul:    item.Shul,
         Tefilah: item.Tefilah,
-        Time: item.Time,
-        Data: item.Data,
-        Nusach: item.Nusach,
+        Time:    item.Time,
+        Data:    item.Data,
+        Nusach:  item.Nusach,
         strCode: item.strCode,
       },
       geometry: {
@@ -70,65 +87,99 @@ function getPrayerTimesGeoJSON() {
 
   return {
     type: "FeatureCollection",
-    features: features,
+    features,
   };
-}
+};
 
-// Adds the GeoJSON to the map's data layer
-function addGeoJSONToMap(geojson) {
-  // First, clear any existing markers/features
+/**
+ * Adds a GeoJSON FeatureCollection to the map's data layer.
+ * @param {Object} geojson - The GeoJSON data
+ */
+const addGeoJSONToMap = (geojson) => {
+  // Clear existing markers/features
   mapMinyanim.data.forEach((feature) => {
     mapMinyanim.data.remove(feature);
   });
 
-  // If there's no new data, return
-  if (!geojson) {
-    return;
-  }
+  // If there's no new data, we stop here
+  if (!geojson) return;
 
-  // Add new data
+  // Add new data to the map
   mapMinyanim.data.addGeoJson(geojson);
 
-  // Style the markers
+  // Style the markers (blue icon)
   mapMinyanim.data.setStyle({
     icon: {
       url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
     },
   });
 
-  // InfoWindow on click
+  // Reuse the same InfoWindow on marker click
   mapMinyanim.data.addListener("click", (event) => {
-    const shul = event.feature.getProperty("Shul");
-    const time = event.feature.getProperty("Time");
+    const shul    = event.feature.getProperty("Shul");
+    const time    = event.feature.getProperty("Time");
     const address = event.feature.getProperty("Data");
-    const nusach = event.feature.getProperty("Nusach");
-    const code = event.feature.getProperty("strCode");
+    const nusach  = event.feature.getProperty("Nusach");
+    const code    = event.feature.getProperty("strCode");
     const tefilah = event.feature.getProperty("Tefilah");
 
-    const contentString = `
-      <div>
+    const contentString = 
+      `<div>
         <strong>Shul:</strong> ${shul}<br/>
         <strong>Time:</strong> ${time}<br/>
         <strong>Address:</strong> ${address}<br/>
         <strong>Nusach:</strong> ${nusach}<br/>
         <strong>code:</strong> ${code}<br/>
         <strong>tefilah:</strong> ${tefilah}<br/>
-      </div>
-    `;
+      </div>`;
 
     infoWindowMinyanim.setContent(contentString);
     infoWindowMinyanim.setPosition(event.latLng);
     infoWindowMinyanim.open(mapMinyanim);
   });
-}
+};
 
-// Single function to re-parse #prayerTimesOutput and update markers
-function refreshMapMarkers() {
+/**
+ * Re-parse #prayerTimesOutput, convert to GeoJSON, and refresh all markers.
+ */
+const refreshMapMarkers = () => {
   const geojson = getPrayerTimesGeoJSON();
   addGeoJSONToMap(geojson);
-}
 
-// If you have buttons that update #prayerTimesOutput, you can wire them like so:
+  // Dynamically populate knownLocations
+  if (geojson && geojson.features) {
+    window.knownLocations = [];
+
+    // Map each feature into knownLocations
+    geojson.features.forEach((feat) => {
+      const [lng, lat] = feat.geometry.coordinates || [0, 0];
+      window.knownLocations.push({
+        name:    feat.properties.Shul || "(No Shul name)",
+        lat,
+        lng,
+        details: feat.properties,
+      });
+    });
+
+    // Now call displayKnownLocations() to show them in #locations-list
+    displayKnownLocations();
+
+    // (Optional) Another loop for additional data. If not needed, remove.
+    geojson.features.forEach((feat) => {
+      const [lng, lat] = feat.geometry.coordinates || [0, 0];
+      window.knownLocations.push({
+        name:    feat.properties.Shul || "(No Shul name)",
+        lat,
+        lng,
+        details: feat.properties,
+      });
+    });
+
+    console.log("knownLocations updated from Minyanim data:", window.knownLocations);
+  }
+};
+
+// Listen for clicks on elements that have class="tefilah-button"
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("tefilah-button")) {
     // Delay parse => ensures updated <pre> is in DOM before parse

@@ -1,131 +1,104 @@
 // filter-ui.js
-(function(){
-  // Filter states
+(function() {
   const filterState = {
-    category: null,        // 'minyanim', 'restaurants', 'businesses'
-    denomination: null,    // "Sephardi", "Ashkenaz", "Chassidish"
-    pricePoint: null,      // "Affordable", "Mid-range", "Premium"
-    cuisine: null,         // "Dairy", "Meat"
-    service: null,         // "Dine-in", "Takeout"
-    bizType: null          // "Retail", "Services", "Wholesale"
+    category: null,        // "minyanim", "restaurants", or "businesses"
+    denomination: null,    // used by minyanim
+    prayerType: null,      // used by minyanim
+    cuisine: null,         // used by restaurants
+    service: null,         // used by restaurants
+
+    // For "businesses" (single select)
+    primaryCat: "",  // chosen category (string)
+    subType: ""      // chosen strTyp (string)
   };
 
-  document.addEventListener("DOMContentLoaded", function(){
-    // MAIN CATEGORY Buttons
+  // ===============================
+  //  DOMContentLoaded
+  // ===============================
+  document.addEventListener("DOMContentLoaded", function() {
+    // Check if globalData is loaded
+    if (!window.globalData || !Array.isArray(globalData.minyanim) || !Array.isArray(globalData.restaurants) || !Array.isArray(globalData.businesses)) {
+      console.warn("No globalData or missing arrays (minyanim/restaurants/businesses).");
+    }
+
+    // 1) Listen for main category buttons
     document.querySelectorAll(".category-button").forEach(btn => {
       btn.addEventListener("click", () => {
         filterState.category = btn.dataset.category;
         resetSubfilters(filterState.category);
         showRelevantFilters(filterState.category);
+
+        // If user clicked "businesses", populate the dropdowns now
+        if (filterState.category === "businesses") {
+          initBusinessFilters();
+        }
+
+        // Finally, run the overall filter
         runFilterAndDisplay();
       });
     });
 
-    // MINYANIM subfilters
-    document.querySelectorAll(".minyanim-denomination").forEach(b => {
+    // 2) Minyanim subfilters
+    document.querySelectorAll(".nusach-button").forEach(b => {
       b.addEventListener("click", () => {
-        filterState.denomination = b.dataset.value;
+        const val = (b.dataset.nusach || "").trim();
+        filterState.denomination = val.toLowerCase() === "all" ? null : val;
+        runFilterAndDisplay();
+      });
+    });
+    document.querySelectorAll(".tefilah-button").forEach(b => {
+      b.addEventListener("click", () => {
+        filterState.prayerType = (b.dataset.tefilah || "").trim().toLowerCase();
         runFilterAndDisplay();
       });
     });
 
-    // RESTAURANTS subfilters
-    document.querySelectorAll(".rest-price").forEach(b => {
-      b.addEventListener("click", () => {
-        filterState.pricePoint = b.dataset.value;
-        runFilterAndDisplay();
-      });
-    });
+    // 3) Restaurants subfilters (cuisine, service, etc.)
     document.querySelectorAll(".rest-cuisine").forEach(b => {
       b.addEventListener("click", () => {
-        filterState.cuisine = b.dataset.value;
+        filterState.cuisine = (b.dataset.value || "").trim();
         runFilterAndDisplay();
       });
     });
-    document.querySelectorAll(".rest-service").forEach(b => {
-      b.addEventListener("click", () => {
-        filterState.service = b.dataset.value;
-        runFilterAndDisplay();
-      });
-    });
+    watchPricePointDiv(); // Watches the <div id="selectedPricePointOptions"> changes
 
-    // BUSINESSES subfilters
-    const primaryDiv = document.getElementById("businessPrimaryContainer");
-    if (primaryDiv) {
-      primaryDiv.addEventListener("click", (e) => {
-        if (e.target.classList.contains("biz-primary-cat")) {
-          filterState.primaryCat = e.target.dataset.value;
-          filterState.subType = null; // reset if switching primary cat
-          buildBusinessSubTypes(filterState.primaryCat); 
-          runFilterAndDisplay();
-        }
-      });
-    }
-   // Sub-types => .biz-subtype-cat, but we build them dynamically when picking primary
-   const subDiv = document.getElementById("businessSubTypeContainer");
-   if (subDiv) {
-     subDiv.addEventListener("click", (e) => {
-       if (e.target.classList.contains("biz-subtype-cat")) {
-         filterState.subType = e.target.dataset.value;
-         runFilterAndDisplay();
-       }
-     });
-   }
-
-    // Optionally default to "minyanim" or none:
-    // filterState.category = "minyanim";
-    // showRelevantFilters("minyanim");
-    // runFilterAndDisplay();
+    // Note: We do **not** call initBusinessFilters() here by default,
+    //       only when user actually clicks "businesses".
   });
 
-  /**
-   * Clears subfilters for the *other* categories
-   */
+  // ===============================
+  //  RESET SUBFILTERS
+  // ===============================
   function resetSubfilters(chosenCat) {
+    // Minyanim filters
     if (chosenCat !== "minyanim") {
       filterState.denomination = null;
       filterState.prayerType = null;
     }
+    // Restaurant filters
     if (chosenCat !== "restaurants") {
-      filterState.pricePoint = null;
       filterState.cuisine = null;
       filterState.service = null;
     }
+    // Businesses filters
     if (chosenCat !== "businesses") {
-      filterState.primaryCat = null;
-      filterState.subType = null;
-      const subDiv = document.getElementById("businessSubTypeContainer");
-      if (subDiv) subDiv.innerHTML = "";
+      filterState.primaryCat = "";
+      filterState.subType = "";
     }
   }
 
-  // Show/hide the relevant filter panel
+  // ===============================
+  //  SHOW/HIDE FILTER SECTIONS
+  // ===============================
   function showRelevantFilters(cat) {
     document.getElementById("minyanimFilters").style.display    = (cat === "minyanim")    ? "block" : "none";
     document.getElementById("restaurantsFilters").style.display = (cat === "restaurants") ? "block" : "none";
     document.getElementById("businessesFilters").style.display  = (cat === "businesses")  ? "block" : "none";
   }
-  function buildBusinessSubTypes(primaryCat) {
-    const subDiv = document.getElementById("businessSubTypeContainer");
-    if (!subDiv) return;
-    subDiv.innerHTML = ""; // clear old
 
-    if (!primaryCat || !window.bizCategoryMap[primaryCat]) return;
-
-    const stSet = window.bizCategoryMap[primaryCat]; // a Set of e.g. "Accountants","Bookkeeping", ...
-    stSet.forEach(stName => {
-      const btn = document.createElement("button");
-      btn.classList.add("biz-subtype-cat");
-      btn.dataset.value = stName;
-      btn.textContent = stName;
-      subDiv.appendChild(btn);
-    });
-  }
-  /**
-   * Called whenever we change category or a subfilter.
-   * Grabs the relevant data from globalData, applies filters, merges (for minyanim),
-   * converts to marker shapes, updates the #output <pre>, and draws markers (if drawMarkers).
-   */
+  // ===============================
+  //  MAIN: RUN FILTER & DISPLAY
+  // ===============================
   function runFilterAndDisplay() {
     const cat = filterState.category;
     if (!cat) {
@@ -134,201 +107,265 @@
       return;
     }
 
-    let finalRecords = [];
-
-    // 1) Based on category, get a fresh copy of the underlying data
-    //    so we don't permanently modify times, etc.
     let rawData = [];
     if (cat === "minyanim") {
-      rawData = globalData.minyanim.slice(); // shallow copy array
+      rawData = (globalData.minyanim || []).slice();
     } else if (cat === "restaurants") {
-      rawData = globalData.restaurants.slice();
+      rawData = (globalData.restaurants || []).slice();
     } else if (cat === "businesses") {
-      rawData = globalData.businesses.slice();
+      rawData = (globalData.businesses || []).slice();
     }
 
-    // 2) Filter
+    let finalRecords = [];
+    // Filter logic per category
     if (cat === "minyanim") {
-      finalRecords = filterMinyanim(rawData, filterState);
-      finalRecords = applyStrCodeLogic(finalRecords);
-      finalRecords = mergeMinyanimByTefilahAndAddress(finalRecords);
+      finalRecords = filterMinyanim(rawData);
+      finalRecords = mergeMinyanimByTefilahAndAddress(finalRecords); 
     } else if (cat === "restaurants") {
-      finalRecords = filterRestaurants(rawData, filterState);
+      finalRecords = filterRestaurants(rawData);
     } else if (cat === "businesses") {
-      rawData = globalData.businesses.slice();
-      finalRecords = filterBusinessesDynamic(rawData, filterState);
+      finalRecords = filterBusinessesDynamic(rawData);
     }
 
-
-
-    // 3) Convert => marker shape
+    // Convert each to a marker
     const finalItems = finalRecords.map(r => recordToMarker(r, cat));
-
-    // 4) Show + draw
     updateOutput(finalItems);
+
+    // Optional: draw on map
     if (typeof drawMarkers === "function") {
       drawMarkers(finalItems);
     }
   }
 
-  // ----------------- MINYANIM FILTERING -----------------
-  function filterMinyanim(records, fs) {
+  // ===============================
+  //  MINYANIM FILTER
+  // ===============================
+  function filterMinyanim(records) {
     return records.filter(rec => {
       const f = rec.fields || {};
-      // Denomination => f.Nusach
-      if (fs.denomination) {
-        if ((f.Nusach || "").toLowerCase() !== fs.denomination.toLowerCase()) {
-          return false;
-        }
+      // Denomination
+      if (filterState.denomination) {
+        const actualNusach = (f.Nusach || "").toLowerCase();
+        const desired = filterState.denomination.toLowerCase();
+        if (actualNusach !== desired) return false;
       }
-      // Tefilah => in f.Tefilah_Tefilahs
-      if (fs.prayerType) {
+      // Prayer type
+      if (filterState.prayerType) {
         const arr = parseTefilahArray(f.Tefilah_Tefilahs || f.Tefilah);
-        if (!arr.includes(fs.prayerType.toLowerCase())) return false;
+        if (!arr.includes(filterState.prayerType)) return false;
       }
       return true;
     });
   }
 
-  // Simplified code logic (#ST, #XRC, etc.)
-  function applyStrCodeLogic(minyanRecords) {
-    const dayOfWeek = new Date().getDay(); 
-    const isRoshChodesh = false; // Hard-coded for demo
-
-    // We can clone each record so we don't re-append times or modify originals
-    const output = [];
-
-    for (const rec of minyanRecords) {
-      const f = rec.fields || {};
-      const codes = parseStrCode(f.strCode);
-      let exclude = false;
-
-      for (const c of codes) {
-        if (c === "#ST") {
-          // #ST => Sunday..Thursday => exclude if dayOfWeek=5 (Fri) or 6 (Sat)
-          if (dayOfWeek === 5 || dayOfWeek === 6) exclude = true;
-        }
-        if (c === "#XRC") {
-          // Exclude on rosh chodesh
-          if (isRoshChodesh) exclude = true;
-        }
-      }
-      if (!exclude) output.push(rec);
-    }
-
-    return output;
-  }
-
-  function parseStrCode(strCode) {
-    if (!strCode) return [];
-    if (typeof strCode === "string") {
-      try {
-        return JSON.parse(strCode.replace(/'/g, '"'));
-      } catch {
-        return [strCode];
-      }
-    }
-    if (Array.isArray(strCode)) return strCode;
-    return [];
-  }
-
-  /**
-   * Merge Minyanim that share Tefilah_Tefilahs + Address => combine "Time".
-   * Important: we create brand-new objects so we don't permanently modify the original.
-   */
   function mergeMinyanimByTefilahAndAddress(records) {
-    // Step 1: transform each record into a "clone" so changes to Time won't accumulate
-    const clones = records.map(r => {
-      return JSON.parse(JSON.stringify(r)); 
-      // deep clone => so we can safely modify r.fields.Time
-    });
-
-    const mapKey = new Map();
-
-    for (const rec of clones) {
-      const f = rec.fields || {};
-      const tefArr = parseTefilahArray(f.Tefilah_Tefilahs || f.Tefilah).sort();
-      const tefilahKey = tefArr.join("|");
-
-      const addr = (f.Address || "").toLowerCase().trim();
-      const key = tefilahKey + "::" + addr;
-
-      if (!mapKey.has(key)) {
-        // store times in an array
-        mapKey.set(key, {
-          recObj: rec,
-          timesSet: new Set([ f.Time || "" ])
-        });
-      } else {
-        const existing = mapKey.get(key);
-        existing.timesSet.add(f.Time || "");
-      }
-    }
-
-    // Step 2: build final array
-    const merged = [];
-    for (const { recObj, timesSet } of mapKey.values()) {
-      const f = recObj.fields || {};
-      // Convert timesSet => array => join
-      const timesArr = Array.from(timesSet).filter(Boolean); 
-      f.Time = timesArr.join(" | ");
-      merged.push(recObj);
-    }
-    return merged;
+    // your existing logic, if needed...
+    return records;
   }
 
-  // ----------------- RESTAURANTS -----------------
-  function filterRestaurants(records, fs) {
-    return records.filter(r => {
+  // ===============================
+  //  RESTAURANTS FILTER
+  // ===============================
+  function filterRestaurants(records) {
+    // Build dynamic service options
+    const serviceSet = new Set();
+    records.forEach(r => {
       const f = r.fields || {};
-      if (fs.pricePoint) {
-        const price = (f.Price_Point_Option_2 || "").toLowerCase();
-        if (!price.includes(fs.pricePoint.toLowerCase())) return false;
-      }
-      if (fs.cuisine) {
-        const actual = (f.Dairy_Meat || "").toLowerCase();
-        const desired = fs.cuisine.toLowerCase();
-        if (desired === "meat") {
-          if (!actual.includes("meat") && !actual.includes("fleishig")) return false;
-        } else if (desired === "dairy") {
-          if (!actual.includes("dairy") && !actual.includes("milchig")) return false;
+      (f.Type || []).forEach(t => {
+        // skip "L" if needed
+        if ((t || "").toLowerCase() !== "l") {
+          serviceSet.add(t.trim());
         }
-      }
-      // fs.service => not implemented
-      return true;
+      });
     });
-  }
 
-  // -------------- BUSINESSES --------------
-  function filterBusinessesDynamic(records, fs) {
+    // Populate the #service-options-container
+    const container = document.getElementById("service-options-container");
+    if (container) {
+      container.innerHTML = "";
+      serviceSet.forEach(typeVal => {
+        const btn = document.createElement("button");
+        btn.className = "rest-service";
+        btn.dataset.value = typeVal;
+        btn.textContent = typeVal;
+        if (filterState.service && filterState.service.toLowerCase() === typeVal.toLowerCase()) {
+          btn.classList.add("active");
+        }
+        btn.addEventListener("click", e => {
+          container.querySelectorAll(".rest-service").forEach(sib => sib.classList.remove("active"));
+          e.currentTarget.classList.add("active");
+          filterState.service = typeVal;
+          runFilterAndDisplay();
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    // Gather price points from #selectedPricePointOptions
+    let selectedPricePoints = [];
+    const spDiv = document.getElementById("selectedPricePointOptions");
+    if (spDiv) {
+      const rawText = spDiv.textContent.trim();
+      if (rawText) {
+        selectedPricePoints = rawText.split(",").map(pt => pt.trim());
+      }
+    }
+
+    // Now do the actual record filtering
     return records.filter(r => {
       const f = r.fields || {};
 
-      // If user selected a primaryCat => must appear in f.Categories
-      if (fs.primaryCat) {
-        const catArr = Array.isArray(f.Categories) ? f.Categories.map(s => s.toLowerCase()) : [];
-        if (!catArr.includes(fs.primaryCat.toLowerCase())) {
+      // price points
+      if (selectedPricePoints.length > 0) {
+        if (!selectedPricePoints.includes(f.Price_Point_Option_2)) {
           return false;
         }
       }
-
-      // If user selected a subType => must match f.strTyp
-      if (fs.subType) {
-        const st = (f.strTyp || "").toLowerCase();
-        if (st !== fs.subType.toLowerCase()) return false;
+      // cuisine
+      if (filterState.cuisine) {
+        const actual = (f.Dairy_Meat || "").toLowerCase();
+        const desired = filterState.cuisine.toLowerCase();
+        if (desired === "meat") {
+          if (!actual.includes("meat") && !actual.includes("fleishig")) {
+            return false;
+          }
+        } else if (desired === "dairy") {
+          if (!actual.includes("dairy") && !actual.includes("milchig")) {
+            return false;
+          }
+        }
       }
-
+      // service
+      if (filterState.service) {
+        const recordTypes = (f.Type || []).map(t => t.toLowerCase()).filter(t => t !== "l");
+        if (!recordTypes.includes(filterState.service.toLowerCase())) {
+          return false;
+        }
+      }
       return true;
     });
   }
 
+  // ===============================
+  //  BUSINESSES FILTER: INIT
+  // ===============================
+  function initBusinessFilters() {
+    // Single-select dropdowns
+    const catSelect = document.getElementById("businessCategorySelect");
+    const strTypSelect = document.getElementById("businessStrTypSelect");
+    if (!catSelect || !strTypSelect) {
+      console.warn("Business filter selects not found in DOM.");
+      return;
+    }
 
-  // ----------------- RECORD => MARKER ---------------
+    // Reset them
+    catSelect.innerHTML = "<option value=''>-- Select Category --</option>";
+    strTypSelect.innerHTML = "<option value=''>-- Select Type --</option>";
+
+    // Make sure we have data
+    if (!window.globalData || !Array.isArray(globalData.businesses) || !globalData.businesses.length) {
+      console.warn("No globalData.businesses or it's empty.");
+      return;
+    }
+
+    // 1) Gather all unique categories
+    const categorySet = new Set();
+    globalData.businesses.forEach(item => {
+      const f = item.fields || {};
+      const cats = f.Categories || [];
+      cats.forEach(c => {
+        // skip empty or "L" if needed
+        if (c && c.trim() !== "L") {
+          categorySet.add(c.trim());
+        }
+      });
+    });
+
+    const allCategories = Array.from(categorySet).sort();
+
+    // 2) Populate catSelect with those categories
+    allCategories.forEach(catName => {
+      const opt = document.createElement("option");
+      opt.value = catName;
+      opt.textContent = catName;
+      catSelect.appendChild(opt);
+    });
+
+    // 3) On change => update filterState.primaryCat and re-populate the strTyp dropdown
+    catSelect.addEventListener("change", () => {
+      filterState.primaryCat = catSelect.value || "";
+      populateBusinessStrTyps(strTypSelect, filterState.primaryCat);
+      // reset the subType
+      filterState.subType = "";
+      runFilterAndDisplay();
+    });
+
+    // 4) On strTyp change => filter
+    strTypSelect.addEventListener("change", () => {
+      filterState.subType = strTypSelect.value || "";
+      runFilterAndDisplay();
+    });
+  }
+
+  // Populate the strTyp <select> based on the chosen category
+  function populateBusinessStrTyps(strTypSelect, chosenCat) {
+    // Clear old
+    strTypSelect.innerHTML = "<option value=''>-- Select Type --</option>";
+    if (!chosenCat) return;
+
+    // Collect all strTyp that appear in that category
+    const strTypSet = new Set();
+    (globalData.businesses || []).forEach(biz => {
+      const f = biz.fields || {};
+      const catArr = f.Categories || [];
+      if (catArr.includes(chosenCat)) {
+        // This record has the chosen category
+        if (f.strTyp) {
+          strTypSet.add(f.strTyp.trim());
+        }
+      }
+    });
+
+    // Populate
+    Array.from(strTypSet).sort().forEach(st => {
+      const opt = document.createElement("option");
+      opt.value = st;
+      opt.textContent = st;
+      strTypSelect.appendChild(opt);
+    });
+  }
+
+  // ===============================
+  //  BUSINESSES FILTER: APPLY
+  // ===============================
+  function filterBusinessesDynamic(records) {
+    return records.filter(r => {
+      const f = r.fields || {};
+      const cats = f.Categories || [];
+
+      // Must match chosen category (if any)
+      if (filterState.primaryCat) {
+        if (!cats.includes(filterState.primaryCat)) {
+          return false;
+        }
+      }
+      // Must match chosen strTyp (if any)
+      if (filterState.subType) {
+        if ((f.strTyp || "").trim() !== filterState.subType) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }
+
+  // ===============================
+  //  RECORD => MARKER
+  // ===============================
   function recordToMarker(rec, cat) {
     const f = rec.fields || {};
     let latNum = parseFloat(f.Lat);
     let lngNum = parseFloat(f.Lng);
-
     if (isNaN(latNum) || isNaN(lngNum)) {
       latNum = 40.095;
       lngNum = -74.222;
@@ -336,46 +373,42 @@
 
     let html = "";
     if (cat === "minyanim") {
-      const shul = f.StrShulName2 || f.Shul_Name || "Unknown Shul";
-      const time = f.Time || "";
-      const data = f.Address || "";
+      const name = f.StrShulName2 || f.Shul_Name || "Unknown Shul";
       html = `
-      <div>
-        <strong>Shul:</strong> ${shul}<br/>
-        <strong>Time:</strong> ${time}<br/>
-        <strong>Address:</strong> ${data}
-      </div>
+        <div>
+          <strong>Shul:</strong> ${name}<br/>
+          Nusach: ${f.Nusach || ""}<br/>
+          Address: ${f.Address || ""}
+        </div>
       `;
     } else if (cat === "restaurants") {
       const name = f.Name || "Some Restaurant";
       html = `
-      <div>
-        <strong>Restaurant:</strong> ${name}<br/>
-        Address: ${f.Address || "No address"}<br/>
-        Phone: ${f.Phone_Number || ""}<br/>
-        Price_Point: ${f.Price_Point_Option_2 || ""}<br/>
-        Dairy_Meat: ${f.Dairy_Meat || ""}
-      </div>
+        <div>
+          <strong>Restaurant:</strong><h6>${name}</h6><br/>
+          Address: ${f.Address || ""}<br/>
+          Phone: ${f.Phone_Number || ""}
+        </div>
       `;
     } else if (cat === "businesses") {
       const name = f.Name || "Some Business";
-      const phone = f.Phone || "";
+      const c = (f.Categories || []).join(", ");
       html = `
-      <div>
-        <strong>Business:</strong> ${name}<br/>
-        Category: ${f.Category || ""}<br/>
-        Phone: ${phone}
-      </div>
+        <div>
+          <small>Business:</small> <h6>${name}</h6>
+          Categories: ${c}<br/>
+          ${f.strTyp || ""}<br/>
+          <h5>${f.Phone || ""}</h5>
+        </div>
       `;
     }
 
-    return {
-      lat: latNum,
-      lng: lngNum,
-      html
-    };
+    return { lat: latNum, lng: lngNum, html };
   }
 
+  // ===============================
+  //  OUTPUT JSON (for debugging)
+  // ===============================
   function updateOutput(items) {
     const outEl = document.querySelector("#output pre");
     if (outEl) {
@@ -383,13 +416,17 @@
     }
   }
 
-  // Reuse parse logic
+  // ===============================
+  //  UTILS
+  // ===============================
   function parseTefilahArray(raw) {
     if (!raw) return [];
-    if (Array.isArray(raw)) return raw.map(t => t.toLowerCase());
+    if (Array.isArray(raw)) {
+      return raw.map(s => s.toLowerCase());
+    }
     if (typeof raw === "string") {
       try {
-        return JSON.parse(raw.replace(/'/g, '"')).map(t => t.toLowerCase());
+        return JSON.parse(raw.replace(/'/g, '"')).map(s => s.toLowerCase());
       } catch {
         return [raw.toLowerCase()];
       }
@@ -397,4 +434,16 @@
     return [String(raw).toLowerCase()];
   }
 
+  function watchPricePointDiv() {
+    const spDiv = document.getElementById("selectedPricePointOptions");
+    if (!spDiv) return;
+    const observer = new MutationObserver(() => {
+      runFilterAndDisplay();
+    });
+    observer.observe(spDiv, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  }
 })();

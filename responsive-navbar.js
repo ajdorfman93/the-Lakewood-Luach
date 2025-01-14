@@ -1,12 +1,16 @@
-$(function() {
-    $('a.page-scroll').bind('click', function(event) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: $($anchor.attr('href')).offset().top
-        }, 1500, 'easeInOutExpo');
-        event.preventDefault();
+$(function () {
+    $('a.page-scroll').on('click', function (event) {
+      event.preventDefault();
+      var target = $(this).attr('href');
+
+      $('html, body').animate(
+        {
+          scrollTop: $(target).offset().top
+        },
+        800 // Adjust speed (ms) as you like
+      );
     });
-});
+  });
 
 // Highlight the top nav as scrolling occurs
 $('body').scrollspy({

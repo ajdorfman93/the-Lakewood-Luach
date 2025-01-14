@@ -126,7 +126,9 @@ pre[class*="language-"] {
     #map-container {
         display: flex;
         align-items: flex-start;
-        margin: 20px;
+        margin-left: 0px;
+        margin-top: 70px;
+        margin-bottom: 20px;
       }
 
       #map {

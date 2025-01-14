@@ -1,0 +1,33 @@
+
+    <!-- Inline SVG -->
+    <svg 
+      viewBox="0 0 800 630" 
+      preserveAspectRatio="xMidYMid meet" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- Bottom-right dotted pattern -->
+      <g fill="#2196F3" transform="translate(720,495)">
+        <!-- 6 columns, 6 rows, spacing of 22px (example) -->
+        <circle cx="0"   cy="0"  r="8"/>
+        <circle cx="0"   cy="25" r="8"/>
+        <circle cx="0"   cy="50" r="8"/>
+        <circle cx="0"   cy="75" r="8"/>
+        <circle cx="0"   cy="100" r="8"/>
+        <circle cx="0"   cy="125" r="8"/>
+
+        <circle cx="25"  cy="0"  r="8"/>
+        <circle cx="25"  cy="25" r="8"/>
+        <circle cx="25"  cy="50" r="8"/>
+        <circle cx="25"  cy="75" r="8"/>
+        <circle cx="25"  cy="100" r="8"/>
+        <circle cx="25"  cy="125" r="8"/>
+
+        <circle cx="50"  cy="0"  r="8"/>
+        <circle cx="50"  cy="25" r="8"/>
+        <circle cx="50"  cy="50" r="8"/>
+        <circle cx="50"  cy="75" r="8"/>
+        <circle cx="50"  cy="100" r="8"/>
+        <circle cx="50"  cy="125" r="8"/>
+      </g>
+
+    </svg>
