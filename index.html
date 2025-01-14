@@ -121,7 +121,7 @@
                 <!-- RESTAURANTS FILTERS -->
                 <div id="restaurantsFilters" style="display:none; margin-bottom:1rem;">
 <!-- Primary: Price Point -->
-<strong>Price Point:</strong>
+<label>Price Point:</label>
 <div class="dropdown">
   <button class="dropdown-toggle" onclick="toggleDropdown()">Select Price Range</button>
   <div id="dropdownMenu" class="dropdown-menu">
@@ -136,7 +136,7 @@
 </div>
 
                     <!-- Primary: Cuisine Type -->
-                    <strong> Cuisine Type:</strong>
+                    <label> Cuisine Type:</label>
                     <button class="rest-cuisine" data-value="Dairy">Dairy (Milchig)</button>
                     <button class="rest-cuisine" data-value="Meat">Meat (Fleishig)</button>
                     <!-- Secondary: Service Options -->
@@ -147,12 +147,11 @@
                 </div>
               <!-- BUSINESSES FILTERS -->
               <div id="businessesFilters" style="display:none; margin-bottom:1rem;">
-                <strong>Categories:</strong>
+                <label>Categories:</label>
                 <select id="businessCategorySelect">
                   <!-- Populated via initBusinessFilters() in filter-ui.js -->
                 </select>
-
-                <strong>Type:</strong>
+                <label>Type:</label>
                 <select id="businessStrTypSelect">
                   <!-- Populated via initBusinessFilters() in filter-ui.js -->
                 </select>
@@ -183,28 +182,25 @@
         <div class="container">
            <!-- DEFAULT CONTAINER (shown initially) -->
   <div id="default-container" class="category-container">
-    <h2>Welcome!</h2>
-    <p>Please select a category above to see the corresponding content.</p>
+    <h2>Welcome</h2>
+    <p>Please select a category above to see the corresponding locations.</p>
   </div>
 
   <!-- CATEGORY CONTAINERS (hidden initially) -->
   <div id="minyanim-container" class="category-container">
-    <h2>Minyanim</h2>
-    <p>Minyanim-related content goes here.</p>
+    <h2>Minyanim Locations</h2>
   </div>
 
   <div id="restaurants-container" class="category-container">
-    <h2>Restaurants</h2>
-    <p>Restaurant-related content goes here.</p>
+    <h2>Restaurants Locations</h2>
   </div>
 
   <div id="businesses-container" class="category-container">
-    <h2>Businesses</h2>
-    <p>Business-related content goes here.</p>
+    <h2>Businesses Locations</h2>
   </div>
-</div>
       <div id="locations-list">
       </div>
+</div>
       </section>
         </div>      
       <section id="zmanim">
