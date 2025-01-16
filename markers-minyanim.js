@@ -24,7 +24,7 @@ const initMinyanimMap = () => {
       mapMinyanim.setCenter(place.geometry.location);
       mapMinyanim.setZoom(14);
 
-      // ---- NEW CODE: Place a RED marker at the search-input location ----
+      // ---- Place a RED marker  ----
       if (searchMarker) {
         searchMarker.setMap(null); // remove old marker if any
       }
@@ -40,7 +40,8 @@ const initMinyanimMap = () => {
 
 /**
  * Reads the raw JSON from #prayerTimesOutput <pre> tag
- * and converts it into a valid GeoJSON FeatureCollection.
+ * and converts it into a valid GeoJSON FeatureCollection,
+ * **grouping multiple data items that share the same lat/long**.
  * @returns {Object|null} GeoJSON FeatureCollection or null
  */
 const getPrayerTimesGeoJSON = () => {
@@ -64,23 +65,53 @@ const getPrayerTimesGeoJSON = () => {
     return null;
   }
 
-  // Convert each item to a GeoJSON Feature
-  const features = data.map((item) => {
+  // ------------------------------------------------------------
+  // 1) GROUP all items by their (lat, lng):
+  //    - Shul, Data, Nusach, strCode, Tefilah remain the same.
+  //    - Time will accumulate in an array for each group.
+  // ------------------------------------------------------------
+
+  const groupedByLatLng = {}; // key = "lat:lng"
+
+  data.forEach((item) => {
     const lat = parseFloat(item.position.lat) || 0;
     const lng = parseFloat(item.position.lng) || 0;
+    const key = `${lat}:${lng}`;
+
+    if (!groupedByLatLng[key]) {
+      // Create a new group
+      groupedByLatLng[key] = {
+        lat,
+        lng,
+        Shul: item.Shul,
+        Data: item.Data,     // aka Address
+        Nusach: item.Nusach,
+        Tefilah: item.Tefilah,
+        Times: [item.Time],  // Put the first Time in an array
+      };
+    } else {
+      // Already have a group => push the new Time
+      groupedByLatLng[key].Times.push(item.Time);
+    }
+  });
+
+  // ------------------------------------------------------------
+  // 2) Convert the grouped object into a GeoJSON Feature array
+  //    Time is joined with "|"
+  // ------------------------------------------------------------
+  const features = Object.values(groupedByLatLng).map((grp) => {
     return {
       type: "Feature",
       properties: {
-        Shul:    item.Shul,
-        Tefilah: item.Tefilah,
-        Time:    item.Time,
-        Data:    item.Data,
-        Nusach:  item.Nusach,
-        strCode: item.strCode,
+        Shul:    grp.Shul,
+        Tefilah: grp.Tefilah,
+        Time:    grp.Times.join(" | "),
+        Data:    grp.Data,   // Address
+        Nusach:  grp.Nusach,
       },
       geometry: {
         type: "Point",
-        coordinates: [lng, lat],
+        coordinates: [grp.lng, grp.lat],
       },
     };
   });
@@ -120,16 +151,14 @@ const addGeoJSONToMap = (geojson) => {
     const time    = event.feature.getProperty("Time");
     const address = event.feature.getProperty("Data");
     const nusach  = event.feature.getProperty("Nusach");
-    const code    = event.feature.getProperty("strCode");
     const tefilah = event.feature.getProperty("Tefilah");
 
     const contentString = 
-      `<div>
+      `<div class="box">
         <strong>Shul:</strong> ${shul}<br/>
         <strong>Time:</strong> ${time}<br/>
         <strong>Address:</strong> ${address}<br/>
         <strong>Nusach:</strong> ${nusach}<br/>
-        <strong>code:</strong> ${code}<br/>
         <strong>tefilah:</strong> ${tefilah}<br/>
       </div>`;
 
@@ -164,16 +193,6 @@ const refreshMapMarkers = () => {
     // Now call displayKnownLocations() to show them in #locations-list
     displayKnownLocations();
 
-    // (Optional) Another loop for additional data. If not needed, remove.
-    geojson.features.forEach((feat) => {
-      const [lng, lat] = feat.geometry.coordinates || [0, 0];
-      window.knownLocations.push({
-        name:    feat.properties.Shul || "(No Shul name)",
-        lat,
-        lng,
-        details: feat.properties,
-      });
-    });
 
     console.log("knownLocations updated from Minyanim data:", window.knownLocations);
   }

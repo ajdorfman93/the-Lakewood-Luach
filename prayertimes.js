@@ -683,7 +683,7 @@
               Tefilah: fields.Tefilah_Tefilahs || '',
               Nusach: fields.Nusach || '',
               Time: fields.Time || '',
-              Data: `${fields.Address || ''}, ${fields.City || ''}, ${fields.State || ''}`.trim(),
+              Data: `${fields.Address || ''}`.trim(),
               strCode: fields.strCode || '',
               position: { lat: fields.Lat || '', lng: fields.Lng || '' }
           };

@@ -38,21 +38,6 @@
       });
     });
 
-    // 2) Minyanim subfilters
-    document.querySelectorAll(".nusach-button").forEach(b => {
-      b.addEventListener("click", () => {
-        const val = (b.dataset.nusach || "").trim();
-        filterState.denomination = val.toLowerCase() === "all" ? null : val;
-        runFilterAndDisplay();
-      });
-    });
-    document.querySelectorAll(".tefilah-button").forEach(b => {
-      b.addEventListener("click", () => {
-        filterState.prayerType = (b.dataset.tefilah || "").trim().toLowerCase();
-        runFilterAndDisplay();
-      });
-    });
-
     // 3) Restaurants subfilters (cuisine, service, etc.)
     document.querySelectorAll(".rest-cuisine").forEach(b => {
       b.addEventListener("click", () => {
@@ -118,10 +103,7 @@
 
     let finalRecords = [];
     // Filter logic per category
-    if (cat === "minyanim") {
-      finalRecords = filterMinyanim(rawData);
-      finalRecords = mergeMinyanimByTefilahAndAddress(finalRecords); 
-    } else if (cat === "restaurants") {
+if (cat === "restaurants") {
       finalRecords = filterRestaurants(rawData);
     } else if (cat === "businesses") {
       finalRecords = filterBusinessesDynamic(rawData);
@@ -137,31 +119,7 @@
     }
   }
 
-  // ===============================
-  //  MINYANIM FILTER
-  // ===============================
-  function filterMinyanim(records) {
-    return records.filter(rec => {
-      const f = rec.fields || {};
-      // Denomination
-      if (filterState.denomination) {
-        const actualNusach = (f.Nusach || "").toLowerCase();
-        const desired = filterState.denomination.toLowerCase();
-        if (actualNusach !== desired) return false;
-      }
-      // Prayer type
-      if (filterState.prayerType) {
-        const arr = parseTefilahArray(f.Tefilah_Tefilahs || f.Tefilah);
-        if (!arr.includes(filterState.prayerType)) return false;
-      }
-      return true;
-    });
-  }
 
-  function mergeMinyanimByTefilahAndAddress(records) {
-    // your existing logic, if needed...
-    return records;
-  }
 
   // ===============================
   //  RESTAURANTS FILTER
@@ -372,31 +330,22 @@
     }
 
     let html = "";
-    if (cat === "minyanim") {
-      const name = f.StrShulName2 || f.Shul_Name || "Unknown Shul";
-      html = `
-        <div>
-          <strong>Shul:</strong> ${name}<br/>
-          Nusach: ${f.Nusach || ""}<br/>
-          Address: ${f.Address || ""}
-        </div>
-      `;
-    } else if (cat === "restaurants") {
+  if (cat === "restaurants") {
       const name = f.Name || "Some Restaurant";
-      html = `
-        <div>
-          <strong>Restaurant:</strong><h6>${name}</h6><br/>
-          Address: ${f.Address || ""}<br/>
-          Phone: ${f.Phone_Number || ""}
+      html = `<div class="box">
+          <small>Restaurant:</small>
+          <h6>${name}</h6><br/>
+          ${f.Address || ""}<br/>
+          <h5>${f.Phone_Number || ""}</h5>
         </div>
       `;
     } else if (cat === "businesses") {
       const name = f.Name || "Some Business";
       const c = (f.Categories || []).join(", ");
-      html = `
-        <div>
-          <small>Business:</small> <h6>${name}</h6>
-          Categories: ${c}<br/>
+      html = `<div class="box">
+          <small>Business:</small> 
+          <h6>${name}</h6>
+          ${c}<br/>
           ${f.strTyp || ""}<br/>
           <h5>${f.Phone || ""}</h5>
         </div>
@@ -414,24 +363,6 @@
     if (outEl) {
       outEl.textContent = JSON.stringify(items, null, 2);
     }
-  }
-
-  // ===============================
-  //  UTILS
-  // ===============================
-  function parseTefilahArray(raw) {
-    if (!raw) return [];
-    if (Array.isArray(raw)) {
-      return raw.map(s => s.toLowerCase());
-    }
-    if (typeof raw === "string") {
-      try {
-        return JSON.parse(raw.replace(/'/g, '"')).map(s => s.toLowerCase());
-      } catch {
-        return [raw.toLowerCase()];
-      }
-    }
-    return [String(raw).toLowerCase()];
   }
 
   function watchPricePointDiv() {

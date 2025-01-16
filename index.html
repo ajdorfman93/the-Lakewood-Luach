@@ -14,24 +14,22 @@
     <!-- Google Maps API  -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU&libraries=places" async defer></script>
     <script src="markers.js"></script>
-    <script src="markers-minyanim.js"></script>
+     <!-- <script src="markers-minyanim.js"></script> -->
     <script src="search-autocomplete.js"></script>
     <script src="data-loader.js"></script>
-    <script src="distance matrix.js" defer></script>
-    <script src="initMap.js"></script>
     <script src="knownLocations.js"></script>
     <script src="search.js"></script>
     <script src="active-buttons-dynamic.js"></script>
     <script src="active-buttons.js"></script>
     <script src="toggleDropdown.js"></script>
     <script src="cat-title-containers.js"></script>
+    <script src="initMap.js" defer></script>
 
     <!-- CSS Links -->
     <link rel="stylesheet" href="css/vendor.css">
     <link rel="stylesheet" href="css/styles.css">
   </head>
-  <body>
-    <body>
+  <body onload="initMap()">
       <!-- ===== Navigation Bar ===== -->
   <div class="nav">
     <!-- Checkbox that toggles the mobile menu -->
@@ -155,23 +153,23 @@
                   <!-- Populated via initBusinessFilters() in filter-ui.js -->
                 </select>
               </div></div>
-                <div id="prayerTimesOutput" style="display: none;">
-                  <pre>
-    [ 
-      {
-        "Shul": "Testing1",
-        "Tefilah": "['Shachris']",
-        "Time": "12:06 PM",
-        "Data": "44 Coles Way, Lakewood, NJ",
-        "strCode": "['#ERS']",
-        "position": {
-          "lat": 40.0684484,
-          "lng": -74.2056221
-        }
+              <div id="prayerTimesOutput" style="display: none;">
+                <pre>
+  [ 
+    {
+      "Shul": "Testing1",
+      "Tefilah": "['Shachris']",
+      "Time": "12:06 PM",
+      "Data": "44 Coles Way, Lakewood, NJ",
+      "strCode": "['#ERS']",
+      "position": {
+        "lat": 40.0684484,
+        "lng": -74.2056221
       }
-    ]
-          </pre>
-                </div></div>
+    }
+  ]
+        </pre>
+              </div></div>
               </div>
             </div>
           </div>

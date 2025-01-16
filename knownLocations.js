@@ -17,10 +17,10 @@ function displayKnownLocations() {
     window.knownLocations.forEach((loc, i) => {
       const li = document.createElement("li");
       li.innerHTML = `
-      <div class="box">
-        ${loc.name}<br />
-        </div>
+        <div class="box">
+        ${loc.name}<br />${loc.address1}
         <!-- you can display any other 'details' from loc.details -->
+        </div>
       `;
       ul.appendChild(li);
     });

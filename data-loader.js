@@ -24,12 +24,6 @@
       const busJson = await busResp.json();
       globalData.businesses = busJson.records || [];
 
-      // (Optional) 3) Load Minyanim
-      // const minyResp = await fetch("minyanim.json");
-      // if (!minyResp.ok) throw new Error("Failed to load minyanim.json");
-      // const minyJson = await minyResp.json();
-      // globalData.minyanim = minyJson.records || [];
-
       // 4) Build our map of categories => subTypes for businesses
       buildBusinessCategoryMap(globalData.businesses);
 

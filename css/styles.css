@@ -377,7 +377,7 @@ background-color: #f6f8f9;
 	box-shadow: 0 0 1px 0 rgba(0,12,32,0.04), 0 10px 16px 0 rgba(10,31,68,0.06);
 	border-radius: 20px;
 	padding: 10px;
-	margin: 30px;
+	margin: 5px;
 }
 .box h6 {
 	font-size: 18px;
@@ -389,7 +389,7 @@ background-color: #f6f8f9;
 	color: #8da2b5;
 	display: inline-block;
     font-size: 12px;
-        margin-top: 4px;
+    margin-top: 4px;
 }
 .box h5 {
 	font-size: 16px;
