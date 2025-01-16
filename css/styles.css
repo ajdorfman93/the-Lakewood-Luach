@@ -363,7 +363,7 @@ background-color: #f6f8f9;
 #locations .container {
     max-height: 500px;
     overflow-y: auto;
-	margin: 50px;
+	margin: 10px;
 }
 
 #locations span {
@@ -382,14 +382,12 @@ background-color: #f6f8f9;
 .box h6 {
 	font-size: 18px;
 	font-weight: 700;
-	margin-top: 5px;
     margin: 0px;
 }
 .box small {
 	color: #8da2b5;
 	display: inline-block;
     font-size: 12px;
-    margin-top: 4px;
 }
 .box h5 {
 	font-size: 16px;

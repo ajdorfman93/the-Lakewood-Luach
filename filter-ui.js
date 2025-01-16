@@ -335,6 +335,7 @@ if (cat === "restaurants") {
       html = `<div class="box">
           <small>Restaurant:</small>
           <h6>${name}</h6><br/>
+          ${f.Dairy_Meat || ""}<br/>
           ${f.Address || ""}<br/>
           <h5>${f.Phone_Number || ""}</h5>
         </div>

@@ -18,7 +18,7 @@ function displayKnownLocations() {
       const li = document.createElement("li");
       li.innerHTML = `
         <div class="box">
-        ${loc.name}<br />${loc.address1}
+        ${loc.name}<br />
         <!-- you can display any other 'details' from loc.details -->
         </div>
       `;

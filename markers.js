@@ -1,8 +1,6 @@
 // combined-markers.js
 
-// ---------------------------
 // GLOBAL VARIABLES
-// ---------------------------
 let map;                  // The single Google Map instance
 let infoWindow;           // A single reusable InfoWindow
 let autocomplete;         // For Autocomplete on #search-input
@@ -74,9 +72,7 @@ function initMap() {
   });
 }
 
-// --------------------------------------------------------------------------------
 // MINYANIM-RELATED FUNCTIONS
-// --------------------------------------------------------------------------------
 
 /**
  * Reads the raw JSON from #prayerTimesOutput <pre> tag, converts it to a valid 
