@@ -7479,7 +7479,7 @@
         "Note": "Should go on repeat Every Half hour till 1am",
         "Zman_Start_Time": 0,
         "Time_for_formula": "00:30",
-        "Cut_off_Time": "1:00 AM",
+        "Cut_off_Time": "01:00",
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
         "Address": "25 HAvens Ave, Lakewood, NJ",
