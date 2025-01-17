@@ -769,28 +769,6 @@ template {
       z-index: 1;
     }
 
-    @media screen and (max-width: 1200px) {
-        button{
-            letter-spacing: .05em;
-            font-size: 20pt;
-            margin-left: 2px;
-          }
-          label {
-              font-size     : var(--text-lg);
-              line-height   : var(--vspace-0_5);
-              margin-bottom : var(--vspace-0_5);
-          }
-        
-        .corner-container {
-            margin-top: 0px;
-        }
-            /* A shared class for all corner images */
-        .corner-container img.corner {
-          position: absolute;
-          width: 400px;
-          height: auto;    /* Maintain aspect ratio for the SVG */
-        }
-    }
 /* ===================================================================
  * # BASE SETUP
  *
@@ -3611,3 +3589,37 @@ img.u-pull-left {
 }
 
   
+    @media screen and (max-width: 1200px) {
+        button{
+            letter-spacing: .05em;
+            font-size: 20pt;
+            margin-left: 2px;
+          }
+          label {
+              font-size     : var(--text-md);
+              line-height   : var(--vspace-0_5);
+              margin-bottom : var(--vspace-0_5);
+              margin-left : var(--vspace-0_5);
+              margin-top : var(--vspace-0_5);
+          }
+        
+        .corner-container {
+            margin-top: 0px;
+        }
+            /* A shared class for all corner images */
+        .corner-container img.corner {
+          position: absolute;
+          width: 400px;
+          height: auto;    /* Maintain aspect ratio for the SVG */
+        }
+        #datePicker {
+            width: 230px;
+            height: 50px;
+            transform: translateY(0px);
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+          }
+    }
