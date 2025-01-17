@@ -374,9 +374,9 @@ background-color: #f6f8f9;
 }
 #locations .box {
 	background-color: #fff;
-	box-shadow: 0 0 1px 0 rgba(0,12,32,0.04), 0 10px 16px 0 rgba(10,31,68,0.06);
+	box-shadow: 0 0 1px 0 rgba(0,12,32,0.04);
 	border-radius: 20px;
-	padding: 10px;
+	padding: 5px;
 	margin: 5px;
 }
 .box h6 {
@@ -583,6 +583,7 @@ button{
 
 button:hover, button.active{
     background-color: #e2f2f1;
+        color            : #3bbda1;
   }
 
   /* Just a bit of spacing and styling for the JSON output block */
@@ -714,6 +715,11 @@ template {
     margin-top: 70px;
     margin-bottom: 20px;
   }
+  #map-container span{
+	font-size: 18px;
+	font-weight: 700;
+    margin: 0px;
+  }
 
   #map {
     height: 36vw;
@@ -792,10 +798,10 @@ body {
 }
 
 body {
-    background-color            : white;
+    background-color            : transparent;
     -webkit-overflow-scrolling  : touch;
     -webkit-text-size-adjust    : 100%;
-    -webkit-tap-highlight-color : rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color : transparent;
     -webkit-font-smoothing      : antialiased;
     -moz-osx-font-smoothing     : grayscale;
 }
@@ -1566,10 +1572,7 @@ h1, .h1 {
     margin-bottom : var(--vspace-1);
 }
 
-h5, .h5, h6, .h6 {
-    margin-top    : var(--vspace-1_5);
-    margin-bottom : var(--vspace-0_5);
-}
+
 
 h1, .h1 {
     font-size      : var(--text-display-1);
@@ -1597,16 +1600,13 @@ h4, .h4 {
 
 h5, .h5 {
     font-size   : var(--text-md);
-    line-height : var(--vspace-0_875);
 }
 
 h6, .h6 {
     font-family    : var(--font-1);
     font-weight    : 600;
     font-size      : var(--text-sm);
-    line-height    : var(--vspace-0_75);
     text-transform : uppercase;
-    letter-spacing : .2rem;
 }
 
 /* emphasis, italic,
@@ -1617,6 +1617,7 @@ i,
 strong {
     font-size   : inherit;
     line-height : inherit;
+    font-style  : bold;
 }
 
 b {        
@@ -1632,7 +1633,6 @@ i {
     font-style : italic;
 }
 
-strong,
 
 
 small {
@@ -2404,10 +2404,11 @@ button.btn--pill {
       /* Style for active button */
       .category-button.active {
         background-color: #e2f2f1;
+        color            : #3bbda1;
       }
       /* Optional styling for buttons */
       .category-button {
-        padding: 0.5rem 1rem;
+        padding: 15px, 10px;
         margin-right: 0.5rem;
         cursor: pointer;
       }
@@ -3112,13 +3113,13 @@ img.u-pull-left {
         padding-left : 3rem;
         transform    : translateX(-3rem);
         transform    : none;
+        
     }
 
     .text-pretitle.with-line::before {
         width : 2rem;
     }
 }
-
 
 
 /* ===================================================================

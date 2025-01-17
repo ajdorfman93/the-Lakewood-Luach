@@ -7,21 +7,24 @@ let autocomplete;         // For Autocomplete on #search-input
 let searchMarker;         // Red marker for the “searched location”
 
 /**
- * Initializes the single Google Map, tries to geocode whatever is in #search-input,
+ * Initializes the single Google Map, attempts to geocode whatever is in #search-input,
  * sets up autocomplete, etc.
  */
 function initMap() {
-  // 1) Create the map with a default center.
+  // 1) Create the map with a default center and some minimal UI.
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 40.095, lng: -74.222 },
     zoom: 12,
     disableDefaultUI: true,
   });
 
-  // 2) Create an InfoWindow (reuse for markers)
-  infoWindow = new google.maps.InfoWindow();
+  // 2) Create an InfoWindow with a pixelOffset so it appears above the marker.
+  infoWindow = new google.maps.InfoWindow({
+    content: "",
+    pixelOffset: new google.maps.Size(0, -35), // shift it above the marker
+  });
 
-  // 3) Prepare the #search-input + Autocomplete
+  // 3) Prepare #search-input + Autocomplete
   const input = document.getElementById("search-input");
   autocomplete = new google.maps.places.Autocomplete(input);
 
@@ -31,7 +34,6 @@ function initMap() {
   if (searchValue) {
     geocoder.geocode({ address: searchValue }, (results, status) => {
       if (status === "OK" && results[0]) {
-        // Center + Zoom
         map.setCenter(results[0].geometry.location);
         map.setZoom(14);
 
@@ -48,20 +50,20 @@ function initMap() {
     });
   }
 
-  // 5) Listen for Autocomplete changes in #search-input
+  // 5) Listen for Autocomplete selection changes
   autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
     if (place.geometry && place.geometry.location) {
-      // Center the map on the user’s newly selected place
+      // Move map to new place
       map.setCenter(place.geometry.location);
       map.setZoom(14);
 
-      // Remove the old marker if any
+      // Remove old marker (if any)
       if (searchMarker) {
         searchMarker.setMap(null);
       }
 
-      // Place a new red searchMarker
+      // Place a new red marker at the searched location
       searchMarker = new google.maps.Marker({
         position: place.geometry.location,
         map,
@@ -75,12 +77,10 @@ function initMap() {
 // MINYANIM-RELATED FUNCTIONS
 
 /**
- * Reads the raw JSON from #prayerTimesOutput <pre> tag, converts it to a valid 
- * GeoJSON FeatureCollection, **grouping** items by lat/long. 
- * Returns null if something is wrong (missing <pre>, empty JSON, parse error, etc).
+ * Reads raw JSON from #prayerTimesOutput <pre>, converts it to valid GeoJSON Features,
+ * grouping by lat/long. Returns null if something is wrong or empty.
  */
 function getPrayerTimesGeoJSON() {
-  // Find the <pre> inside #prayerTimesOutput
   const pre = document.querySelector("#prayerTimesOutput pre");
   if (!pre) {
     console.warn("No <pre> found in #prayerTimesOutput => returning null => remove markers.");
@@ -102,7 +102,7 @@ function getPrayerTimesGeoJSON() {
   }
 
   // Group by lat/lng => accumulate Times
-  const groupedByLatLng = {};  // key = "lat:lng"
+  const groupedByLatLng = {};
   data.forEach((item) => {
     const lat = parseFloat(item.position.lat) || 0;
     const lng = parseFloat(item.position.lng) || 0;
@@ -112,36 +112,33 @@ function getPrayerTimesGeoJSON() {
       groupedByLatLng[key] = {
         lat,
         lng,
-        Shul: item.Shul,
-        Data: item.Data,       // e.g. address
+        Name: item.Name,
+        Data: item.Data,
         Nusach: item.Nusach,
         Tefilah: item.Tefilah,
-        Times: [ item.Time ],  // Start an array of times
+        Times: [ item.Time ],
       };
     } else {
       groupedByLatLng[key].Times.push(item.Time);
     }
   });
 
-  // Convert to an array of GeoJSON Features
-  const features = Object.values(groupedByLatLng).map((grp) => {
-    return {
-      type: "Feature",
-      properties: {
-        Shul: grp.Shul,
-        Tefilah: grp.Tefilah,
-        Time: grp.Times.join(" | "),
-        Data: grp.Data,
-        Nusach: grp.Nusach,
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [grp.lng, grp.lat],
-      },
-    };
-  });
+  // Convert grouped data to GeoJSON Features
+  const features = Object.values(groupedByLatLng).map((grp) => ({
+    type: "Feature",
+    properties: {
+      Name: grp.Name,
+      Tefilah: grp.Tefilah,
+      Time: grp.Times.join(" | "),
+      Data: grp.Data,
+      Nusach: grp.Nusach,
+    },
+    geometry: {
+      type: "Point",
+      coordinates: [grp.lng, grp.lat],
+    },
+  }));
 
-  // Return the final FeatureCollection
   return {
     type: "FeatureCollection",
     features,
@@ -149,11 +146,11 @@ function getPrayerTimesGeoJSON() {
 }
 
 /**
- * Adds a GeoJSON FeatureCollection to the map's data layer as **blue** markers,
+ * Adds a GeoJSON FeatureCollection to the map's data layer as blue markers,
  * hooking up an InfoWindow with minyanim info.
  */
 function addGeoJSONToMap(geojson) {
-  // Clear existing data layer features
+  // Clear existing data layer features first
   map.data.forEach((feature) => {
     map.data.remove(feature);
   });
@@ -164,28 +161,32 @@ function addGeoJSONToMap(geojson) {
 
   // Style them (blue-dot icon)
   map.data.setStyle({
-    icon: {
-      url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-    },
+    icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
   });
 
-  // When user clicks a minyan marker, show the InfoWindow
+  // When user clicks a minyan marker, show the InfoWindow above the marker
   map.data.addListener("click", (event) => {
-    const shul    = event.feature.getProperty("Shul");
+    const name    = event.feature.getProperty("Name");
     const time    = event.feature.getProperty("Time");
     const address = event.feature.getProperty("Data");
     const nusach  = event.feature.getProperty("Nusach");
     const tefilah = event.feature.getProperty("Tefilah");
 
+
+    const title = `
+       ${name}
+    `;
     const contentString = `
       <div class="box">
-        <strong>Shul:</strong> ${shul}<br/>
         <strong>Time:</strong> ${time}<br/>
         <strong>Address:</strong> ${address}<br/>
         <strong>Nusach:</strong> ${nusach}<br/>
         <strong>Tefilah:</strong> ${tefilah}<br/>
-      </div>`;
-    
+      </div>
+    `;
+
+    // Set content, apply pixelOffset, open above the marker
+    infoWindow.setHeaderContent(title);
     infoWindow.setContent(contentString);
     infoWindow.setPosition(event.latLng);
     infoWindow.open(map);
@@ -193,35 +194,37 @@ function addGeoJSONToMap(geojson) {
 }
 
 /**
- * Re-parse the #prayerTimesOutput <pre> for minyanim data, convert to GeoJSON, and refresh map.
- * Also updates window.knownLocations with these minyanim locations.
+ * Re-parse #prayerTimesOutput <pre> for minyanim, convert to GeoJSON, and refresh the map.
+ * Also updates window.knownLocations with these minyanim’s lat/lng.
  */
 function refreshMapMarkers() {
   const geojson = getPrayerTimesGeoJSON();
   addGeoJSONToMap(geojson);
 
-  // Populate window.knownLocations with minyanim
+  // Populate window.knownLocations with the new data
   window.knownLocations = [];
   if (geojson && geojson.features) {
     geojson.features.forEach((feat) => {
       const [lng, lat] = feat.geometry.coordinates || [0, 0];
       window.knownLocations.push({
-        name: feat.properties.Shul || "(No Shul name)",
+        name: feat.properties.Name || "(No Shul name)",
         lat,
         lng,
-        details: feat.properties,
+        details: feat.properties.Time,
       });
     });
   }
 
-displayKnownLocations();
+  // If you have a UI method to display known locations, call it:
+  displayKnownLocations();
 
   console.log("knownLocations updated from Minyanim data:", window.knownLocations);
 }
 
+// Update map markers whenever the user clicks a .tefilah-button
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("tefilah-button")) {
-    // Slight delay to ensure <pre> is updated in DOM
+    // Slight delay to ensure the <pre> is updated in the DOM
     setTimeout(() => {
       refreshMapMarkers();
     }, 0);
@@ -231,45 +234,42 @@ document.addEventListener("click", (e) => {
 // GENERIC MARKER DRAWING FROM “finalItems” (restaurants, businesses, etc.)
 
 /**
- * Draws an array of items (finalItems) as **blue** markers on the map's data layer,
- * each item containing lat, lng, and optional html for the InfoWindow.
- * Also updates knownLocations with these items.
+ * Draws an array of items (finalItems) as blue markers on the map's data layer.
+ * Each item has lat, lng, and optional HTML for the InfoWindow.
  */
 function drawMarkers(finalItems) {
   // Clear old data from the map’s data layer
-  map.data.forEach((f) => map.data.remove(f));
+  map.data.forEach((feature) => map.data.remove(feature));
 
-  // Convert finalItems to GeoJSON
-  const features = finalItems.map((item) => {
-    return {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [
-          Number(item.lng) || 0,
-          Number(item.lat) || 0,
-        ],
-      },
-      properties: {
-        html: item.html || "(No details)",
-      },
-    };
-  });
+  // Convert finalItems to GeoJSON features
+  const features = finalItems.map((item) => ({
+    type: "Feature",
+    geometry: {
+      type: "Point",
+      coordinates: [
+        Number(item.lng) || 0,
+        Number(item.lat) || 0,
+      ],
+    },
+    properties: {
+      html: item.html || "(No details)",
+    },
+  }));
 
   const geojson = {
     type: "FeatureCollection",
     features,
   };
 
-  // Add new data to the map
+  // Add new data to map
   map.data.addGeoJson(geojson);
 
-  // Style them (blue-dot icon)
+  // Style them (blue-dot icon again)
   map.data.setStyle({
-    icon: { url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png" },
+    icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
   });
 
-  // InfoWindow on click
+  // InfoWindow on click (anchored above the marker via pixelOffset)
   map.data.addListener("click", (event) => {
     const content = event.feature.getProperty("html");
     infoWindow.setContent(content);
@@ -277,7 +277,7 @@ function drawMarkers(finalItems) {
     infoWindow.open(map);
   });
 
-  // Dynamically populate knownLocations with these items
+  // Populate knownLocations from finalItems
   window.knownLocations = [];
   finalItems.forEach((item) => {
     window.knownLocations.push({
@@ -288,8 +288,8 @@ function drawMarkers(finalItems) {
     });
   });
 
-  // If you have a UI function to show knownLocations:
-displayKnownLocations();
+  // Optional: update your UI
+  displayKnownLocations();
 
   console.log("knownLocations updated from finalItems:", window.knownLocations);
 }

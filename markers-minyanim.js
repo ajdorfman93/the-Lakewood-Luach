@@ -184,9 +184,10 @@ const refreshMapMarkers = () => {
       const [lng, lat] = feat.geometry.coordinates || [0, 0];
       window.knownLocations.push({
         name:    feat.properties.Shul || "(No Shul name)",
+        name:    feat.properties.Time || "(No Shul name)",
         lat,
         lng,
-        details: feat.properties,
+        details: feat.properties.Time,
       });
     });
 

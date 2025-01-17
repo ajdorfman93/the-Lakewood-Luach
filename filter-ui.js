@@ -330,25 +330,23 @@ if (cat === "restaurants") {
     }
 
     let html = "";
-  if (cat === "restaurants") {
-      const name = f.Name || "Some Restaurant";
-      html = `<div class="box">
-          <small>Restaurant:</small>
-          <h6>${name}</h6><br/>
-          ${f.Dairy_Meat || ""}<br/>
-          ${f.Address || ""}<br/>
-          <h5>${f.Phone_Number || ""}</h5>
-        </div>
-      `;
-    } else if (cat === "businesses") {
+    if (cat === "restaurants") {
+        const name = f.Name || "Some Restaurant";
+        html = `<div class="box">
+            <h6>${name}</h6>
+           <small> ${f.Dairy_Meat || ""}</small>
+           <h5> ${f.Address || ""}</h5>
+            <h5><strong>${f.Phone_Number || ""}</strong></h5>
+          </div>
+        `;
+    }else if (cat === "businesses") {
       const name = f.Name || "Some Business";
       const c = (f.Categories || []).join(", ");
       html = `<div class="box">
-          <small>Business:</small> 
           <h6>${name}</h6>
-          ${c}<br/>
-          ${f.strTyp || ""}<br/>
-          <h5>${f.Phone || ""}</h5>
+          <h5>${c}</h5>
+          <small>${f.strTyp || ""}</small>
+          <h5><strong>${f.Phone || ""}</strong></h5>
         </div>
       `;
     }

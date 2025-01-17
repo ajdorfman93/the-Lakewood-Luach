@@ -506,9 +506,7 @@
       }
     }
 
-    // ---------------------------------------------------------------------
     // #CUT => Exclude if (Cut_off_Time) <= (Zman Start + Zman_Start_Adjustment)
-    // ---------------------------------------------------------------------
     async function handleCUTLogic(records, entryTime) {
       const cutRecords = records.filter(rec => hasCode(rec, '#CUT'));
       if (cutRecords.length === 0) return;
@@ -559,9 +557,7 @@
       }
     }
 
-    // ---------------------------------------------------------------------
     // Utility: check if a record has a given code
-    // ---------------------------------------------------------------------
     function hasCode(record, code) {
       const { strCode } = record.fields;
       if (!strCode) return false;
@@ -638,17 +634,13 @@
       return new Date(y, m, d, hour, minute, 0);
     }
 
-    // ---------------------------------------------------------------------
     // Utility: Round date to nearest 5 minutes
-    // ---------------------------------------------------------------------
     function roundToNearestFiveMinutes(date) {
       const ms = 1000 * 60 * 5;
       return new Date(Math.round(date.getTime() / ms) * ms);
     }
 
-    // ---------------------------------------------------------------------
     // Utility: convert "HH:mm" (24h) => "h:mm AM/PM"
-    // ---------------------------------------------------------------------
     function convertToAmPm(time24) {
       if (typeof time24 !== 'string') {
         console.warn("convertToAmPm() expected a string, got:", time24);
@@ -663,9 +655,7 @@
       return `${hours}:${String(minutes).padStart(2, '0')} ${suffix}`;
     }
 
-    // ---------------------------------------------------------------------
     // Finally, displayRecords in #prayerTimesOutput
-    // ---------------------------------------------------------------------
     function displayRecords(records) {
       const container = document.getElementById('prayerTimesOutput');
       if (!container) return;
@@ -679,12 +669,11 @@
       const jsonOutput = records.map(record => {
           const fields = record.fields;
           return {
-              Shul: fields.StrShulName2 || fields.StrShulName || '',
+              Name: fields.Name || '',
               Tefilah: fields.Tefilah_Tefilahs || '',
               Nusach: fields.Nusach || '',
               Time: fields.Time || '',
               Data: `${fields.Address || ''}`.trim(),
-              strCode: fields.strCode || '',
               position: { lat: fields.Lat || '', lng: fields.Lng || '' }
           };
       });
