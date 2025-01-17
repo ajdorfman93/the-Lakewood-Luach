@@ -1,4 +1,5 @@
 // filter-ui.js
+
 (function() {
   const filterState = {
     category: null,        // "minyanim", "restaurants", or "businesses"
@@ -8,8 +9,8 @@
     service: null,         // used by restaurants
 
     // For "businesses" (single select)
-    primaryCat: "",  // chosen category (string)
-    subType: ""      // chosen strTyp (string)
+    primaryCat: "",        // chosen category
+    subType: ""            // chosen strTyp
   };
 
   // ===============================
@@ -17,7 +18,10 @@
   // ===============================
   document.addEventListener("DOMContentLoaded", function() {
     // Check if globalData is loaded
-    if (!window.globalData || !Array.isArray(globalData.minyanim) || !Array.isArray(globalData.restaurants) || !Array.isArray(globalData.businesses)) {
+    if (!window.globalData ||
+        !Array.isArray(globalData.minyanim) ||
+        !Array.isArray(globalData.restaurants) ||
+        !Array.isArray(globalData.businesses)) {
       console.warn("No globalData or missing arrays (minyanim/restaurants/businesses).");
     }
 
@@ -38,6 +42,9 @@
       });
     });
 
+    // 2) Minyanim subfilters (placeholder if you want them)
+    //    You could add .minyan-denomination or .minyan-prayerType listeners here.
+
     // 3) Restaurants subfilters (cuisine, service, etc.)
     document.querySelectorAll(".rest-cuisine").forEach(b => {
       b.addEventListener("click", () => {
@@ -45,10 +52,9 @@
         runFilterAndDisplay();
       });
     });
-    watchPricePointDiv(); // Watches the <div id="selectedPricePointOptions"> changes
+    watchPricePointDiv(); // Watches the <div id="selectedPricePointOptions">
 
-    // Note: We do **not** call initBusinessFilters() here by default,
-    //       only when user actually clicks "businesses".
+    // No call to initBusinessFilters() unless user chooses "businesses".
   });
 
   // ===============================
@@ -102,10 +108,16 @@
     }
 
     let finalRecords = [];
-    // Filter logic per category
-if (cat === "restaurants") {
+
+    // Filtering logic per category
+    if (cat === "minyanim") {
+      // If you want to do custom minyan filters, do them here.
+      finalRecords = rawData; // no real filter yet
+    }
+    else if (cat === "restaurants") {
       finalRecords = filterRestaurants(rawData);
-    } else if (cat === "businesses") {
+    }
+    else if (cat === "businesses") {
       finalRecords = filterBusinessesDynamic(rawData);
     }
 
@@ -119,18 +131,15 @@ if (cat === "restaurants") {
     }
   }
 
-
-
   // ===============================
   //  RESTAURANTS FILTER
   // ===============================
   function filterRestaurants(records) {
-    // Build dynamic service options
+    // Build dynamic "service" options
     const serviceSet = new Set();
     records.forEach(r => {
       const f = r.fields || {};
       (f.Type || []).forEach(t => {
-        // skip "L" if needed
         if ((t || "").toLowerCase() !== "l") {
           serviceSet.add(t.trim());
         }
@@ -221,7 +230,9 @@ if (cat === "restaurants") {
     strTypSelect.innerHTML = "<option value=''>-- Select Type --</option>";
 
     // Make sure we have data
-    if (!window.globalData || !Array.isArray(globalData.businesses) || !globalData.businesses.length) {
+    if (!window.globalData ||
+        !Array.isArray(globalData.businesses) ||
+        !globalData.businesses.length) {
       console.warn("No globalData.businesses or it's empty.");
       return;
     }
@@ -232,7 +243,6 @@ if (cat === "restaurants") {
       const f = item.fields || {};
       const cats = f.Categories || [];
       cats.forEach(c => {
-        // skip empty or "L" if needed
         if (c && c.trim() !== "L") {
           categorySet.add(c.trim());
         }
@@ -253,7 +263,7 @@ if (cat === "restaurants") {
     catSelect.addEventListener("change", () => {
       filterState.primaryCat = catSelect.value || "";
       populateBusinessStrTyps(strTypSelect, filterState.primaryCat);
-      // reset the subType
+      // reset subType
       filterState.subType = "";
       runFilterAndDisplay();
     });
@@ -271,13 +281,12 @@ if (cat === "restaurants") {
     strTypSelect.innerHTML = "<option value=''>-- Select Type --</option>";
     if (!chosenCat) return;
 
-    // Collect all strTyp that appear in that category
+    // Collect all strTyp for that category
     const strTypSet = new Set();
     (globalData.businesses || []).forEach(biz => {
       const f = biz.fields || {};
       const catArr = f.Categories || [];
       if (catArr.includes(chosenCat)) {
-        // This record has the chosen category
         if (f.strTyp) {
           strTypSet.add(f.strTyp.trim());
         }
@@ -301,13 +310,13 @@ if (cat === "restaurants") {
       const f = r.fields || {};
       const cats = f.Categories || [];
 
-      // Must match chosen category (if any)
+      // Must match chosen category
       if (filterState.primaryCat) {
         if (!cats.includes(filterState.primaryCat)) {
           return false;
         }
       }
-      // Must match chosen strTyp (if any)
+      // Must match chosen strTyp
       if (filterState.subType) {
         if ((f.strTyp || "").trim() !== filterState.subType) {
           return false;
@@ -329,20 +338,23 @@ if (cat === "restaurants") {
       lngNum = -74.222;
     }
 
-    let html = "";
-    if (cat === "restaurants") {
-        const name = f.Name || "Some Restaurant";
-        html = `<div class="box">
-            <h6>${name}</h6>
-           <small> ${f.Dairy_Meat || ""}</small>
-           <h5> ${f.Address || ""}</h5>
-            <h5><strong>${f.Phone_Number || ""}</strong></h5>
-          </div>
-        `;
-    }else if (cat === "businesses") {
+
+    else if (cat === "restaurants") {
+      const name = f.Name || "Some Restaurant";
+      html = `
+        <div class="box">
+          <h6>${name}</h6>
+          <small>${f.Dairy_Meat || ""}</small>
+          <h5>${f.Address || ""}</h5>
+          <h5><strong>${f.Phone_Number || ""}</strong></h5>
+        </div>
+      `;
+    }
+    else if (cat === "businesses") {
       const name = f.Name || "Some Business";
       const c = (f.Categories || []).join(", ");
-      html = `<div class="box">
+      html = `
+        <div class="box">
           <h6>${name}</h6>
           <h5>${c}</h5>
           <small>${f.strTyp || ""}</small>
@@ -351,7 +363,12 @@ if (cat === "restaurants") {
       `;
     }
 
-    return { lat: latNum, lng: lngNum, html };
+    return {
+      category: cat === "minyanim" ? "minyan" : cat,  // ensures 'minyan' for knownLocations
+      lat: latNum,
+      lng: lngNum,
+      html
+    };
   }
 
   // ===============================

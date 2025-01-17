@@ -435,76 +435,87 @@
         }
       }
     }
+// ---------------------------------------------------------------------
+// #RET Logic: repeat from "start" to "end" by Time_for_formula
+// ---------------------------------------------------------------------
+async function handleRETLogic(records, entryTime) {
+  const retRecords = records.filter(rec => hasCode(rec, '#RET'));
+  if (retRecords.length === 0) return;
 
-    // ---------------------------------------------------------------------
-    // #RET Logic: repeat from "start" to "end" by Time_for_formula
-    // ---------------------------------------------------------------------
-    async function handleRETLogic(records, entryTime) {
-      const retRecords = records.filter(rec => hasCode(rec, '#RET'));
-      if (retRecords.length === 0) return;
+  // We'll need single-day Zmanim to handle #UCT
+  const singleDayUrl = `https://www.hebcal.com/zmanim?cfg=json&geonameid=5100280&date=${entryTime.dateStr}`;
+  let singleDayData = null;
+  let zmanObj = {};
+  try {
+    const resp = await fetch(singleDayUrl);
+    if (resp.ok) {
+      singleDayData = await resp.json();
+      zmanObj = singleDayData.times || {};
+    }
+  } catch (err) {
+    console.warn("Could not fetch single-day Zmanim for #RET logic.", err);
+  }
 
-      // We'll need single-day Zmanim to handle #UCT
-      const singleDayUrl = `https://www.hebcal.com/zmanim?cfg=json&geonameid=5100280&date=${entryTime.dateStr}`;
-      let singleDayData = null;
-      let zmanObj = {};
-      try {
-          const resp = await fetch(singleDayUrl);
-          if (resp.ok) {
-              singleDayData = await resp.json();
-              zmanObj = singleDayData.times || {};
-          }
-      } catch (err) {
-          console.warn("Could not fetch single-day Zmanim for #RET logic.", err);
-      }
+  for (const rec of retRecords) {
+    const fields = rec.fields;
+    const intervalStr = fields.Time_for_formula || "00:00";  // "HH:MM"
+    const [intHh, intMm] = intervalStr.split(':').map(Number);
+    const intervalMinutes = (intHh * 60) + intMm;
 
-      for (const rec of retRecords) {
-        const fields = rec.fields;
-        const intervalStr = fields.Time_for_formula || "00:00";  // "HH:MM"
-        const [intHh, intMm] = intervalStr.split(':').map(Number);
-        const intervalMinutes = (intHh * 60) + intMm;
+    // 1) Start time
+    let startDate = parseTimeOnSameDate(entryTime.date, fields.Time);
+    if (isNaN(startDate.getTime())) {
+      console.warn("No valid start time for #RET record:", rec);
+      continue;
+    }
 
-        // 1) Start time
-        let startDate = parseTimeOnSameDate(entryTime.date, fields.Time);
-        if (isNaN(startDate.getTime())) {
-          console.warn("No valid start time for #RET record:", rec);
-          continue;
+    // 2) End time
+    let endDate = null;
+
+    // If #UCT is present and strZman_Cutoff_Time is provided, use that
+    if (hasCode(rec, '#UCT') && fields.strZman_Cutoff_Time) {
+      const cutoffZmanType = fields.strZman_Cutoff_Time.trim();
+      const cutoffBaseIso = zmanObj[cutoffZmanType];
+      if (cutoffBaseIso) {
+        endDate = new Date(cutoffBaseIso);
+        if (fields.Zman_Cutoff_Adjustment) {
+          endDate = applyTimeFormula(endDate, fields.Zman_Cutoff_Adjustment);
         }
-
-        // 2) End time
-        let endDate = null;
-        if (hasCode(rec, '#UCT') && fields.strZman_Cutoff_Time) {
-          const cutoffZmanType = fields.strZman_Cutoff_Time.trim();
-          const cutoffBaseIso = zmanObj[cutoffZmanType];
-          if (cutoffBaseIso) {
-            endDate = new Date(cutoffBaseIso);
-            if (fields.Zman_Cutoff_Adjustment) {
-              endDate = applyTimeFormula(endDate, fields.Zman_Cutoff_Adjustment);
-            }
-          }
-        }
-        // if not found => try fields.Cut_off_Time
-        if (!endDate && fields.Cut_off_Time) {
-          endDate = parseTimeOnSameDate(entryTime.date, fields.Cut_off_Time);
-        }
-        // fallback if still no valid end
-        if (!endDate || isNaN(endDate.getTime())) {
-          console.warn("No valid end time for #RET. Using +12h fallback.");
-          endDate = new Date(startDate.getTime() + 12 * 60 * 60 * 1000);
-        }
-
-        // 3) Generate times from start => end in [intervalStr] increments
-        const timesArr = [];
-        let current = new Date(startDate.getTime());
-        while (current <= endDate) {
-          const hhmm = current.toTimeString().slice(0, 5);
-          timesArr.push(convertToAmPm(hhmm));
-          current.setMinutes(current.getMinutes() + intervalMinutes);
-        }
-
-        // 4) Store
-        fields.Time = timesArr.join(" | ");
       }
     }
+
+    // If endDate is still null/invalid, try fields.Cut_off_Time
+    if ((!endDate || isNaN(endDate.getTime())) && fields.Cut_off_Time) {
+      endDate = parseTimeOnSameDate(entryTime.date, fields.Cut_off_Time);
+    }
+
+    // If still no valid end time, use a +12h fallback
+    if (!endDate || isNaN(endDate.getTime())) {
+      console.warn("No valid end time for #RET. Using +12h fallback.");
+      endDate = new Date(startDate.getTime() + 12 * 60 * 60 * 1000);
+    }
+
+    // --- FIX / NEW LOGIC HERE ---
+    // If endDate is earlier than startDate, assume it's the next day
+    if (endDate < startDate) {
+      endDate.setDate(endDate.getDate() + 1);
+    }
+
+    // 3) Generate times from start => end in [intervalStr] increments
+    const timesArr = [];
+    let current = new Date(startDate.getTime());
+
+    // Keep incrementing until we pass endDate
+    while (current <= endDate) {
+      const hhmm = current.toTimeString().slice(0, 5);
+      timesArr.push(convertToAmPm(hhmm));
+      current.setMinutes(current.getMinutes() + intervalMinutes);
+    }
+
+    // 4) Store
+    fields.Time = timesArr.join(" | ");
+  }
+}
 
     // #CUT => Exclude if (Cut_off_Time) <= (Zman Start + Zman_Start_Adjustment)
     async function handleCUTLogic(records, entryTime) {
