@@ -244,6 +244,7 @@
         padding: 0 10px;
         line-height: 50px;     /* Matches the navbar height for vertical centering */
         transition: background-color 0.2s;
+        font-size: 10pt;
       }
   
       .nav-links a:hover {
@@ -3590,6 +3591,40 @@ img.u-pull-left {
 
   
     @media screen and (max-width: 1200px) {
+        .nav-links a { 
+            font-size: 12pt;
+          }
+                /* Checkbox used for toggling mobile menu */
+      #nav-check {
+        margin-bottom: 0px;
+        margin-top: 0px;
+      }
+
+      #search-input {
+        width: 300px;
+        height: 50px;
+        transform: translateY(0px);
+        font-size:  var(--text-md);
+      }
+      label #search-input {
+        width: 300px;
+        height: 50px;
+        transform: translateY(0px);
+        font-size:  var(--text-md);
+      }
+        g {
+            font-size  : 18pt;
+        }
+        g2 {
+            font-size  : 18pt;
+        }
+        #businessCategorySelect, #businessStrTypSelect, #businessCategorySelect option {
+            font-size: 18pt;
+            
+        }
+        #businessCategorySelect, #businessStrTypSelect{
+            height: 70px;
+        }
         button{
             letter-spacing: .05em;
             font-size: 20pt;
@@ -3602,7 +3637,9 @@ img.u-pull-left {
               margin-left : var(--vspace-0_5);
               margin-top : var(--vspace-0_5);
           }
-        
+          .nav-btn label {
+            margin: 0;
+          }
         .corner-container {
             margin-top: 0px;
         }
@@ -3622,4 +3659,24 @@ img.u-pull-left {
             border-radius: 8px;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
           }
+          #locations p {
+            font-size: 26px;
+            font-weight: 300;
+            color: #8da2b5;
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        .box h6 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0px;
+        }
+        .box small {
+            font-size: 18px;
+        }
+        .box h5 {
+            font-size: 20px;
+        }
+
     }
