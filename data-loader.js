@@ -15,13 +15,34 @@
       const restResp = await fetch("restaurants.json");
       if (!restResp.ok) throw new Error("Failed to load restaurants.json");
       const restJson = await restResp.json();
-      // Store them in globalData (adjust if your JSON differs)
+
+      // Sort restaurants alphabetically by fields.Name
+      if (Array.isArray(restJson.records)) {
+        restJson.records.sort((a, b) => {
+          const nameA = (a.fields?.Name || "").toLowerCase();
+          const nameB = (b.fields?.Name || "").toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+      }
+
+      // Store them in globalData
       globalData.restaurants = restJson.records || [];
 
       // 2) Load Businesses
       const busResp = await fetch("businesses.json");
       if (!busResp.ok) throw new Error("Failed to load businesses.json");
       const busJson = await busResp.json();
+
+      // Sort businesses alphabetically by fields.Name
+      if (Array.isArray(busJson.records)) {
+        busJson.records.sort((a, b) => {
+          const nameA = (a.fields?.Name || "").toLowerCase();
+          const nameB = (b.fields?.Name || "").toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+      }
+
+      // Store them in globalData
       globalData.businesses = busJson.records || [];
 
       // 4) Build our map of categories => subTypes for businesses
@@ -30,7 +51,7 @@
       // 5) Create the primary category buttons for businesses
       createPrimaryCatButtons();
 
-      console.log("All JSON data loaded into globalData, and category map is built!");
+      console.log("All JSON data loaded into globalData, sorted alphabetically, and category map is built!");
     } catch (err) {
       console.error("Error loading data:", err);
     }

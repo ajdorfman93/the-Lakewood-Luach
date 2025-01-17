@@ -151,7 +151,8 @@
       '#UCT': null,  
       '#RET': null,  
       '#UST': null,  
-      '#CUT': null
+      '#CUT': null,  
+      '#CAT': null,
     };
 
     // We'll store the final filtered records here
@@ -178,13 +179,23 @@
         const hebcalData = await hebcalResponse.json();
         const htmlContent = JSON.stringify(hebcalData);
 
-        // 2) Fetch local prayertimes.json
-        const response = await fetch('prayertimes.json');
-        if (!response.ok) {
-            throw new Error('Failed to fetch prayertimes.json');
-        }
-        const data = await response.json();
-        const records = data.records || [];
+// 2) Fetch local prayertimes.json
+const response = await fetch('prayertimes.json');
+if (!response.ok) {
+    throw new Error('Failed to fetch prayertimes.json');
+}
+const data = await response.json();
+const records = data.records || [];
+
+// Sort the records by "fields.Name" (case-insensitive)
+records.sort((a, b) => {
+  const nameA = (a.fields?.Name || "").toLowerCase();
+  const nameB = (b.fields?.Name || "").toLowerCase();
+  return nameA.localeCompare(nameB);
+});
+
+// Continue working with the sorted records as needed
+
 
         // 3) Filter by day-of-week & holiday logic
         filteredRecords = records.filter(record => {
@@ -242,6 +253,7 @@
         await handleUCTLogic(filteredRecords, entryTime);  // #UCT
         await handleRETLogic(filteredRecords, entryTime);  // #RET
         await handleCUTLogic(filteredRecords, entryTime);  // #CUT
+        await handleCATLogic(filteredRecords, entryTime);  // #CAT
 
         // 5) Display the resulting records
         displayRecords(filteredRecords);
@@ -495,7 +507,6 @@ async function handleRETLogic(records, entryTime) {
       endDate = new Date(startDate.getTime() + 12 * 60 * 60 * 1000);
     }
 
-    // --- FIX / NEW LOGIC HERE ---
     // If endDate is earlier than startDate, assume it's the next day
     if (endDate < startDate) {
       endDate.setDate(endDate.getDate() + 1);
@@ -516,75 +527,119 @@ async function handleRETLogic(records, entryTime) {
     fields.Time = timesArr.join(" | ");
   }
 }
+// #CUT => Exclude if (Cut_off_Time) <= (Zman Start + Zman_Start_Adjustment)
+// #CAT => Exclude if (Cut_off_Time) >= (Zman Start + Zman_Start_Adjustment)
+async function handleCUTLogic(records, entryTime) {
+  // Collect all records that have either #CUT or #CAT
+  const cutCatRecords = records.filter(rec => hasCode(rec, '#CUT') || hasCode(rec, '#CAT'));
+  if (cutCatRecords.length === 0) return;
 
-    // #CUT => Exclude if (Cut_off_Time) <= (Zman Start + Zman_Start_Adjustment)
-    async function handleCUTLogic(records, entryTime) {
-      const cutRecords = records.filter(rec => hasCode(rec, '#CUT'));
-      if (cutRecords.length === 0) return;
+  // Fetch single-day Zmanim
+  const singleDayUrl = `https://www.hebcal.com/zmanim?cfg=json&geonameid=5100280&date=${entryTime.dateStr}`;
+  const resp = await fetch(singleDayUrl);
+  if (!resp.ok) {
+    console.error('Failed to fetch single-day Zmanim for #CUT/#CAT');
+    return;
+  }
+  const singleDayData = await resp.json();
+  const zmanObj = singleDayData.times || {};
 
-      // Single-day Zmanim
-      const singleDayUrl = `https://www.hebcal.com/zmanim?cfg=json&geonameid=5100280&date=${entryTime.dateStr}`;
-      const resp = await fetch(singleDayUrl);
-      if (!resp.ok) {
-          console.error('Failed to fetch single-day Zmanim for #CUT');
-          return;
-      }
-      const singleDayData = await resp.json();
-      const zmanObj = singleDayData.times || {};
+  // Iterate from the end to allow splicing (removing) as we go
+  for (let i = cutCatRecords.length - 1; i >= 0; i--) {
+    const rec = cutCatRecords[i];
+    const fields = rec.fields;
 
-      for (let i = cutRecords.length - 1; i >= 0; i--) {
-        const rec = cutRecords[i];
-        const fields = rec.fields;
+    const isCUT = hasCode(rec, '#CUT');
+    const isCAT = hasCode(rec, '#CAT');
 
-        const cutOffTimeStr = fields.Cut_off_Time;
-        const zmanType = fields.strZman_Start_Time;
-        if (!cutOffTimeStr || !zmanType) {
-          continue;
-        }
-
-        // 1) Parse the record's Cut_off_Time => local Date
-        const cutOffTimeDate = parseTimeOnSameDate(entryTime.date, cutOffTimeStr);
-        if (isNaN(cutOffTimeDate.getTime())) {
-          continue;
-        }
-
-        // 2) Build "ZmanStart + Zman_Start_Adjustment"
-        const baseIso = zmanObj[zmanType.trim()];
-        if (!baseIso) {
-          continue;
-        }
-        let zmanStartDate = new Date(baseIso);
-        if (fields.Zman_Start_Adjustment) {
-          zmanStartDate = applyTimeFormula(zmanStartDate, fields.Zman_Start_Adjustment);
-        }
-
-        // 3) If (Cut_off_Time <= zmanStartDate) => exclude
-        if (cutOffTimeDate.getTime() <= zmanStartDate.getTime()) {
-          const idx = records.indexOf(rec);
-          if (idx !== -1) {
-            records.splice(idx, 1);
-          }
-        }
-      }
+    const cutOffTimeStr = fields.Cut_off_Time;
+    const zmanType = fields.strZman_Start_Time;
+    if (!cutOffTimeStr || !zmanType) {
+      continue;
     }
 
-    // Utility: check if a record has a given code
-    function hasCode(record, code) {
-      const { strCode } = record.fields;
-      if (!strCode) return false;
-
-      let arr = [];
-      if (typeof strCode === 'string') {
-          try {
-              arr = JSON.parse(strCode.replace(/'/g, '"'));
-          } catch {
-              arr = [strCode];
-          }
-      } else {
-          arr = strCode;
-      }
-      return arr.includes(code);
+    // 1) Parse the record's Cut_off_Time => local Date
+    const cutOffTimeDate = parseTimeOnSameDate(entryTime.date, cutOffTimeStr);
+    if (isNaN(cutOffTimeDate.getTime())) {
+      continue;
     }
+
+    // 2) Build "ZmanStart + Zman_Start_Adjustment"
+    const baseIso = zmanObj[zmanType.trim()];
+    if (!baseIso) {
+      continue;
+    }
+    let zmanStartDate = new Date(baseIso);
+    if (fields.Zman_Start_Adjustment) {
+      zmanStartDate = applyTimeFormula(zmanStartDate, fields.Zman_Start_Adjustment);
+    }
+
+    // 3) Conditional Exclusions
+    //    #CUT => Exclude if cutOffTimeDate <= zmanStartDate
+    if (isCUT && cutOffTimeDate.getTime() <= zmanStartDate.getTime()) {
+      const idx = records.indexOf(rec);
+      if (idx !== -1) {
+        records.splice(idx, 1);
+      }
+      continue; // Once removed, skip further checks on this record
+    }
+
+    //    #CAT => Exclude if cutOffTimeDate >= zmanStartDate
+    if (isCAT && cutOffTimeDate.getTime() >= zmanStartDate.getTime()) {
+      const idx = records.indexOf(rec);
+      if (idx !== -1) {
+        records.splice(idx, 1);
+      }
+      // No need for 'continue' here, but safe to do so:
+      continue;
+    }
+  }
+}
+
+// Utility: check if a record has a given code
+function hasCode(record, code) {
+  const { strCode } = record.fields;
+  if (!strCode) return false;
+
+  let arr = [];
+  if (typeof strCode === 'string') {
+    try {
+      // Convert single quotes to double quotes if needed
+      arr = JSON.parse(strCode.replace(/'/g, '"'));
+    } catch {
+      // Fallback if string is not JSON
+      arr = [strCode];
+    }
+  } else {
+    arr = strCode;
+  }
+  return arr.includes(code);
+}
+
+function parseTimeOnSameDate(dateObj, timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  const newDate = new Date(dateObj);
+  newDate.setHours(h, m, 0, 0);
+  return newDate;
+}
+
+function applyTimeFormula(baseDate, adjustment) {
+  const match = adjustment.match(/^([+-])(\d+)([mh])$/);
+  if (!match) return baseDate;
+
+  const [_, sign, val, unit] = match;
+  const multiplier = sign === '+' ? 1 : -1;
+  const intVal = parseInt(val, 10);
+  const newDate = new Date(baseDate);
+
+  if (unit === 'm') {
+    newDate.setMinutes(newDate.getMinutes() + multiplier * intVal);
+  } else if (unit === 'h') {
+    newDate.setHours(newDate.getHours() + multiplier * intVal);
+  }
+  return newDate;
+}
+
 
     // ---------------------------------------------------------------------
     // Utility: build Zmanim range URL

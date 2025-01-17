@@ -250,51 +250,61 @@ document.addEventListener("click", (e) => {
  * Each item has lat, lng, and optional HTML for the InfoWindow.
  */
 function drawMarkers(finalItems) {
-	// Clear old data
-	map.data.forEach((feature) => map.data.remove(feature));
+  // Clear old data
+  map.data.forEach((feature) => map.data.remove(feature));
 
-	// Convert finalItems to GeoJSON
-	const features = finalItems.map((item) => ({
-		type: "Feature",
-		geometry: {
-			type: "Point",
-			coordinates: [Number(item.lng) || 0, Number(item.lat) || 0],
-		},
-		properties: {
-			html: item.html || "(No details)",
-			category: item.category || "",
-		},
-	}));
+  // Convert finalItems to GeoJSON
+  const features = finalItems.map((item) => ({
+    type: "Feature",
+    geometry: {
+      type: "Point",
+      coordinates: [Number(item.lng) || 0, Number(item.lat) || 0],
+    },
+    properties: {
+      html: item.html || "(No details)",
+      category: item.category || "",
+    },
+  }));
 
-	const geojson = {
-		type: "FeatureCollection",
-		features,
-	};
+  const geojson = {
+    type: "FeatureCollection",
+    features,
+  };
 
-	map.data.addGeoJson(geojson);
+  map.data.addGeoJson(geojson);
 
-	// Style them (blue-dot icon)
-	map.data.setStyle({
-		icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-	});
+  // Style them (blue-dot icon)
+  map.data.setStyle({
+    icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+  });
 
-	// InfoWindow on click
-	map.data.addListener("click", (event) => {
-		const content = event.feature.getProperty("html");
-		infoWindow.setContent(content);
-		infoWindow.setPosition(event.latLng);
-		infoWindow.open(map);
-	});
+  // InfoWindow on click
+  map.data.addListener("click", (event) => {
+    const content = event.feature.getProperty("html");
+    const category = event.feature.getProperty("category");
+    
+    // If this is not a “minyanim” marker, set the header content
+    if (category !== "minyanim") {
+      // Here we’re assuming the “name” or “title” is the same as the ‘html’ property.
+      // Adjust this if you have a different property for the marker’s title.
+      infoWindow.setHeaderContent(content);
+    }
 
-	// Populate knownLocations from finalItems
-	window.knownLocations = finalItems.map((item) => ({
-		category: item.category || "",
-		name: item.html || "(No details)",
-		lat: Number(item.lat) || 0,
-		lng: Number(item.lng) || 0,
-		details: item, // This might be an object or string
-	}));
+    // Then set the main content and position
+    infoWindow.setContent(content);
+    infoWindow.setPosition(event.latLng);
+    infoWindow.open(map);
+  });
 
-	displayKnownLocations();
-	console.log("knownLocations updated from finalItems:", window.knownLocations);
+  // Populate knownLocations from finalItems
+  window.knownLocations = finalItems.map((item) => ({
+    category: item.category || "",
+    name: item.html || "(No details)",
+    lat: Number(item.lat) || 0,
+    lng: Number(item.lng) || 0,
+    details: item, // This might be an object or string
+  }));
+
+  displayKnownLocations();
+  console.log("knownLocations updated from finalItems:", window.knownLocations);
 }
