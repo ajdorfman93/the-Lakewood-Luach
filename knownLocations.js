@@ -26,7 +26,7 @@ function displayKnownLocations() {
       // We rely on loc.details = { name, time, address, nusach, tefilah }
       li.innerHTML = `
         <div class="box">
-          <h2> ${loc.details.name}</h2>
+          <h2><strong> ${loc.details.name}</strong></h2>
           <small>Nusach  ${loc.details.nusach}</small></br>
           <small> ${loc.details.tefilah}</small>
           <h5> ${loc.details.time}</h5>
