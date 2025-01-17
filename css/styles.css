@@ -770,9 +770,25 @@ template {
     }
 
     @media screen and (max-width: 1200px) {
-
+        button{
+            letter-spacing: .05em;
+            font-size: 20pt;
+            margin-left: 2px;
+          }
+          label {
+              font-size     : var(--text-lg);
+              line-height   : var(--vspace-0_5);
+              margin-bottom : var(--vspace-0_5);
+          }
+        
         .corner-container {
             margin-top: 0px;
+        }
+            /* A shared class for all corner images */
+        .corner-container img.corner {
+          position: absolute;
+          width: 400px;
+          height: auto;    /* Maintain aspect ratio for the SVG */
         }
     }
 /* ===================================================================
