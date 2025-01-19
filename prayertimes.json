@@ -26325,7 +26325,7 @@
         "Tefilah": 2,
         "Code": [
           "L",
-          54],
+          54, 76],
         "Time": "",
         "Note": "Latest of the week s-t",
         "Zman_Start_Time": 14,
@@ -26340,9 +26340,10 @@
         "Tefilah_Tefilahs": "Mincha",
         "Condition": [
           "L",
-          "Sunday to Thursday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)"
+          "Sunday to Thursday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)",
+          "Use (Zman Start Time) + (Time for formula);\nWill override other codes start (Time)"
         ],
-        "strCode": "['#ST']",
+        "strCode": "['#ST', '#UST']",
         "strZman_Start_Time": "plagHaMincha",
         "strZman_Cutoff_Time": "",
         "Data": "1767 Whitesville Rd, Toms River, NJ",
@@ -26421,7 +26422,7 @@
         "Tefilah": 1,
         "Code": [
           "L",
-          54],
+          54, 76],
         "Time": "",
         "Note": "Latest of the week s-t",
         "Zman_Start_Time": 14,
@@ -26436,9 +26437,10 @@
         "Tefilah_Tefilahs": "Maariv",
         "Condition": [
           "L",
-          "Sunday to Thursday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)"
+          "Sunday to Thursday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)",
+          "Use (Zman Start Time) + (Time for formula);\nWill override other codes start (Time)"
         ],
-        "strCode": "['#ST']",
+        "strCode": "['#ST', '#UST']",
         "strZman_Start_Time": "plagHaMincha",
         "strZman_Cutoff_Time": "",
         "Data": "1767 Whitesville Rd, Toms River, NJ",
