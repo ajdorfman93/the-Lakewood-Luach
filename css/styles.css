@@ -736,7 +736,7 @@ template {
   }
 
   #map {
-    height: 36vw;
+    height: 32vw;
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 8px;}
