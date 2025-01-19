@@ -41,13 +41,13 @@ function displayKnownLocations() {
       li.innerHTML = `
         <div class="box">
           <h2><strong>${loc.name}</strong></h2>
-          <p><strong>Type (Dairy/Meat):</strong> ${loc.details.dairyMeat}</p>
-          <p><strong>Address:</strong> ${loc.details.address1}</p>
-          <p><strong>Phone:</strong> ${loc.details.phoneNumber}</p>
-          <p><strong>Weekday Hours:</strong> ${loc.details.weekday}</p>
-          <p><strong>Weekend Hours:</strong> ${loc.details.weekend}</p>
-          <p><strong>Price Range:</strong> ${loc.details.pricePoint}</p>
-          <p><strong>Website:</strong> ${loc.details.website}</p>
+          <small>${loc.details.dairyMeat}</small><br/>
+          <small>${loc.details.pricePoint}</small>
+          <h5>${loc.details.address1}</h5>
+          <h5>${loc.details.phoneNumber}</h5>
+          <h5><strong>Weekday Hours:</strong> ${loc.details.weekday}</h5>
+          <h5><strong>Weekend Hours:</strong> ${loc.details.weekend}</h5>
+          <h5><a>${loc.details.website}</a></h5>
         </div>
       `;
     }
@@ -58,12 +58,12 @@ function displayKnownLocations() {
       li.innerHTML = `
         <div class="box">
           <h2><strong>${loc.name}</strong></h2>
-          <p><strong>Type:</strong> ${loc.details.strTyp}</p>
-          <p><strong>Categories:</strong> ${loc.details.categories}</p>
-          <p><strong>Phone:</strong> ${loc.details.phone}</p>
-          <p><strong>Fax:</strong> ${loc.details.fax}</p>
-          <p><strong>Email:</strong> ${loc.details.email}</p>
-          <p><strong>Website:</strong> ${loc.details.website}</p>
+          <h5>${loc.details.strTyp}</h5>
+          <h5>${loc.details.categories}</h5>
+          <h5>${loc.details.phone}</h5>
+          <h5><strong>Fax:</strong> ${loc.details.fax}</h5>
+          <h5>${loc.details.email}</h5>
+          <h5><a>${loc.details.website}</a></h5>
         </div>
       `;
     }

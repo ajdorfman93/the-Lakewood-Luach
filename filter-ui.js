@@ -352,7 +352,7 @@
       // Required fields from your request:
       // Address1, Phone_Number, Weekday, Weekend, Dairy_Meat, Website, Price_Point_Option_2
       name = f.Name || "Some Restaurant";
-      const address1 = f.Address1 || "";
+      const address1 = f.Address || "";
       const phoneNumber = f.Phone_Number || "";
       const weekday = f.Weekday || "";
       const weekend = f.Weekend || "";
@@ -368,7 +368,7 @@
           <p><strong>Weekday Hours:</strong> ${weekday}</p>
           <p><strong>Weekend Hours:</strong> ${weekend}</p>
           <p><strong>Price Range:</strong> ${pricePoint}</p>
-          <p><strong>Website:</strong> ${website}</p>
+          <p>${website}</p>
         </div>
       `;
 
@@ -460,7 +460,7 @@
         block = `
           <div class="box">
             <h5><strong>${f.Name || ""}</strong></h5>
-            <p><strong>Address1:</strong> ${f.Address1 || ""}</p>
+            <p> ${f.Address || ""}</p>
             <p><strong>Phone:</strong> ${f.Phone_Number || ""}</p>
             <p><strong>Weekday:</strong> ${f.Weekday || ""}</p>
             <p><strong>Weekend:</strong> ${f.Weekend || ""}</p>
@@ -517,7 +517,7 @@
         outputHtml += `
           <div class="box">
             <p><strong>${f.Name || ""}</strong></p>
-            <p>Addr: ${f.Address1 || ""}</p>
+            <p>${f.Address || ""}</p>
             <p>Phone: ${f.Phone_Number || ""}</p>
             <p>Weekday: ${f.Weekday || ""}</p>
             <p>Weekend: ${f.Weekend || ""}</p>
