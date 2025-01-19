@@ -339,7 +339,13 @@
 .content-box {
 	padding: 60px 20px;
 }
-
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
 /* on mobile devices below 600px, change the value of '--multiplier' 
  * to adjust the values of base font size and vertical space unit.
  */
@@ -364,7 +370,11 @@ background-color: #f6f8f9;
 #locations .container {
     max-height: 500px;
     overflow-y: auto;
-	margin: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
 }
 
 #locations span {
@@ -490,6 +500,9 @@ body {
     margin: 0px;
 }
 
+.main-container {
+    width: 100%;
+}
 h2 {
 	font-weight: 400;
     color: #0095f7;
@@ -3682,3 +3695,8 @@ img.u-pull-left {
         }
 
     }
+    @media (min-width: 992px) {
+        .container {
+            width: 1200px;
+        }
+}
