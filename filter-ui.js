@@ -362,13 +362,13 @@
 
       html = `
         <div class="box">
-          <h5>${dairyMeat}</h5>
-          <p><strong>Address:</strong> ${address1}</p>
-          <p><strong>Phone:</strong> ${phoneNumber}</p>
-          <p><strong>Weekday Hours:</strong> ${weekday}</p>
-          <p><strong>Weekend Hours:</strong> ${weekend}</p>
-          <p><strong>Price Range:</strong> ${pricePoint}</p>
-          <p>${website}</p>
+          <small>${dairyMeat}</small></br>
+          <small>${pricePoint}</small>
+          <h5>${address1}</h5>
+          <h5><span class="fa fa-phone"></span>${phoneNumber}</h5>
+          <h5><strong>Weekday Hours:</strong> ${weekday}</h5>
+          <h5><strong>Weekend Hours:</strong> ${weekend}</h5>
+          <h5><a href="${website}">${website}</a></h5>
         </div>
       `;
 
