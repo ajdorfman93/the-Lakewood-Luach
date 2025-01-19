@@ -7,7 +7,7 @@ function displayKnownLocations() {
   // Clear out old content
   container.innerHTML = "";
 
-  // If no known locations, show simple message
+  // If no known locations, show a simple message
   if (!window.knownLocations || window.knownLocations.length === 0) {
     container.innerHTML = "<p>No known locations available.</p>";
     return;
@@ -21,49 +21,57 @@ function displayKnownLocations() {
     const li = document.createElement("li");
     li.classList.add("locations-li");
 
-    // Check the category
-    if (loc.category === "minyan") {
-      // Show full minyan details
+    // MINYAN
+    if (loc.category === "minyan" && loc.details) {
+      // We rely on loc.details = { name, time, address, nusach, tefilah }
       li.innerHTML = `
         <div class="box">
-          <strong>Name:</strong> ${loc.name}<br/>
-          <strong>Time:</strong> ${loc.details.time}<br/>
-          <strong>Address:</strong> ${loc.details.address}<br/>
-          <strong>Nusach:</strong> ${loc.details.nusach}<br/>
-          <strong>Tefilah:</strong> ${loc.details.tefilah}
+          <h2><strong>${loc.details.name}</strong></h2>
+          <small>Nusach: ${loc.details.nusach}</small><br/>
+          <small>${loc.details.tefilah}</small>
+          <h5>${loc.details.time}</h5>
+          <h5>${loc.details.address}</h5>
         </div>
       `;
     }
-    else if (loc.category === "restaurant") {
-      // Show restaurant details
-      const d = loc.details;
+    // RESTAURANTS
+    else if (loc.category === "restaurants" && loc.details) {
+      // loc.details includes:
+      //  address1, phoneNumber, weekday, weekend, dairyMeat, website, pricePoint
       li.innerHTML = `
         <div class="box">
-          <strong>Name:</strong> ${loc.name}<br/>
-          ${d.foodType || ""}<br/>
-          ${d.address || ""}<br/>
-          ${d.phone || ""}
+          <h2><strong>${loc.name}</strong></h2>
+          <small>${loc.details.dairyMeat}</small><br/>
+          <small>${loc.details.pricePoint}</small>
+          <h5>${loc.details.address1}
+          ${loc.details.phoneNumber}
+          <h5><strong>Weekday Hours:</strong> ${loc.details.weekday}</h5>
+          <h5><strong>Weekend Hours:</strong> ${loc.details.weekend}</h5>
+          <h5><a href="${loc.details.website}">${loc.details.website}</a></h5>
         </div>
       `;
     }
-    else if (loc.category === "business") {
-      // Show business details
-      const d = loc.details;
+    // BUSINESSES
+    else if (loc.category === "businesses" && loc.details) {
+      // loc.details includes:
+      //  strTyp, categories, website, email, phone, fax
       li.innerHTML = `
         <div class="box">
-          <strong>Name:</strong> ${loc.name}<br/>
-          ${d.description || ""}<br/>
-          ${d.subCategory || ""}<br/>
-          ${d.phone || ""}
+          <h2><strong>${loc.name}</strong></h2>
+          <small>${loc.details.categories}</h5>
+          <h5>${loc.details.strTyp}</h5>
+          <h5><span class="fa fa-phone"></span>${loc.details.phone}</h5>
+          ${loc.details.fax}
+          ${loc.details.email}
+          <h5><a href="${loc.details.website}">${loc.details.website}</a></h5>
         </div>
       `;
     }
+    // FALLBACK
     else {
-      // Fallback if no recognized category
       li.innerHTML = `
         <div class="box">
-          <strong>Name:</strong> ${loc.name}<br/>
-          (No extra details)
+          <strong>${loc.name}</strong>
         </div>
       `;
     }

@@ -244,6 +244,7 @@
         padding: 0 10px;
         line-height: 50px;     /* Matches the navbar height for vertical centering */
         transition: background-color 0.2s;
+        font-size: 10pt;
       }
   
       .nav-links a:hover {
@@ -338,7 +339,13 @@
 .content-box {
 	padding: 60px 20px;
 }
-
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
 /* on mobile devices below 600px, change the value of '--multiplier' 
  * to adjust the values of base font size and vertical space unit.
  */
@@ -363,7 +370,11 @@ background-color: #f6f8f9;
 #locations .container {
     max-height: 500px;
     overflow-y: auto;
-	margin: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
 }
 
 #locations span {
@@ -386,7 +397,6 @@ background-color: #f6f8f9;
 }
 .box small {
 	color: #8da2b5;
-	display: inline-block;
     font-size: 12px;
 }
 .box h5 {
@@ -394,6 +404,7 @@ background-color: #f6f8f9;
 	font-weight: 300;
 	padding: 0px;
     color: #000;
+    line-height: 1em;
     margin: 0px;
 }
 
@@ -489,6 +500,9 @@ body {
     margin: 0px;
 }
 
+.main-container {
+    width: 100%;
+}
 h2 {
 	font-weight: 400;
     color: #0095f7;
@@ -716,13 +730,13 @@ template {
     margin-bottom: 20px;
   }
   #map-container span{
-	font-size: 18px;
+	font-size: 24px;
 	font-weight: 700;
     margin: 0px;
   }
 
   #map {
-    height: 36vw;
+    height: 32vw;
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 8px;}
@@ -769,12 +783,6 @@ template {
       z-index: 1;
     }
 
-    @media screen and (max-width: 1200px) {
-
-        .corner-container {
-            margin-top: 0px;
-        }
-    }
 /* ===================================================================
  * # BASE SETUP
  *
@@ -3595,3 +3603,100 @@ img.u-pull-left {
 }
 
   
+    @media screen and (max-width: 1200px) {
+        .nav-links a { 
+            font-size: 12pt;
+          }
+                /* Checkbox used for toggling mobile menu */
+      #nav-check {
+        margin-bottom: 0px;
+        margin-top: 0px;
+      }
+      #map-container span{
+        font-size: 3.px;
+      }
+      #search-input {
+        width: 300px;
+        height: 50px;
+        transform: translateY(0px);
+        font-size:  var(--text-md);
+      }
+      label #search-input {
+        width: 300px;
+        height: 50px;
+        transform: translateY(0px);
+        font-size:  var(--text-md);
+      }
+        g {
+            font-size  : 18pt;
+        }
+        g2 {
+            font-size  : 18pt;
+        }
+        #businessCategorySelect, #businessStrTypSelect, #businessCategorySelect option {
+            font-size: 18pt;
+            
+        }
+        #businessCategorySelect, #businessStrTypSelect{
+            height: 70px;
+        }
+        button{
+            letter-spacing: .05em;
+            font-size: 20pt;
+            margin-left: 2px;
+          }
+          label {
+              font-size     : var(--text-md);
+              line-height   : var(--vspace-0_5);
+              margin-bottom : var(--vspace-0_5);
+              margin-left : var(--vspace-0_5);
+              margin-top : var(--vspace-0_5);
+          }
+          .nav-btn label {
+            margin: 0;
+          }
+        .corner-container {
+            margin-top: 0px;
+        }
+            /* A shared class for all corner images */
+        .corner-container img.corner {
+          position: absolute;
+          width: 400px;
+          height: auto;    /* Maintain aspect ratio for the SVG */
+        }
+        #datePicker {
+            width: 230px;
+            height: 50px;
+            transform: translateY(0px);
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+          }
+          #locations p {
+            font-size: 26px;
+            font-weight: 300;
+            color: #8da2b5;
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        .box h6 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0px;
+        }
+        .box small {
+            font-size: 18px;
+        }
+        .box h5 {
+            font-size: 20px;
+        }
+
+    }
+    @media (min-width: 992px) {
+        .container {
+            width: 1200px;
+        }
+}

@@ -1,15 +1,10 @@
-// combined-markers.js
+// markers.js
 
-// GLOBAL VARIABLES
-let map;                  // The single Google Map instance
-let infoWindow;           // A single reusable InfoWindow
-let autocomplete;         // For Autocomplete on #search-input
-let searchMarker;         // Red marker for the “searched location”
+let map;          // The single Google Map instance
+let infoWindow;   // A single reusable InfoWindow
+let autocomplete; // For Autocomplete on #search-input
+let searchMarker; // Red marker for the “searched location”
 
-/**
- * Initializes the single Google Map, attempts to geocode whatever is in #search-input,
- * sets up autocomplete, etc.
- */
 function initMap() {
   // 1) Create the map with a default center and some minimal UI.
   map = new google.maps.Map(document.getElementById("map"), {
@@ -21,8 +16,26 @@ function initMap() {
   // 2) Create an InfoWindow with a pixelOffset so it appears above the marker.
   infoWindow = new google.maps.InfoWindow({
     content: "",
-    pixelOffset: new google.maps.Size(0, -35), // shift it above the marker
+    pixelOffset: new google.maps.Size(0, -35),
   });
+
+  // Create a helper to set header + body content together:
+  infoWindow.setCustomContent = function(headerText, bodyHtml) {
+    const wrapper = document.createElement("div");
+
+    // Header
+    const headerEl = document.createElement("h4");
+    headerEl.textContent = headerText;
+    headerEl.style.marginTop = "0";
+    wrapper.appendChild(headerEl);
+
+    // Body
+    const bodyEl = document.createElement("div");
+    bodyEl.innerHTML = bodyHtml;
+    wrapper.appendChild(bodyEl);
+
+    this.setContent(wrapper);
+  };
 
   // 3) Prepare #search-input + Autocomplete
   const input = document.getElementById("search-input");
@@ -37,7 +50,6 @@ function initMap() {
         map.setCenter(results[0].geometry.location);
         map.setZoom(14);
 
-        // Place a red searchMarker
         searchMarker = new google.maps.Marker({
           position: results[0].geometry.location,
           map,
@@ -54,7 +66,6 @@ function initMap() {
   autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
     if (place.geometry && place.geometry.location) {
-      // Move map to new place
       map.setCenter(place.geometry.location);
       map.setZoom(14);
 
@@ -74,7 +85,9 @@ function initMap() {
   });
 }
 
-// MINYANIM-RELATED FUNCTIONS
+// ==========================
+//  MINYANIM-RELATED FUNCTIONS
+// ==========================
 
 /**
  * Reads raw JSON from #prayerTimesOutput <pre>, converts it to valid GeoJSON Features,
@@ -116,7 +129,7 @@ function getPrayerTimesGeoJSON() {
         Data: item.Data,
         Nusach: item.Nusach,
         Tefilah: item.Tefilah,
-        Times: [ item.Time ],
+        Times: [item.Time],
       };
     } else {
       groupedByLatLng[key].Times.push(item.Time);
@@ -146,7 +159,7 @@ function getPrayerTimesGeoJSON() {
 }
 
 /**
- * Adds a GeoJSON FeatureCollection to the map's data layer as blue markers,
+ * Adds a GeoJSON FeatureCollection to the map's data layer (blue markers),
  * hooking up an InfoWindow with minyanim info.
  */
 function addGeoJSONToMap(geojson) {
@@ -164,95 +177,116 @@ function addGeoJSONToMap(geojson) {
     icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
   });
 
-  // When user clicks a minyan marker, show the InfoWindow above the marker
+  // When user clicks a minyan marker, show the InfoWindow
   map.data.addListener("click", (event) => {
-    const name    = event.feature.getProperty("Name");
-    const time    = event.feature.getProperty("Time");
+    const name = event.feature.getProperty("Name");
+    const time = event.feature.getProperty("Time");
     const address = event.feature.getProperty("Data");
-    const nusach  = event.feature.getProperty("Nusach");
+    const nusach = event.feature.getProperty("Nusach");
     const tefilah = event.feature.getProperty("Tefilah");
 
-
-    const title = `
-       ${name}
-    `;
-    const contentString = `
+    const bodyHtml = `
       <div class="box">
-        <strong>Time:</strong> ${time}<br/>
-        <strong>Address:</strong> ${address}<br/>
-        <strong>Nusach:</strong> ${nusach}<br/>
-        <strong>Tefilah:</strong> ${tefilah}<br/>
+        <small>Nusach ${nusach}</small><br/>
+        <small>${tefilah}</small><br/>
+        <h5>${time}</h5>
+        <h5>${address}</h5>
       </div>
     `;
-
-    // Set content, apply pixelOffset, open above the marker
-    infoWindow.setHeaderContent(title);
-    infoWindow.setContent(contentString);
+    infoWindow.setHeaderContent(name);
+    infoWindow.setContent(bodyHtml);
     infoWindow.setPosition(event.latLng);
     infoWindow.open(map);
   });
 }
 
 /**
- * Re-parse #prayerTimesOutput <pre> for minyanim, convert to GeoJSON, and refresh the map.
- * Also updates window.knownLocations with these minyanim’s lat/lng.
+ * Re-parse #prayerTimesOutput <pre> for minyanim, convert to GeoJSON,
+ * and refresh the map. Also updates window.knownLocations with these minyanim’s lat/lng.
  */
 function refreshMapMarkers() {
   const geojson = getPrayerTimesGeoJSON();
   addGeoJSONToMap(geojson);
 
-  // Populate window.knownLocations with the new data
+  // Clear out knownLocations
   window.knownLocations = [];
+
   if (geojson && geojson.features) {
     geojson.features.forEach((feat) => {
       const [lng, lat] = feat.geometry.coordinates || [0, 0];
+
+      const name = feat.properties.Name || "(No Shul name)";
+      const time = feat.properties.Time || "(No Time)";
+      const address = feat.properties.Data || "(No Address)";
+      const nusach = feat.properties.Nusach || "(No Nusach)";
+      const tefilah = feat.properties.Tefilah || "(No Tefilah)";
+
+      // We'll store the minyan data as an object (category = "minyan")
       window.knownLocations.push({
-        name: feat.properties.Name || "(No Shul name)",
+        category: "minyan",
         lat,
         lng,
-        details: feat.properties.Time,
+        name,
+        details: {
+          name,
+          time,
+          address,
+          nusach,
+          tefilah
+        },
       });
     });
   }
 
-  // If you have a UI method to display known locations, call it:
+  // Update the side list if you have it
   displayKnownLocations();
-
   console.log("knownLocations updated from Minyanim data:", window.knownLocations);
 }
 
 // Update map markers whenever the user clicks a .tefilah-button
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("tefilah-button")) {
-    // Slight delay to ensure the <pre> is updated in the DOM
     setTimeout(() => {
       refreshMapMarkers();
     }, 0);
   }
 });
 
-// GENERIC MARKER DRAWING FROM “finalItems” (restaurants, businesses, etc.)
-
 /**
- * Draws an array of items (finalItems) as blue markers on the map's data layer.
- * Each item has lat, lng, and optional HTML for the InfoWindow.
+ * Draws an array of items (finalItems) as *blue markers* on the map's data layer.
+ * Each item must have: lat, lng, head (marker title), html (popup content), category, etc.
  */
 function drawMarkers(finalItems) {
-  // Clear old data from the map’s data layer
+  // Clear old data
   map.data.forEach((feature) => map.data.remove(feature));
 
-  // Convert finalItems to GeoJSON features
+  // Convert finalItems to GeoJSON
   const features = finalItems.map((item) => ({
     type: "Feature",
     geometry: {
       type: "Point",
-      coordinates: [
-        Number(item.lng) || 0,
-        Number(item.lat) || 0,
-      ],
+      coordinates: [Number(item.lng) || 0, Number(item.lat) || 0],
     },
     properties: {
-      html: item.html || "(No details)",
+      head: item.head || "",   // The marker title
+      html: item.html || "",   // The popup body content
+      category: item.category || "",
+      
+      // Restaurants:
+      address1: item.address1 || "",
+      phoneNumber: item.phoneNumber || "",
+      weekday: item.weekday || "",
+      weekend: item.weekend || "",
+      dairyMeat: item.dairyMeat || "",
+      website: item.website || "",
+      pricePoint: item.pricePoint || "",
+
+      // Businesses:
+      categories: item.categories || "",
+      strTyp: item.strTyp || "",
+      email: item.email || "",
+      phone: item.phone || "",
+      fax: item.fax || ""
     },
   }));
 
@@ -261,35 +295,52 @@ function drawMarkers(finalItems) {
     features,
   };
 
-  // Add new data to map
   map.data.addGeoJson(geojson);
 
-  // Style them (blue-dot icon again)
+  // Style them (blue-dot icon)
   map.data.setStyle({
     icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
   });
 
-  // InfoWindow on click (anchored above the marker via pixelOffset)
+  // InfoWindow on click
   map.data.addListener("click", (event) => {
+    const head = event.feature.getProperty("head");
     const content = event.feature.getProperty("html");
+    infoWindow.setHeaderContent(head);
     infoWindow.setContent(content);
     infoWindow.setPosition(event.latLng);
     infoWindow.open(map);
   });
 
   // Populate knownLocations from finalItems
-  window.knownLocations = [];
-  finalItems.forEach((item) => {
-    window.knownLocations.push({
-      name: item.html || "(No details)",
-      lat: Number(item.lat) || 0,
-      lng: Number(item.lng) || 0,
-      details: item,
-    });
-  });
+  window.knownLocations = finalItems.map((item) => ({
+    category: item.category || "",
+    name: item.head || "(No name)",
+    lat: Number(item.lat) || 0,
+    lng: Number(item.lng) || 0,
+    details: {
+      // RESTAURANT FIELDS (if category=restaurants)
+      address1: item.address1 || "",
+      phoneNumber: item.phoneNumber || "",
+      weekday: item.weekday || "",
+      weekend: item.weekend || "",
+      dairyMeat: item.dairyMeat || "",
+      website: item.website || "",
+      pricePoint: item.pricePoint || "",
+      
+      // BUSINESS FIELDS (if category=businesses)
+      categories: item.categories || "",
+      strTyp: item.strTyp || "",
+      email: item.email || "",
+      phone: item.phone || "",
+      fax: item.fax || ""
+    }
+  }));
 
-  // Optional: update your UI
-  displayKnownLocations();
+  // Show them in side list
+  if (typeof displayKnownLocations === "function") {
+    displayKnownLocations();
+  }
 
   console.log("knownLocations updated from finalItems:", window.knownLocations);
 }
