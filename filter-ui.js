@@ -1,6 +1,9 @@
 // filter-ui.js
 
 (function() {
+  // ===============================
+  //  GLOBAL FILTER STATE
+  // ===============================
   const filterState = {
     category: null,        // "minyanim", "restaurants", or "businesses"
     denomination: null,    // used by minyanim
@@ -42,36 +45,33 @@
       });
     });
 
-    // 2) Minyanim subfilters (placeholder if you want them)
-    //    You could add .minyan-denomination or .minyan-prayerType listeners here.
-
-    // 3) Restaurants subfilters (cuisine, service, etc.)
+    // Restaurants subfilters (cuisine, service, etc.)
     document.querySelectorAll(".rest-cuisine").forEach(b => {
       b.addEventListener("click", () => {
         filterState.cuisine = (b.dataset.value || "").trim();
         runFilterAndDisplay();
       });
     });
-    watchPricePointDiv(); // Watches the <div id="selectedPricePointOptions">
 
-    // No call to initBusinessFilters() unless user chooses "businesses".
+    // Watch the <div id="selectedPricePointOptions">
+    watchPricePointDiv();
   });
 
   // ===============================
-  //  RESET SUBFILTERS
+  //  RESET SUBFILTERS WHEN MAIN CATEGORY CHANGES
   // ===============================
   function resetSubfilters(chosenCat) {
-    // Minyanim filters
+    // Minyanim
     if (chosenCat !== "minyanim") {
       filterState.denomination = null;
       filterState.prayerType = null;
     }
-    // Restaurant filters
+    // Restaurants
     if (chosenCat !== "restaurants") {
       filterState.cuisine = null;
       filterState.service = null;
     }
-    // Businesses filters
+    // Businesses
     if (chosenCat !== "businesses") {
       filterState.primaryCat = "";
       filterState.subType = "";
@@ -93,8 +93,12 @@
   function runFilterAndDisplay() {
     const cat = filterState.category;
     if (!cat) {
+      // Clear everything
       updateOutput([]);
-      if (typeof drawMarkers === "function") drawMarkers([]);
+      displayKnownLocations([]);
+      if (typeof drawMarkers === "function") {
+        drawMarkers([]);
+      }
       return;
     }
 
@@ -107,12 +111,10 @@
       rawData = (globalData.businesses || []).slice();
     }
 
+    // Filter
     let finalRecords = [];
-
-    // Filtering logic per category
     if (cat === "minyanim") {
-      // If you want to do custom minyan filters, do them here.
-      finalRecords = rawData; // no real filter yet
+      finalRecords = rawData; // no custom minyan filters yet
     }
     else if (cat === "restaurants") {
       finalRecords = filterRestaurants(rawData);
@@ -121,11 +123,14 @@
       finalRecords = filterBusinessesDynamic(rawData);
     }
 
-    // Convert each to a marker
+    // Convert each to marker data
     const finalItems = finalRecords.map(r => recordToMarker(r, cat));
-    updateOutput(finalItems);
 
-    // Optional: draw on map
+    // Update debug snippet + known-locations
+    updateOutput(finalRecords, cat);
+    displayKnownLocations(finalRecords, cat);
+
+    // Draw map markers
     if (typeof drawMarkers === "function") {
       drawMarkers(finalItems);
     }
@@ -146,7 +151,7 @@
       });
     });
 
-    // Populate the #service-options-container
+    // Populate #service-options-container
     const container = document.getElementById("service-options-container");
     if (container) {
       container.innerHTML = "";
@@ -168,7 +173,7 @@
       });
     }
 
-    // Gather price points from #selectedPricePointOptions
+    // Price points from #selectedPricePointOptions
     let selectedPricePoints = [];
     const spDiv = document.getElementById("selectedPricePointOptions");
     if (spDiv) {
@@ -178,17 +183,16 @@
       }
     }
 
-    // Now do the actual record filtering
     return records.filter(r => {
       const f = r.fields || {};
 
-      // price points
+      // Price point
       if (selectedPricePoints.length > 0) {
         if (!selectedPricePoints.includes(f.Price_Point_Option_2)) {
           return false;
         }
       }
-      // cuisine
+      // Cuisine filter
       if (filterState.cuisine) {
         const actual = (f.Dairy_Meat || "").toLowerCase();
         const desired = filterState.cuisine.toLowerCase();
@@ -202,7 +206,7 @@
           }
         }
       }
-      // service
+      // Service type filter
       if (filterState.service) {
         const recordTypes = (f.Type || []).map(t => t.toLowerCase()).filter(t => t !== "l");
         if (!recordTypes.includes(filterState.service.toLowerCase())) {
@@ -217,32 +221,28 @@
   //  BUSINESSES FILTER: INIT
   // ===============================
   function initBusinessFilters() {
-    // Single-select dropdowns
     const catSelect = document.getElementById("businessCategorySelect");
     const strTypSelect = document.getElementById("businessStrTypSelect");
     if (!catSelect || !strTypSelect) {
-      console.warn("Business filter selects not found in DOM.");
+      console.warn("Business filter selects not found.");
       return;
     }
 
-    // Reset them
+    // Reset
     catSelect.innerHTML = "<option value=''>-- Select Category --</option>";
     strTypSelect.innerHTML = "<option value=''>-- Select Type --</option>";
 
     // Make sure we have data
-    if (!window.globalData ||
-        !Array.isArray(globalData.businesses) ||
-        !globalData.businesses.length) {
+    if (!window.globalData || !Array.isArray(globalData.businesses) || !globalData.businesses.length) {
       console.warn("No globalData.businesses or it's empty.");
       return;
     }
 
-    // 1) Gather all unique categories
+    // Gather all unique categories
     const categorySet = new Set();
     globalData.businesses.forEach(item => {
       const f = item.fields || {};
-      const cats = f.Categories || [];
-      cats.forEach(c => {
+      (f.Categories || []).forEach(c => {
         if (c && c.trim() !== "L") {
           categorySet.add(c.trim());
         }
@@ -250,8 +250,6 @@
     });
 
     const allCategories = Array.from(categorySet).sort();
-
-    // 2) Populate catSelect with those categories
     allCategories.forEach(catName => {
       const opt = document.createElement("option");
       opt.value = catName;
@@ -259,29 +257,23 @@
       catSelect.appendChild(opt);
     });
 
-    // 3) On change => update filterState.primaryCat and re-populate the strTyp dropdown
     catSelect.addEventListener("change", () => {
       filterState.primaryCat = catSelect.value || "";
       populateBusinessStrTyps(strTypSelect, filterState.primaryCat);
-      // reset subType
       filterState.subType = "";
       runFilterAndDisplay();
     });
 
-    // 4) On strTyp change => filter
     strTypSelect.addEventListener("change", () => {
       filterState.subType = strTypSelect.value || "";
       runFilterAndDisplay();
     });
   }
 
-  // Populate the strTyp <select> based on the chosen category
   function populateBusinessStrTyps(strTypSelect, chosenCat) {
-    // Clear old
     strTypSelect.innerHTML = "<option value=''>-- Select Type --</option>";
     if (!chosenCat) return;
 
-    // Collect all strTyp for that category
     const strTypSet = new Set();
     (globalData.businesses || []).forEach(biz => {
       const f = biz.fields || {};
@@ -293,7 +285,6 @@
       }
     });
 
-    // Populate
     Array.from(strTypSet).sort().forEach(st => {
       const opt = document.createElement("option");
       opt.value = st;
@@ -310,13 +301,13 @@
       const f = r.fields || {};
       const cats = f.Categories || [];
 
-      // Must match chosen category
+      // Must match chosen primaryCat
       if (filterState.primaryCat) {
         if (!cats.includes(filterState.primaryCat)) {
           return false;
         }
       }
-      // Must match chosen strTyp
+      // Must match chosen subType
       if (filterState.subType) {
         if ((f.strTyp || "").trim() !== filterState.subType) {
           return false;
@@ -331,59 +322,245 @@
   // ===============================
   function recordToMarker(rec, cat) {
     const f = rec.fields || {};
-    let latNum = parseFloat(f.Lat);
-    let lngNum = parseFloat(f.Lng);
-    if (isNaN(latNum) || isNaN(lngNum)) {
-      latNum = 40.095;
-      lngNum = -74.222;
-    }
+    const latNum = parseFloat(f.Lat) || 40.095;
+    const lngNum = parseFloat(f.Lng) || -74.222;
 
+    // Prepare name & infoWindow HTML
+    let name = "";
+    let html = "";
 
-    else if (cat === "restaurants") {
-      const name = f.Name || "Some Restaurant";
+    // We'll also store new fields for knownLocations + marker properties
+
+    if (cat === "minyanim") {
+      name = f.Name || "Some Minyan";
       html = `
         <div class="box">
-          <h6>${name}</h6>
-          <small>${f.Dairy_Meat || ""}</small>
+          <small>Denomination: ${f.Denomination || ""}</small><br/>
+          <small>Prayer Type: ${f.Prayer_Type || ""}</small><br/>
           <h5>${f.Address || ""}</h5>
-          <h5><strong>${f.Phone_Number || ""}</strong></h5>
         </div>
       `;
+      return {
+        head: name,
+        html,
+        category: "minyan",
+        lat: latNum,
+        lng: lngNum,
+      };
+    }
+    else if (cat === "restaurants") {
+      // Required fields from your request:
+      // Address1, Phone_Number, Weekday, Weekend, Dairy_Meat, Website, Price_Point_Option_2
+      name = f.Name || "Some Restaurant";
+      const address1 = f.Address1 || "";
+      const phoneNumber = f.Phone_Number || "";
+      const weekday = f.Weekday || "";
+      const weekend = f.Weekend || "";
+      const dairyMeat = f.Dairy_Meat || "";
+      const website = f.Website || "";
+      const pricePoint = f.Price_Point_Option_2 || "";
+
+      html = `
+        <div class="box">
+          <h5>${dairyMeat}</h5>
+          <p><strong>Address:</strong> ${address1}</p>
+          <p><strong>Phone:</strong> ${phoneNumber}</p>
+          <p><strong>Weekday Hours:</strong> ${weekday}</p>
+          <p><strong>Weekend Hours:</strong> ${weekend}</p>
+          <p><strong>Price Range:</strong> ${pricePoint}</p>
+          <p><strong>Website:</strong> ${website}</p>
+        </div>
+      `;
+
+      return {
+        head: name,
+        html,
+        category: "restaurants",
+        lat: latNum,
+        lng: lngNum,
+
+        // For knownLocations:
+        address1,
+        phoneNumber,
+        weekday,
+        weekend,
+        dairyMeat,
+        website,
+        pricePoint
+      };
     }
     else if (cat === "businesses") {
-      const name = f.Name || "Some Business";
-      const c = (f.Categories || []).join(", ");
+      // Required fields from your request:
+      // strTyp, Categories, Website, Email, Phone, Fax
+      name = f.Name || "Some Business";
+      const strTyp = f.strTyp || "";const categories = (f.Categories || [])
+      .filter(c => c.trim() !== "L")
+      .join(", ");
+      const website = f.Website || "";
+      const email = f.Email || "";
+      const phone = f.Phone || "";
+      const fax = f.Fax || "";
+
       html = `
         <div class="box">
-          <h6>${name}</h6>
-          <h5>${c}</h5>
-          <small>${f.strTyp || ""}</small>
-          <h5><strong>${f.Phone || ""}</strong></h5>
+          <p><strong>Categories:</strong> ${categories}</p>
+          <p><strong>Type:</strong> ${strTyp}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Fax:</strong> ${fax}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Website:</strong> ${website}</p>
         </div>
       `;
+
+      return {
+        head: name,
+        html,
+        category: "businesses",
+        lat: latNum,
+        lng: lngNum,
+
+        // For knownLocations:
+        strTyp,
+        categories,
+        website,
+        email,
+        phone,
+        fax
+      };
     }
 
+    // Fallback
     return {
-      category: cat === "minyanim" ? "minyan" : cat,  // ensures 'minyan' for knownLocations
+      head: "(No Name)",
+      html: "<div class='box'>(No Data)</div>",
+      category: cat,
       lat: latNum,
       lng: lngNum,
-      html
     };
   }
 
   // ===============================
-  //  OUTPUT JSON (for debugging)
+  //  DISPLAY KNOWN LOCATIONS
   // ===============================
-  function updateOutput(items) {
-    const outEl = document.querySelector("#output pre");
-    if (outEl) {
-      outEl.textContent = JSON.stringify(items, null, 2);
+  function displayKnownLocations(records, cat) {
+    const container = document.getElementById("knownLocations");
+    if (!container) return;
+
+    container.innerHTML = "";
+    if (!records || !records.length) {
+      container.innerHTML = "<p>No records found.</p>";
+      return;
     }
+
+    records.forEach(r => {
+      const f = r.fields || {};
+      let block = "";
+
+      if (cat === "restaurants") {
+        block = `
+          <div class="box">
+            <h5><strong>${f.Name || ""}</strong></h5>
+            <p><strong>Address1:</strong> ${f.Address1 || ""}</p>
+            <p><strong>Phone:</strong> ${f.Phone_Number || ""}</p>
+            <p><strong>Weekday:</strong> ${f.Weekday || ""}</p>
+            <p><strong>Weekend:</strong> ${f.Weekend || ""}</p>
+            <p><strong>Type:</strong> ${f.Dairy_Meat || ""}</p>
+            <p><strong>Price Range:</strong> ${f.Price_Point_Option_2 || ""}</p>
+            <p><strong>Website:</strong> ${f.Website || ""}</p>
+          </div>
+        `;
+      }
+      else if (cat === "businesses") {
+        const c = (f.Categories || []).join(", ");
+        block = `
+          <div class="box">
+            <h5><strong>${f.Name || ""}</strong></h5>
+            <p><strong>Categories:</strong> ${c}</p>
+            <p><strong>Type:</strong> ${f.strTyp || ""}</p>
+            <p><strong>Phone:</strong> ${f.Phone || ""}</p>
+            <p><strong>Fax:</strong> ${f.Fax || ""}</p>
+            <p><strong>Email:</strong> ${f.Email || ""}</p>
+            <p><strong>Website:</strong> ${f.Website || ""}</p>
+          </div>
+        `;
+      }
+      else if (cat === "minyanim") {
+        block = `
+          <div class="box">
+            <h5><strong>${f.Name || "Some Minyan"}</strong></h5>
+            <p>${f.Address || ""}</p>
+          </div>
+        `;
+      }
+
+      container.innerHTML += block;
+    });
   }
 
+  // ===============================
+  //  OUTPUT PRE (DEBUG VIEW)
+  // ===============================
+  function updateOutput(records, cat) {
+    const outEl = document.querySelector("#output pre");
+    if (!outEl) return;
+
+    if (!records || !records.length) {
+      outEl.textContent = "[]";
+      return;
+    }
+
+    let outputHtml = "";
+    // Build a snippet for each record
+    records.forEach(r => {
+      const f = r.fields || {};
+      if (cat === "restaurants") {
+        outputHtml += `
+          <div class="box">
+            <p><strong>${f.Name || ""}</strong></p>
+            <p>Addr: ${f.Address1 || ""}</p>
+            <p>Phone: ${f.Phone_Number || ""}</p>
+            <p>Weekday: ${f.Weekday || ""}</p>
+            <p>Weekend: ${f.Weekend || ""}</p>
+            <p>Type: ${f.Dairy_Meat || ""}</p>
+            <p>Price: ${f.Price_Point_Option_2 || ""}</p>
+            <p>Website: ${f.Website || ""}</p>
+          </div>
+        `;
+      }
+      else if (cat === "businesses") {
+        const c = (f.Categories || []).join(", ");
+        outputHtml += `
+          <div class="box">
+            <p><strong>${f.Name || ""}</strong></p>
+            <p>Categories: ${c}</p>
+            <p>Type: ${f.strTyp || ""}</p>
+            <p>Phone: ${f.Phone || ""}</p>
+            <p>Fax: ${f.Fax || ""}</p>
+            <p>Email: ${f.Email || ""}</p>
+            <p>Website: ${f.Website || ""}</p>
+          </div>
+        `;
+      }
+      else if (cat === "minyanim") {
+        outputHtml += `
+          <div class="box">
+            <p><strong>${f.Name || "Some Minyan"}</strong></p>
+            <p>${f.Address || ""}</p>
+          </div>
+        `;
+      }
+    });
+
+    outEl.innerHTML = outputHtml;
+  }
+
+  // ===============================
+  //  WATCH PRICE POINT DIV (IF ANY)
+  // ===============================
   function watchPricePointDiv() {
     const spDiv = document.getElementById("selectedPricePointOptions");
     if (!spDiv) return;
+
     const observer = new MutationObserver(() => {
       runFilterAndDisplay();
     });
