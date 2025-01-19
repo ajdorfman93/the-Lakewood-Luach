@@ -393,22 +393,23 @@
       // Required fields from your request:
       // strTyp, Categories, Website, Email, Phone, Fax
       name = f.Name || "Some Business";
-      const strTyp = f.strTyp || "";const categories = (f.Categories || [])
+      const categories = (f.Categories || [])
       .filter(c => c.trim() !== "L")
       .join(", ");
       const website = f.Website || "";
       const email = f.Email || "";
       const phone = f.Phone || "";
       const fax = f.Fax || "";
+      const strTyp = f.strTyp || "";
 
       html = `
         <div class="box">
-          <p><strong>Categories:</strong> ${categories}</p>
-          <p><strong>Type:</strong> ${strTyp}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Fax:</strong> ${fax}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Website:</strong> ${website}</p>
+          <small>${categories}</small>
+          <h5>${strTyp}</h5>
+          <h5><span class="fa fa-phone"></span>${phone}</h5>
+          ${fax}
+          <h5>${email}</h5>
+          <h5><a href="${website}">${website}</a></h5>
         </div>
       `;
 
@@ -459,14 +460,14 @@
       if (cat === "restaurants") {
         block = `
           <div class="box">
-            <h5><strong>${f.Name || ""}</strong></h5>
-            <p> ${f.Address || ""}</p>
-            <p><strong>Phone:</strong> ${f.Phone_Number || ""}</p>
-            <p><strong>Weekday:</strong> ${f.Weekday || ""}</p>
-            <p><strong>Weekend:</strong> ${f.Weekend || ""}</p>
-            <p><strong>Type:</strong> ${f.Dairy_Meat || ""}</p>
-            <p><strong>Price Range:</strong> ${f.Price_Point_Option_2 || ""}</p>
-            <p><strong>Website:</strong> ${f.Website || ""}</p>
+            <h2>${f.Name || ""}</h2>
+            <h5> ${f.Address || ""}</h5>
+            <h5><strong>Phone:</strong> ${f.Phone_Number || ""}</h5>
+            <h5><strong>Weekday:</strong> ${f.Weekday || ""}</h5>
+            <h5><strong>Weekend:</strong> ${f.Weekend || ""}</h5>
+            <h5><strong>Type:</strong> ${f.Dairy_Meat || ""}</h5>
+            <h5><strong>Price Range:</strong> ${f.Price_Point_Option_2 || ""}</h5>
+            <h5><strong>Website:</strong> ${f.Website || ""}</h5>
           </div>
         `;
       }

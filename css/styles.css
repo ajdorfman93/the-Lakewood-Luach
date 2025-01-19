@@ -387,7 +387,6 @@ background-color: #f6f8f9;
 }
 .box small {
 	color: #8da2b5;
-	display: inline-block;
     font-size: 12px;
 }
 .box h5 {
@@ -395,6 +394,7 @@ background-color: #f6f8f9;
 	font-weight: 300;
 	padding: 0px;
     color: #000;
+    line-height: 1em;
     margin: 0px;
 }
 

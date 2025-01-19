@@ -43,11 +43,11 @@ function displayKnownLocations() {
           <h2><strong>${loc.name}</strong></h2>
           <small>${loc.details.dairyMeat}</small><br/>
           <small>${loc.details.pricePoint}</small>
-          <h5>${loc.details.address1}</h5>
-          <h5><span class="fa fa-phone"></span>${loc.details.phoneNumber}</h5>
+          <h5>${loc.details.address1}
+          ${loc.details.phoneNumber}
           <h5><strong>Weekday Hours:</strong> ${loc.details.weekday}</h5>
           <h5><strong>Weekend Hours:</strong> ${loc.details.weekend}</h5>
-          <h5><a>${loc.details.website}</a></h5>
+          <h5><a href="${loc.details.website}">${loc.details.website}</a></h5>
         </div>
       `;
     }
@@ -58,12 +58,12 @@ function displayKnownLocations() {
       li.innerHTML = `
         <div class="box">
           <h2><strong>${loc.name}</strong></h2>
+          <small>${loc.details.categories}</h5>
           <h5>${loc.details.strTyp}</h5>
-          <h5>${loc.details.categories}</h5>
           <h5><span class="fa fa-phone"></span>${loc.details.phone}</h5>
-          <h5><strong>Fax:</strong> ${loc.details.fax}</h5>
-          <h5><span class="fa fa-envelope"></span>${loc.details.email}</h5>
-          <h5><a>${loc.details.website}</a></h5>
+          ${loc.details.fax}
+          ${loc.details.email}
+          <h5><a href="${loc.details.website}">${loc.details.website}</a></h5>
         </div>
       `;
     }

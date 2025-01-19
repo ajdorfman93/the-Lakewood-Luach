@@ -282,9 +282,10 @@ function drawMarkers(finalItems) {
       pricePoint: item.pricePoint || "",
 
       // Businesses:
-      strTyp: item.strTyp || "",
       categories: item.categories || "",
+      strTyp: item.strTyp || "",
       email: item.email || "",
+      phone: item.phone || "",
       fax: item.fax || ""
     },
   }));
@@ -328,8 +329,8 @@ function drawMarkers(finalItems) {
       pricePoint: item.pricePoint || "",
       
       // BUSINESS FIELDS (if category=businesses)
-      strTyp: item.strTyp || "",
       categories: item.categories || "",
+      strTyp: item.strTyp || "",
       email: item.email || "",
       phone: item.phone || "",
       fax: item.fax || ""
