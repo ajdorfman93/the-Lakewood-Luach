@@ -563,7 +563,6 @@ async function handleCUTLogic(records, entryTime) {
     if (isNaN(cutOffTimeDate.getTime())) {
       continue;
     }
-
     // 2) Build "ZmanStart + Zman_Start_Adjustment"
     const baseIso = zmanObj[zmanType.trim()];
     if (!baseIso) {
