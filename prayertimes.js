@@ -311,59 +311,65 @@ records.sort((a, b) => {
 
         // If Time_for_formula is given, apply
         if (fields.Time_for_formula) {
-            const offsetDate = applyTimeFormula(earliestTime, fields.Time_for_formula);
+            const offsetDate = applyTimeFormula(earliestTime, fields.Zman_Start_Adjustment);
             fields.Time = convertToAmPm(offsetDate.toTimeString().slice(0,5));
         }
       }
     }
 
-    // ---------------------------------------------------------------------
-    // #RSE logic (Round earliest in Sunday->Friday range)
-    // ---------------------------------------------------------------------
-    async function handleRSELogic(records, entryTime) {
-      const rseRecords = records.filter(rec => hasCode(rec, '#RSE'));
-      if (rseRecords.length === 0) return;
+// ---------------------------------------------------------------------
+// #RSE logic (Round earliest in Sunday->Friday range)
+// ---------------------------------------------------------------------
+async function handleRSELogic(records, entryTime) {
+  const rseRecords = records.filter(rec => hasCode(rec, '#RSE'));
+  if (rseRecords.length === 0) return;
 
-      // Sunday->Friday range
-      const chosenDate = entryTime.date;
-      const dayOfWeek = chosenDate.getDay();
-      const lastSunday = new Date(chosenDate.getTime());
-      lastSunday.setDate(chosenDate.getDate() - dayOfWeek);
+  // Sunday->Friday range
+  const chosenDate = entryTime.date;
+  const dayOfWeek = chosenDate.getDay();
+  const lastSunday = new Date(chosenDate.getTime());
+  lastSunday.setDate(chosenDate.getDate() - dayOfWeek);
 
-      const friday = new Date(lastSunday.getTime());
-      friday.setDate(lastSunday.getDate() + 5);
+  const friday = new Date(lastSunday.getTime());
+  friday.setDate(lastSunday.getDate() + 5);
 
-      const rseUrl = buildZmanimRangeUrl(lastSunday, friday);
-      const rseResp = await fetch(rseUrl);
-      if (!rseResp.ok) {
-          console.error('Failed to fetch RSE Zmanim data');
-          return;
-      }
-      const rseData = await rseResp.json();
+  const rseUrl = buildZmanimRangeUrl(lastSunday, friday);
+  const rseResp = await fetch(rseUrl);
+  if (!rseResp.ok) {
+    console.error('Failed to fetch RSE Zmanim data');
+    return;
+  }
+  const rseData = await rseResp.json();
 
-      for (const rec of rseRecords) {
-        const fields = rec.fields;
-        const zmanType = fields.strZman_Start_Time || "sunrise";
-        const zmanObj = rseData.times[zmanType] || {};
+  for (const rec of rseRecords) {
+    const fields = rec.fields;
+    const zmanType = fields.strZman_Start_Time || "sunrise";
+    const zmanObj = rseData.times[zmanType] || {};
 
-        let earliestTime = null;
-        for (const isoTime of Object.values(zmanObj)) {
-          const currentTime = new Date(isoTime);
-          if (!earliestTime || currentTime < earliestTime) {
-              earliestTime = currentTime;
-          }
-        }
-
-        if (!earliestTime) {
-          console.warn(`No ${zmanType} found in Sunday->Friday for #RSE`);
-          continue;
-        }
-
-        // Round earliestTime to nearest 5 minutes
-        const roundedTime = roundToNearestFiveMinutes(earliestTime);
-        fields.Time = convertToAmPm(roundedTime.toTimeString().slice(0,5));
+    let earliestTime = null;
+    for (const isoTime of Object.values(zmanObj)) {
+      const currentTime = new Date(isoTime);
+      if (!earliestTime || currentTime < earliestTime) {
+        earliestTime = currentTime;
       }
     }
+
+    if (!earliestTime) {
+      console.warn(`No ${zmanType} found in Sunday->Friday for #RSE`);
+      continue;
+    }
+
+    // --- Added this block to apply the Zman_Start_Adjustment ---
+    if (fields.Zman_Start_Adjustment) {
+      earliestTime = applyTimeFormula(earliestTime, fields.Zman_Start_Adjustment);
+    }
+    // ----------------------------------------------------------
+
+    // Round earliestTime to nearest 5 minutes
+    const roundedTime = roundToNearestFiveMinutes(earliestTime);
+    fields.Time = convertToAmPm(roundedTime.toTimeString().slice(0,5));
+  }
+}
 
     // ---------------------------------------------------------------------
     // #UST => fields.Time = (Zman_Start_Time) + (Zman_Start_Adjustment)
