@@ -365,7 +365,7 @@
           <small>${dairyMeat}</small></br>
           <small>${pricePoint}</small>
           <h5>${address1}</h5>
-          <h5><span class="fa fa-phone"></span>${phoneNumber}</h5>
+          ${phoneNumber}
           <h5><strong>Weekday Hours:</strong> ${weekday}</h5>
           <h5><strong>Weekend Hours:</strong> ${weekend}</h5>
           <h5><a href="${website}">${website}</a></h5>
