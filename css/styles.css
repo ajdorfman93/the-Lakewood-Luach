@@ -737,7 +737,6 @@ template {
 
   #map {
     max-height: 32vw;
-    min-height: 420px;
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 8px;}
@@ -3616,6 +3615,13 @@ img.u-pull-left {
       #map-container span{
         font-size: 3.px;
       }
+
+      
+  #map {
+    min-height: 420px;
+}
+
+
       #search-input {
         width: 300px;
         height: 50px;
