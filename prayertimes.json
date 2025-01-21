@@ -6667,7 +6667,7 @@
         "Code": [
           "L",
           54, 49, 64, 65],
-        "Time": "4:20 PM",
+        "Time": "0:00",
         "Note": "Rounded  (to nearest 5 min) Earliest Sunset of week S-T -15 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -6703,7 +6703,7 @@
         "Code": [
           "L",
           54, 64, 65],
-        "Time": "4:20 PM",
+        "Time": "0:00",
         "Note": "Rounded  (to nearest 5 min)  Earliest Sunset of week S-T -15 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -6738,7 +6738,7 @@
         "Code": [
           "L",
           54, 64, 65],
-        "Time": "4:20 PM",
+        "Time": "0:00",
         "Note": "Rounded  (to nearest 5 min) Earliest Sunset of week S-T -15 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -6773,7 +6773,7 @@
         "Code": [
           "L",
           54, 64, 65],
-        "Time": "4:20 PM",
+        "Time": "0:00",
         "Note": "Rounded  (to nearest 5 min) Earliest Sunset of week S-T -15 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -6808,7 +6808,7 @@
         "Code": [
           "L",
           54, 64, 65],
-        "Time": "4:20 PM",
+        "Time": "0:00",
         "Note": "Rounded  (to nearest 5 min) Earliest Sunset of week S-T -15 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -6843,7 +6843,7 @@
         "Code": [
           "L",
           54, 64, 65],
-        "Time": "4:20 PM",
+        "Time": "0:00",
         "Note": "Rounded  (to nearest 5 min) Earliest Sunset of week S-T -15 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -6878,7 +6878,7 @@
         "Code": [
           "L",
           54, 64, 65],
-        "Time": "4:20 PM",
+        "Time": "0:00",
         "Note": "Rounded  (to nearest 5 min) Earliest Sunset of week S-T -15 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -6913,7 +6913,7 @@
         "Code": [
           "L",
           54, 64, 65],
-        "Time": "4:20 PM",
+        "Time": "0:00",
         "Note": "Rounded (to nearest 5 min) Earliest Sunset of week S-T -15 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -6948,7 +6948,7 @@
         "Code": [
           "L",
           54, 64],
-        "Time": "4:22 PM",
+        "Time": "0:00",
         "Note": "Earliest Sunset of week S-T -13 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -6982,7 +6982,7 @@
         "Code": [
           "L",
           54, 64],
-        "Time": "4:22 PM",
+        "Time": "0:00",
         "Note": "Earliest Sunset of week S-T -13 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "-00:13",
@@ -7016,7 +7016,7 @@
         "Code": [
           "L",
           54, 64],
-        "Time": "4:22 PM",
+        "Time": "0:00",
         "Note": "Earliest Sunset of week S-T -13 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -7050,7 +7050,7 @@
         "Code": [
           "L",
           54, 64],
-        "Time": "4:23 PM",
+        "Time": "0:00",
         "Note": "Earliest Sunset of week S-T -12 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -7084,7 +7084,7 @@
         "Code": [
           "L",
           54, 65],
-        "Time": "4:25 PM",
+        "Time": "0:00",
         "Note": "Rounded  (to nearest 5 min) Earliest Sunset of week S-T -10 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -7118,7 +7118,7 @@
         "Code": [
           "L",
           54, 65],
-        "Time": "4:25 PM",
+        "Time": "0:00",
         "Note": "Rounded  (to nearest 5 min) Earliest Sunset of week S-T -10 min",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -7548,7 +7548,7 @@
         "Code": [
           "L",
           2],
-        "Time": "4:35 PM",
+        "Time": "0:00",
         "Note": "At Sunset",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:00",
@@ -13238,7 +13238,7 @@
         "Code": [
           "L",
           54],
-        "Time": "4:00 PM",
+        "Time": "0:00",
         "Note": "Sunset-35 round to nearest 5 min",
         "Zman_Start_Time": 0,
         "Time_for_formula": "00:00",
@@ -13271,7 +13271,7 @@
         "Code": [
           "L",
           54],
-        "Time": "4:20 PM",
+        "Time": "0:00",
         "Note": "Sunset-20 round to nearest 5 min",
         "Zman_Start_Time": 0,
         "Time_for_formula": "00:00",
@@ -13304,7 +13304,7 @@
         "Code": [
           "L",
           54],
-        "Time": "4:21 PM",
+        "Time": "0:00",
         "Note": "Sunset-14 min",
         "Zman_Start_Time": 0,
         "Time_for_formula": "00:00",
@@ -13337,7 +13337,7 @@
         "Code": [
           "L",
           54],
-        "Time": "4:22 PM",
+        "Time": "0:00",
         "Note": "Sunset-13 min",
         "Zman_Start_Time": 0,
         "Time_for_formula": "00:00",
@@ -13370,7 +13370,7 @@
         "Code": [
           "L",
           54],
-        "Time": "4:35 PM",
+        "Time": "0:00",
         "Note": "At Sunset earliest rounded to nearest 5 min",
         "Zman_Start_Time": 0,
         "Time_for_formula": "00:00",
@@ -13403,7 +13403,7 @@
         "Code": [
           "L",
           54],
-        "Time": "4:35 PM",
+        "Time": "0:00",
         "Note": "At Sunset earliest rounded to nearest 5 min",
         "Zman_Start_Time": 0,
         "Time_for_formula": "00:00",
@@ -13435,15 +13435,15 @@
         "Tefilah": 1,
         "Code": [
           "L",
-          54],
-        "Time": "5:00 PM",
+          54, 71, 76],
+        "Time": "0:00",
         "Note": "On repeat Every 30 Min from sunset till 12:30am",
-        "Zman_Start_Time": 0,
-        "Time_for_formula": "00:00",
-        "Cut_off_Time": null,
+        "Zman_Start_Time": 15,
+        "Time_for_formula": "00:30",
+        "Cut_off_Time": "12:30 AM",
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-        "Zman_Start_Adjustment": "00:00",
+        "Zman_Start_Adjustment": "00:30",
         "Name": "Lutzk Shul",
         "Data": "520 New Egypt Rd, Lakewood, NJ",
         "Address": "520 New Egypt Rd, Lakewood, NJ",
@@ -13453,10 +13453,12 @@
         "Tefilah_Tefilahs": "Maariv",
         "Condition": [
           "L",
-          "Sunday to Thursday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)"
+          "Sunday to Thursday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)",
+          "Start is set by (Time) and then will repeat every (Time For Formula) Till (Cut Off Time);\nif #UCT is applied or (Zman Cutoff Time) + (Zman Cutoff Adjustment);\nif #UST is applied, starting time is set at (Zman Start Time) + (Zman Start Adjustment)",
+          "Use (Zman Start Time) + (Zman Start Adjustment);\nWill override other codes start (Time)"
         ],
-        "strCode": "['#ST']",
-        "strZman_Start_Time": "",
+        "strCode": "['#ST', '#RET', '#UST']",
+        "strZman_Start_Time": "sunset",
         "strZman_Cutoff_Time": "",
         "Cut_off_Time_AM_PM": ""
       }
