@@ -1321,7 +1321,7 @@
         "Tefilah": 3,
         "Code": [
           "L",
-          1, 51, 52],
+          1],
         "Time": "7:15 AM",
         "Note": "",
         "Zman_Start_Time": 0,
@@ -1339,11 +1339,9 @@
         "Tefilah_Tefilahs": "Shachris",
         "Condition": [
           "L",
-          "Sunday to Friday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)",
-          "Excluding Rosh Chodesh",
-          "Excluding Minor Fast day"
+          "Sunday to Friday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)"
         ],
-        "strCode": "['#SF', '#XRC', '#XFD']",
+        "strCode": "['#SF']",
         "strZman_Start_Time": "",
         "strZman_Cutoff_Time": "",
         "Cut_off_Time_AM_PM": ""
@@ -2511,7 +2509,7 @@
         "Tefilah": 3,
         "Code": [
           "L",
-          44, 50],
+          44, 50, 1],
         "Time": "7:05 AM",
         "Note": "",
         "Zman_Start_Time": 0,
@@ -2530,9 +2528,10 @@
         "Condition": [
           "L",
           "Rosh Chodesh (New Month)",
-          "All Minor Fast Days, Asara Bteves, Tanis Esther, Shiva Asar Btamuz"
+          "All Minor Fast Days, Asara Bteves, Tanis Esther, Shiva Asar Btamuz",
+          "Sunday to Friday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)"
         ],
-        "strCode": "['#RC', '#FD']",
+        "strCode": "['#RC', '#FD', '#SF']",
         "strZman_Start_Time": "",
         "strZman_Cutoff_Time": "",
         "Cut_off_Time_AM_PM": ""
