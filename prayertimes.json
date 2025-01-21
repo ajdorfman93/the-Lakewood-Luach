@@ -13435,8 +13435,8 @@
         "Tefilah": 1,
         "Code": [
           "L",
-          54, 71, 76, 65],
-        "Time": "0:00",
+          54, 71],
+        "Time": "5:30 PM",
         "Note": "On repeat Every 30 Min from sunset till 12:30am",
         "Zman_Start_Time": 15,
         "Time_for_formula": "00:30",
@@ -13454,11 +13454,9 @@
         "Condition": [
           "L",
           "Sunday to Thursday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)",
-          "Start is set by (Time) and then will repeat every (Time For Formula) Till (Cut Off Time);\nif #UCT is applied or (Zman Cutoff Time) + (Zman Cutoff Adjustment);\nif #UST is applied, starting time is set at (Zman Start Time) + (Zman Start Adjustment)",
-          "Use (Zman Start Time) + (Zman Start Adjustment);\nWill override other codes start (Time)",
-          "Rounded (To Nearest 5 Min) Earliest (Zman Start Time) Of Week + (Zman Start Adjustment)"
+          "Start is set by (Time) and then will repeat every (Time For Formula) Till (Cut Off Time);\nif #UCT is applied or (Zman Cutoff Time) + (Zman Cutoff Adjustment);\nif #UST is applied, starting time is set at (Zman Start Time) + (Zman Start Adjustment)"
         ],
-        "strCode": "['#ST', '#RET', '#UST', '#RSE']",
+        "strCode": "['#ST', '#RET']",
         "strZman_Start_Time": "sunset",
         "strZman_Cutoff_Time": "",
         "Cut_off_Time_AM_PM": ""
