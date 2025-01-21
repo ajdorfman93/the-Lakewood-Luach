@@ -1,16 +1,10 @@
 // markers.js
 
-let map;              // The single Google Map instance
-let infoWindow;       // A single reusable InfoWindow
-let autocomplete;     // For Autocomplete on #search-input
-let searchMarker;     // Red marker for the “searched location”
-let markerCluster;    // MarkerClusterer instance
-let markers = [];     // Current array of google.maps.Marker objects
+let map;          // The single Google Map instance
+let infoWindow;   // A single reusable InfoWindow
+let autocomplete; // For Autocomplete on #search-input
+let searchMarker; // Red marker for the “searched location”
 
-/**
- * Initializes the map, the search autocomplete, 
- * the marker clusterer, etc.
- */
 function initMap() {
   // 1) Create the map with a default center and some minimal UI.
   map = new google.maps.Map(document.getElementById("map"), {
@@ -22,7 +16,7 @@ function initMap() {
   // 2) Create an InfoWindow with a pixelOffset so it appears above the marker.
   infoWindow = new google.maps.InfoWindow({
     content: "",
-    pixelOffset: new google.maps.Size(0, -1),
+    pixelOffset: new google.maps.Size(0, -35),
   });
 
   // Create a helper to set header + body content together:
@@ -42,11 +36,12 @@ function initMap() {
 
     this.setContent(wrapper);
   };
+
   // 3) Prepare #search-input + Autocomplete
   const input = document.getElementById("search-input");
   autocomplete = new google.maps.places.Autocomplete(input);
 
-  // 4) Attempt to geocode whatever is currently in #search-input (if any)
+  // 4) Attempt to geocode whatever is currently in #search-input
   const geocoder = new google.maps.Geocoder();
   const searchValue = input.value.trim();
   if (searchValue) {
@@ -74,7 +69,7 @@ function initMap() {
       map.setCenter(place.geometry.location);
       map.setZoom(14);
 
-      // Remove old search marker (if any)
+      // Remove old marker (if any)
       if (searchMarker) {
         searchMarker.setMap(null);
       }
@@ -88,27 +83,11 @@ function initMap() {
       });
     }
   });
-
-  // 6) Create the MarkerClusterer.
-  markerCluster = new MarkerClusterer(map, [], {
-    // This imagePath is for the markerclustererplus library:
-    imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-  });
-
-  // Listen for .tefilah-button clicks -> refresh minyan markers
-  document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("tefilah-button")) {
-      // tiny delay so any dynamic content is in the <pre>
-      setTimeout(() => {
-        refreshMapMarkers();
-      }, 0);
-    }
-  });
 }
 
-// ===========================================
+// ==========================
 //  MINYANIM-RELATED FUNCTIONS
-// ===========================================
+// ==========================
 
 /**
  * Reads raw JSON from #prayerTimesOutput <pre>, converts it to valid GeoJSON Features,
@@ -157,7 +136,7 @@ function getPrayerTimesGeoJSON() {
     }
   });
 
-  // Convert grouped data into GeoJSON Features
+  // Convert grouped data to GeoJSON Features
   const features = Object.values(groupedByLatLng).map((grp) => ({
     type: "Feature",
     properties: {
@@ -180,71 +159,50 @@ function getPrayerTimesGeoJSON() {
 }
 
 /**
- * Clears existing markers, then adds new minyanim markers 
- * based on the given GeoJSON FeatureCollection.
+ * Adds a GeoJSON FeatureCollection to the map's data layer (blue markers),
+ * hooking up an InfoWindow with minyanim info.
  */
 function addGeoJSONToMap(geojson) {
-  // Clear old markers
-  markerCluster.clearMarkers();
-  markers.forEach((m) => m.setMap(null));
-  markers = [];
-
+  // Clear existing data layer features first
+  map.data.forEach((feature) => {
+    map.data.remove(feature);
+  });
   if (!geojson) return;
 
-  // Create markers from geojson
-  geojson.features.forEach((feat) => {
-    const [lng, lat] = feat.geometry.coordinates || [0, 0];
+  // Add new data
+  map.data.addGeoJson(geojson);
 
-    const name = feat.properties.Name;
-    const time = feat.properties.Time;
-    const address = feat.properties.Data;
-    const nusach = feat.properties.Nusach;
-    const tefilah = feat.properties.Tefilah;
-
-    const marker = new google.maps.Marker({
-      position: { lat, lng },
-      icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-      title: name,
-      // Store any custom data you need on the marker:
-      minyanData: {
-        name,
-        time,
-        address,
-        nusach,
-        tefilah,
-      },
-    });
-
-    // On marker click => open the InfoWindow with the same appearance as the original code
-    marker.addListener("click", () => {
-      const bodyHtml = `
-        <div class="box">
-          <small>Nusach ${nusach}</small><br/>
-          <small>${tefilah}</small><br/>
-          <h5>${time}</h5>
-          <h5>${address}</h5>
-        </div>
-      `;
-      infoWindow.setHeaderContent(name);
-      infoWindow.setContent(bodyHtml);
-      infoWindow.open({
-        anchor: marker,
-        map,
-        shouldFocus: false,
-      });
-    });
-
-    markers.push(marker);
+  // Style them (blue-dot icon)
+  map.data.setStyle({
+    icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
   });
 
-  // Add new markers to cluster
-  markerCluster.addMarkers(markers);
+  // When user clicks a minyan marker, show the InfoWindow
+  map.data.addListener("click", (event) => {
+    const name = event.feature.getProperty("Name");
+    const time = event.feature.getProperty("Time");
+    const address = event.feature.getProperty("Data");
+    const nusach = event.feature.getProperty("Nusach");
+    const tefilah = event.feature.getProperty("Tefilah");
+
+    const bodyHtml = `
+      <div class="box">
+        <small>Nusach ${nusach}</small><br/>
+        <small>${tefilah}</small><br/>
+        <h5>${time}</h5>
+        <h5>${address}</h5>
+      </div>
+    `;
+    infoWindow.setHeaderContent(name);
+    infoWindow.setContent(bodyHtml);
+    infoWindow.setPosition(event.latLng);
+    infoWindow.open(map);
+  });
 }
 
 /**
  * Re-parse #prayerTimesOutput <pre> for minyanim, convert to GeoJSON,
- * and refresh the map with new set of minyanim markers.
- * Also updates window.knownLocations with these minyanim’s lat/lng.
+ * and refresh the map. Also updates window.knownLocations with these minyanim’s lat/lng.
  */
 function refreshMapMarkers() {
   const geojson = getPrayerTimesGeoJSON();
@@ -263,7 +221,7 @@ function refreshMapMarkers() {
       const nusach = feat.properties.Nusach || "(No Nusach)";
       const tefilah = feat.properties.Tefilah || "(No Tefilah)";
 
-      // We'll store the minyan data as an object
+      // We'll store the minyan data as an object (category = "minyan")
       window.knownLocations.push({
         category: "minyan",
         lat,
@@ -274,41 +232,47 @@ function refreshMapMarkers() {
           time,
           address,
           nusach,
-          tefilah,
+          tefilah
         },
       });
     });
   }
 
-  // Update side list (if you have it)
-  if (typeof displayKnownLocations === "function") {
-    displayKnownLocations();
-  }
-
+  // Update the side list if you have it
+  displayKnownLocations();
   console.log("knownLocations updated from Minyanim data:", window.knownLocations);
 }
 
-// ===========================================
-//  RESTAURANT/BUSINESS MARKERS
-// ===========================================
+// Update map markers whenever the user clicks a .tefilah-button
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("tefilah-button")) {
+    setTimeout(() => {
+      refreshMapMarkers();
+    }, 0);
+  }
+});
 
 /**
- * Draws an array of items (finalItems) as *blue markers* on the map (clustered).
- * Each item must have lat, lng, head (marker title), html (popup content), category, etc.
+ * Draws an array of items (finalItems) as *blue markers* on the map's data layer.
+ * Each item must have: lat, lng, head (marker title), html (popup content), category, etc.
  */
 function drawMarkers(finalItems) {
-  // Clear old markers
-  markerCluster.clearMarkers();
-  markers.forEach((m) => m.setMap(null));
-  markers = [];
+  // Clear old data
+  map.data.forEach((feature) => map.data.remove(feature));
 
-  // Populate knownLocations (regardless of address1)
-  window.knownLocations = finalItems.map((item) => ({
-    category: item.category || "",
-    name: item.head || "(No name)",
-    lat: Number(item.lat) || 0,
-    lng: Number(item.lng) || 0,
-    details: {
+  // Convert finalItems to GeoJSON
+  const features = finalItems.map((item) => ({
+    type: "Feature",
+    geometry: {
+      type: "Point",
+      coordinates: [Number(item.lng) || 0, Number(item.lat) || 0],
+    },
+    properties: {
+      head: item.head || "",   // The marker title
+      html: item.html || "",   // The popup body content
+      category: item.category || "",
+      
+      // Restaurants:
       address1: item.address1 || "",
       phoneNumber: item.phoneNumber || "",
       weekday: item.weekday || "",
@@ -316,68 +280,64 @@ function drawMarkers(finalItems) {
       dairyMeat: item.dairyMeat || "",
       website: item.website || "",
       pricePoint: item.pricePoint || "",
+
+      // Businesses:
       categories: item.categories || "",
       strTyp: item.strTyp || "",
       email: item.email || "",
       phone: item.phone || "",
-      fax: item.fax || "",
-      sponsored: item.sponsored || ""
+      fax: item.fax || ""
     },
   }));
 
-  // Build new google.maps.Marker objects
-  finalItems.forEach((item) => {
-    // Exclude this item from marker creation if address1 is empty
-    if (!item.address1 || !item.address1.trim()) {
-      return; // Do not create a marker for this item
-    }
-    
-    const lat = Number(item.lat) || 0;
-    const lng = Number(item.lng) || 0;
-    const head = item.head || "(No title)";
-    const html = item.html || "";
+  const geojson = {
+    type: "FeatureCollection",
+    features,
+  };
 
-    const marker = new google.maps.Marker({
-      position: { lat, lng },
-      icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-      title: head,
-      metaData: {
-        category: item.category || "",
-        address1: item.address1 || "",
-        phoneNumber: item.phoneNumber || "",
-        weekday: item.weekday || "",
-        weekend: item.weekend || "",
-        dairyMeat: item.dairyMeat || "",
-        website: item.website || "",
-        pricePoint: item.pricePoint || "",
-        categories: item.categories || "",
-        strTyp: item.strTyp || "",
-        email: item.email || "",
-        phone: item.phone || "",
-        fax: item.fax || "",
-        sponsored: item.sponsored || ""
-      },
-      htmlContent: html, 
-    });
+  map.data.addGeoJson(geojson);
 
-    // On click => show InfoWindow
-    marker.addListener("click", () => {
-      infoWindow.setHeaderContent(head);
-      infoWindow.setContent(html);
-      infoWindow.open({
-        anchor: marker,
-        map,
-        shouldFocus: false,
-      });
-    });
-
-    markers.push(marker);
+  // Style them (blue-dot icon)
+  map.data.setStyle({
+    icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
   });
 
-  // Add all markers to cluster
-  markerCluster.addMarkers(markers);
+  // InfoWindow on click
+  map.data.addListener("click", (event) => {
+    const head = event.feature.getProperty("head");
+    const content = event.feature.getProperty("html");
+    infoWindow.setHeaderContent(head);
+    infoWindow.setContent(content);
+    infoWindow.setPosition(event.latLng);
+    infoWindow.open(map);
+  });
 
-  // If you have a side list, update it
+  // Populate knownLocations from finalItems
+  window.knownLocations = finalItems.map((item) => ({
+    category: item.category || "",
+    name: item.head || "(No name)",
+    lat: Number(item.lat) || 0,
+    lng: Number(item.lng) || 0,
+    details: {
+      // RESTAURANT FIELDS (if category=restaurants)
+      address1: item.address1 || "",
+      phoneNumber: item.phoneNumber || "",
+      weekday: item.weekday || "",
+      weekend: item.weekend || "",
+      dairyMeat: item.dairyMeat || "",
+      website: item.website || "",
+      pricePoint: item.pricePoint || "",
+      
+      // BUSINESS FIELDS (if category=businesses)
+      categories: item.categories || "",
+      strTyp: item.strTyp || "",
+      email: item.email || "",
+      phone: item.phone || "",
+      fax: item.fax || ""
+    }
+  }));
+
+  // Show them in side list
   if (typeof displayKnownLocations === "function") {
     displayKnownLocations();
   }

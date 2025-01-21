@@ -872,6 +872,7 @@ button.swiper-pagination-bullet {
 }
 .border-left {
   border-left: 1px solid #8da2b5 !important;
+  min-height: 0px;
 }
 
 

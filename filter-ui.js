@@ -13,7 +13,7 @@
 
     // For "businesses" (single select)
     primaryCat: "",        // chosen category
-    subType: ""            // chosen strTyp
+    subType: "",            // chosen strTyp
   };
 
   // ===============================
@@ -401,6 +401,9 @@
       const phone = f.Phone || "";
       const fax = f.Fax || "";
       const strTyp = f.strTyp || "";
+      const address1 = f.Address1 && f.Address1.trim() !== "" ? f.Address2 : null;
+      const sponsored = f.Sponsored || "";
+
 
       html = `
         <div class="box">
@@ -409,7 +412,9 @@
           <h5><span class="fa fa-phone"></span>${phone}</h5>
           ${fax}
           <h5>${email}</h5>
-          <h5><a href="${website}">${website}</a></h5>
+          <h5><a href="${website}">${website}</a></h5>          
+          <h5>${address1}</h5>
+          <h5>${sponsored}</h5>
         </div>
       `;
 
@@ -426,7 +431,9 @@
         website,
         email,
         phone,
-        fax
+        fax,
+        address1,
+        sponsored
       };
     }
 

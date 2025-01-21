@@ -281,9 +281,6 @@
           background: #000;
         }
   
-   
-
-
         /* Mobile menu container: hidden by default, slides down when checked */
         .nav-links {
           position: absolute;
@@ -340,6 +337,13 @@
 	padding: 60px 20px;
 }
 .container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
+.container-list {
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
@@ -720,7 +724,9 @@ template {
 [hidden] {
     display : none;
 }
-
+.cluster {
+    color: rgba(181, 226, 140, 0.6);
+    }
 
 #map-container {
     display: flex;
@@ -3702,9 +3708,9 @@ img.u-pull-left {
         }
 
     }
-    @media (min-width: 992px) {
+    @media (min-width: 1200px) {
         .container {
-            width: 1200px;
+            max-width: 1200px;
         }
 }
 .gm-style-iw .gm-style-iw-c {
