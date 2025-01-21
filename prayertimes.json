@@ -15,15 +15,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:25",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Leon Shul",
         "Data": "2 Sheraton Dr, Lakewood, NJ",
         "Address": "2 Sheraton Dr, Lakewood, NJ",
@@ -57,15 +49,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:25",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Chatau Park Ashknaz",
         "Data": "71 Cushman St, Lakewood, NJ",
         "Address": "71 Cushman St, Lakewood, NJ",
@@ -95,25 +79,11 @@
         "Time": "00:00",
         "Note": "Earliest Sunrise - 22 Min ",
         "Zman_Start_Time": 6,
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Time_for_formula": "00:00",
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
         "Zman_Start_Adjustment": "-00:22",
-=======
-=======
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-        "Time_for_formula": "-00:22",
-        "Cut_off_Time": null,
-        "Zman_Cutoff_Time": 0,
-        "Zman_Cutoff_Adjustment": "00:00",
-        "Zman_Start_Adjustment": "00:00",
-<<<<<<< HEAD
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Khal Ohr Yoel Meir",
         "Data": "60 Williams St, Lakewood, NJ",
         "Address": "60 Williams St, Lakewood, NJ",
@@ -211,20 +181,10 @@
         "Time": "6:25 AM",
         "Note": "Never when Sunrise is after 6:45",
         "Zman_Start_Time": 0,
-<<<<<<< HEAD
         "Time_for_formula": "00:00",
         "Cut_off_Time": "",
         "Zman_Cutoff_Time": 6,
         "Zman_Cutoff_Adjustment": "06:45",
-=======
-        "Time_for_formula": "06:45",
-        "Cut_off_Time": null,
-        "Zman_Cutoff_Time": 0,
-        "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Zman_Start_Adjustment": "00:00",
         "Name": "Arlington shul",
         "Data": "501 Arlington Ave, Lakewood, NJ",
@@ -242,14 +202,7 @@
         ],
         "strCode": "['#AW', '#XRC', '#XFD', '#ERS']",
         "strZman_Start_Time": "",
-<<<<<<< HEAD
         "strZman_Cutoff_Time": "sunrise",
-=======
-        "strZman_Cutoff_Time": "",
-<<<<<<< HEAD
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Cut_off_Time_AM_PM": ""
       }
     },
@@ -2079,20 +2032,10 @@
         "Time": "6:20 AM",
         "Note": "Never when Sunrise is after 6:45",
         "Zman_Start_Time": 0,
-<<<<<<< HEAD
         "Time_for_formula": "00:00",
         "Cut_off_Time": "",
         "Zman_Cutoff_Time": 6,
         "Zman_Cutoff_Adjustment": "06:45",
-=======
-        "Time_for_formula": "06:45",
-        "Cut_off_Time": null,
-        "Zman_Cutoff_Time": 0,
-        "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Zman_Start_Adjustment": "00:00",
         "Name": "Arlington shul",
         "Data": "501 Arlington Ave, Lakewood, NJ",
@@ -2110,14 +2053,7 @@
         ],
         "strCode": "['#RC', '#AW', '#FD', '#ERS']",
         "strZman_Start_Time": "",
-<<<<<<< HEAD
         "strZman_Cutoff_Time": "sunrise",
-=======
-        "strZman_Cutoff_Time": "",
-<<<<<<< HEAD
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Cut_off_Time_AM_PM": ""
       }
     },
@@ -6439,15 +6375,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "00:58",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Blue River Shul",
         "Data": "2 Blue River way, Lakewood, NJ",
         "Address": "2 Blue River way, Lakewood, NJ",
@@ -6704,7 +6632,7 @@
         "Tefilah": 2,
         "Code": [
           "L",
-          54, 65, 64],
+          54, 65],
         "Time": "4:15 PM",
         "Note": "Rounded (to nearest 5 min) Earliest Sunset of week S-T -20 min",
         "Zman_Start_Time": 15,
@@ -6712,15 +6640,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:20",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Prospect square",
         "Data": "317 Blanche St, Lakewood, NJ",
         "Address": "317 Blanche St, Lakewood, NJ",
@@ -6731,10 +6651,9 @@
         "Condition": [
           "L",
           "Sunday to Thursday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)",
-          "Rounded (To Nearest 5 Min) Earliest (Zman Start Time) Of Week + (Zman Start Adjustment)",
-          "Earliest (Zman Start Time) Of The Week + (Zman Start Adjustment)"
+          "Rounded (To Nearest 5 Min) Earliest (Zman Start Time) Of Week + (Zman Start Adjustment)"
         ],
-        "strCode": "['#ST', '#RSE', '#ERS']",
+        "strCode": "['#ST', '#RSE']",
         "strZman_Start_Time": "sunset",
         "strZman_Cutoff_Time": "",
         "Cut_off_Time_AM_PM": ""
@@ -6755,15 +6674,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Spruce st Shul",
         "Data": "177 Spruce St, Lakewood, NJ",
         "Address": "177 Spruce St, Lakewood, NJ",
@@ -6799,15 +6710,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Khal Ohr Yoel Meir",
         "Data": "60 Williams St, Lakewood, NJ",
         "Address": "60 Williams St, Lakewood, NJ",
@@ -6842,15 +6745,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Rabbi Gissingers Shul",
         "Data": "175 Sunset Rd, Lakewood, NJ",
         "Address": "175 Sunset Rd, Lakewood, NJ",
@@ -6885,15 +6780,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Arlington shul",
         "Data": "501 Arlington Ave, Lakewood, NJ",
         "Address": "501 Arlington Ave, Lakewood, NJ",
@@ -6928,15 +6815,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Hampshire Heights",
         "Data": "7 Hunter Dr, Lakewood, NJ",
         "Address": "7 Hunter Dr, Lakewood, NJ",
@@ -6971,15 +6850,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Forest Park Shul",
         "Data": "2 Forest Park Cir, Lakewood, NJ",
         "Address": "2 Forest Park Cir, Lakewood, NJ",
@@ -7014,15 +6885,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "The woods",
         "Data": "1 Stonewall Ct, Lakewood, NJ",
         "Address": "1 Stonewall Ct, Lakewood, NJ",
@@ -7057,15 +6920,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Somerset Walk",
         "Data": "58 Canary Dr, Lakewood, NJ",
         "Address": "58 Canary Dr, Lakewood, NJ",
@@ -7100,15 +6955,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:13",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Kapishnitz",
         "Data": "55 Finchley Blvd, Lakewood, NJ",
         "Address": "55 Finchley Blvd, Lakewood, NJ",
@@ -7142,15 +6989,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:13",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Albert Shul",
         "Data": "699 Albert Ave, Lakewood, NJ",
         "Address": "699 Albert Ave, Lakewood, NJ",
@@ -7184,15 +7023,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:13",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Rachmistrivka South",
         "Data": "736 Vine Ave, Lakewood, NJ",
         "Address": "736 Vine Ave, Lakewood, NJ",
@@ -7226,15 +7057,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:12",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Chatau Park Sfard",
         "Data": "36 Pine Blvd, Lakewood, NJ",
         "Address": "36 Pine Blvd, Lakewood, NJ",
@@ -7268,15 +7091,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:10",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Chestnut",
         "Data": "105 chestnut St, Lakewood, NJ",
         "Address": "105 chestnut St, Lakewood, NJ",
@@ -7310,15 +7125,7 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:10",
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
-=======
-        "Zman_Start_Adjustment": "00:00",
->>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Sterling Forest",
         "Data": "144 Hadassah Ln, Lakewood, NJ",
         "Address": "144 Hadassah Ln, Lakewood, NJ",
