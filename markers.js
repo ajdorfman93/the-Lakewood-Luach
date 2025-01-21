@@ -353,7 +353,8 @@ function drawMarkers(finalItems) {
         email: item.email || "",
         phone: item.phone || "",
         fax: item.fax || "",
-        sponsored: item.sponsored || ""
+        sponsored: item.sponsored || "",
+        logo: item.logo || ""
       },
       htmlContent: html,
     });

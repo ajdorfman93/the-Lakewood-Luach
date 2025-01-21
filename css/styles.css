@@ -342,6 +342,23 @@
     margin-right: auto;
     margin-left: auto;
     display: block;
+    overflow-x: hidden;
+}
+.containerBusinesses {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    overflow: hidden;
+}
+#mainContainer {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    margin-bottom: 45px;
 }
 .container-list {
     padding-right: 15px;
@@ -374,6 +391,14 @@ background-color: #f6f8f9;
 #locations .container {
     max-height: 500px;
     overflow-y: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
+#locations #mainContainer {
+    max-height: 500px;
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
@@ -3712,6 +3737,10 @@ img.u-pull-left {
         .container {
             max-width: 1200px;
         }
+
+#mainContainer {
+    max-width: 1200px;
+}
 }
 .gm-style-iw .gm-style-iw-c {
     height: fit-content;

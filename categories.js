@@ -2,54 +2,46 @@
 document.addEventListener("DOMContentLoaded", () => {
     const containerTemplates = {
       default: `
-        <div class="container">
-          <h2 style="margin-left: 0px;">Welcome</h2>
+          <h2>Welcome</h2>
           <p>Please select a category above to see the corresponding locations.</p>
-        </div>
       `,
 
       minyanim: `
-        <div id="minyanim-container">
-          <h2 style="margin-left: 18px;">Minyanim Locations</h2>
+          <h2>Minyanim Locations</h2>
           <div class="container">
             <div class="md-12">
               <div id="locations-list">
               </div>
             </div>
           </div>
-        </div>
       `,
 
       restaurants: `
-        <div id="restaurants-container">
-          <h2 style="margin-left: 18px;">Restaurants Locations</h2>
+          <h2>Restaurants Locations</h2>
           <div class="container">
             <div class="md-12">
               <div id="locations-list">
               </div>
             </div>
           </div>
-        </div>
       `,
 
       businesses: `
-        <div id="businesses-container">
-          <h2 style="margin-left: 18px;">Businesses Locations</h2>
-          <div class="container">
+          <h2>Businesses Locations</h2>
+          <div class="containerBusinesses">
             <div class="md-12">
               <div class="row" style="margin-bottom: 2rem;">
-                <div class="column lg-8 md-12 border-left">
+          <div class="container column lg-8 md-12 border-left">
                   <div id="location-businesses-sponsored">
                   </div>
                 </div>
-                <div class="column lg-4 md-12 border-left">
+          <div class="container column lg-4 md-12 border-left">
                   <div id="locations-list">
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
       `,
     };
 

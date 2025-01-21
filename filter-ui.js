@@ -403,6 +403,7 @@
       const strTyp = f.strTyp || "";
       const address1 = f.Address1 && f.Address1.trim() !== "" ? f.Address2 : null;
       const sponsored = f.Sponsored || "";
+      const logo = f.Logo || "";
 
 
       html = `
@@ -415,6 +416,7 @@
           <h5><a href="${website}">${website}</a></h5>          
           <h5>${address1}</h5>
           <h5 style="display: none">${sponsored}</h5>
+          <img src="${logo}" style="width:80px; height:auto; position: absolute; top: 32px; right: 0;">
         </div>
       `;
 
@@ -433,7 +435,8 @@
         phone,
         fax,
         address1,
-        sponsored
+        sponsored,
+        logo
       };
     }
 
