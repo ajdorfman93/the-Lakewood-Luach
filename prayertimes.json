@@ -2511,7 +2511,7 @@
         "Tefilah": 3,
         "Code": [
           "L",
-          1, 44, 50],
+          44, 50],
         "Time": "7:05 AM",
         "Note": "",
         "Zman_Start_Time": 0,
@@ -2529,11 +2529,10 @@
         "Tefilah_Tefilahs": "Shachris",
         "Condition": [
           "L",
-          "Sunday to Friday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)",
           "Rosh Chodesh (New Month)",
           "All Minor Fast Days, Asara Bteves, Tanis Esther, Shiva Asar Btamuz"
         ],
-        "strCode": "['#SF', '#RC', '#FD']",
+        "strCode": "['#RC', '#FD']",
         "strZman_Start_Time": "",
         "strZman_Cutoff_Time": "",
         "Cut_off_Time_AM_PM": ""
@@ -25332,39 +25331,6 @@
         "Lat": 40.1076912,
         "Nusach": "Unknown",
         "Lng": -74.1935971,
-        "Tefilah_Tefilahs": "Maariv",
-        "Condition": [
-          "L",
-          "Sunday to Thursday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)"
-        ],
-        "strCode": "['#ST']",
-        "strZman_Start_Time": "",
-        "strZman_Cutoff_Time": "",
-        "Cut_off_Time_AM_PM": ""
-      }
-    },
-    {
-      "id": 774,
-      "fields": {
-        "Shul_Name": 79,
-        "Tefilah": 1,
-        "Code": [
-          "L",
-          54],
-        "Time": "8:30 PM",
-        "Note": "",
-        "Zman_Start_Time": 0,
-        "Time_for_formula": "00:00",
-        "Cut_off_Time": null,
-        "Zman_Cutoff_Time": 0,
-        "Zman_Cutoff_Adjustment": "00:00",
-        "Zman_Start_Adjustment": "00:00",
-        "Name": "Lutzk Shul",
-        "Data": "520 New Egypt Rd, Lakewood, NJ",
-        "Address": "520 New Egypt Rd, Lakewood, NJ",
-        "Lat": 40.0838655,
-        "Nusach": "Unknown",
-        "Lng": -74.2545614,
         "Tefilah_Tefilahs": "Maariv",
         "Condition": [
           "L",
