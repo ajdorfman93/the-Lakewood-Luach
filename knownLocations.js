@@ -113,7 +113,7 @@ function displayKnownLocations() {
       // Using the same layout logic for a business
       li.innerHTML = `
         <div class="box">
-          <h1><strong>${loc.name}</strong></h1>
+          <h2 style="font-size: 28pt"><strong>${loc.name}</strong></h2>
           <small>${loc.details.categories}</small>
           <h5>${loc.details.strTyp}</h5>
           <h5><span class="fa fa-phone"></span> ${loc.details.phone}</h5>
