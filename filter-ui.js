@@ -416,7 +416,7 @@
           <h5><a href="${website}">${website}</a></h5>          
           <h5>${address1}</h5>
           <h5 style="display: none">${sponsored}</h5>
-          <img src="${logo}" style="width:80px; height:auto; position: absolute; top: 32px; right: 0;">
+          <img src="${logo}" style="width:80px; height:auto; position: absolute; top: 33%; right: 10px;">
         </div>
       `;
 

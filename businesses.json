@@ -56365,17 +56365,17 @@
       "fields": {
         "Name": "JF Public Adjusters",
         "Phone": "917.272.8793",
-        "Address1": "",
+        "Address1": "1758 61st St",
         "Type": 103,
         "Email2": "joel@jfpublicadjusters.com",
         "Website": "https://jfpublicadjusters.com/",
         "Fax2": "https://wa.link/u5y2wu",
         "Address_Line_2": "",
         "Sponsored2": true,
-        "Lat": 40.0807404,
-        "Lng": -74.2061931,
-        "City": 26,
-        "Zip_Code": 43,
+        "Lat": 40.621785,
+        "Lng": -73.9888453,
+        "City": 28,
+        "Zip_Code": 45,
         "Categories": [
           "L",
           "Professional Services"
@@ -56389,9 +56389,9 @@
           "Api_key",
           1],
         "Key": "AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU",
-        "Address2": " Lakewood NJ 08701",
-        "State": "NJ",
-        "strCity": "Lakewood",
+        "Address2": "1758 61st St Brooklyn NY 11204",
+        "State": "NY",
+        "strCity": "Brooklyn",
         "strTyp": "Insurance Consultants / Billing",
         "Email": "\u003Ch5\u003E\u003Cspan class=\"fa fa-envelope\"\u003E\u003C/span\u003Ejoel@jfpublicadjusters.com\u003C/h5\u003E"
       }

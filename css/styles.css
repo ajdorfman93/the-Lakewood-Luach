@@ -416,8 +416,11 @@ background-color: #f6f8f9;
 	background-color: #fff;
 	box-shadow: 0 0 1px 0 rgba(0,12,32,0.04);
 	border-radius: 20px;
-	padding: 5px;
+	padding: 5px 80px 5px 5px;
 	margin: 5px;
+}
+.box {
+    padding-right: 80px;
 }
 .box h6 {
 	font-size: 18px;
