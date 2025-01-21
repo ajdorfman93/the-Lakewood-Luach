@@ -736,7 +736,7 @@ template {
   }
 
   #map {
-    height: 32vw;
+    max-height: 32vw;
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 8px;}
@@ -3615,6 +3615,13 @@ img.u-pull-left {
       #map-container span{
         font-size: 3.px;
       }
+
+      
+  #map {
+    min-height: 420px;
+}
+
+
       #search-input {
         width: 300px;
         height: 50px;
@@ -3699,4 +3706,12 @@ img.u-pull-left {
         .container {
             width: 1200px;
         }
+}
+.gm-style-iw .gm-style-iw-c {
+    height: fit-content;
+}
+.gm-style-iw-d {
+    overflow: hidden !important;
+    margin-bottom: 15px;
+    margin-right: 15px;
 }
