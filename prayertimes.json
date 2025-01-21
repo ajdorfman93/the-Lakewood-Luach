@@ -16,7 +16,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:25",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -54,7 +58,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:25",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -88,17 +96,23 @@
         "Note": "Earliest Sunrise - 22 Min ",
         "Zman_Start_Time": 6,
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Time_for_formula": "00:00",
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
         "Zman_Start_Adjustment": "-00:22",
 =======
+=======
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Time_for_formula": "-00:22",
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
         "Zman_Start_Adjustment": "00:00",
+<<<<<<< HEAD
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
+=======
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Name": "Khal Ohr Yoel Meir",
         "Data": "60 Williams St, Lakewood, NJ",
@@ -207,6 +221,9 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
+<<<<<<< HEAD
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
+=======
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Zman_Start_Adjustment": "00:00",
         "Name": "Arlington shul",
@@ -229,6 +246,9 @@
         "strZman_Cutoff_Time": "sunrise",
 =======
         "strZman_Cutoff_Time": "",
+<<<<<<< HEAD
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
+=======
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Cut_off_Time_AM_PM": ""
       }
@@ -2069,6 +2089,9 @@
         "Cut_off_Time": null,
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
+<<<<<<< HEAD
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
+=======
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Zman_Start_Adjustment": "00:00",
         "Name": "Arlington shul",
@@ -2091,6 +2114,9 @@
         "strZman_Cutoff_Time": "sunrise",
 =======
         "strZman_Cutoff_Time": "",
+<<<<<<< HEAD
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
+=======
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
         "Cut_off_Time_AM_PM": ""
       }
@@ -6414,7 +6440,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "00:58",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -6683,7 +6713,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:20",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -6722,7 +6756,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -6762,7 +6800,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -6801,7 +6843,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -6840,7 +6886,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -6879,7 +6929,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -6918,7 +6972,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -6957,7 +7015,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -6996,7 +7058,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:15",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -7035,7 +7101,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:13",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -7073,7 +7143,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:13",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -7111,7 +7185,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:13",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -7149,7 +7227,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:12",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -7187,7 +7269,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:10",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
@@ -7225,7 +7311,11 @@
         "Zman_Cutoff_Time": 0,
         "Zman_Cutoff_Adjustment": "00:00",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "Zman_Start_Adjustment": "-00:10",
+=======
+        "Zman_Start_Adjustment": "00:00",
+>>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
 =======
         "Zman_Start_Adjustment": "00:00",
 >>>>>>> 526b8c0dc9bdf0e3c8d054d6063ac044e7559c89
