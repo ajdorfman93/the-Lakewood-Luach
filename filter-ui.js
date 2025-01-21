@@ -414,7 +414,7 @@
           <h5>${email}</h5>
           <h5><a href="${website}">${website}</a></h5>          
           <h5>${address1}</h5>
-          <h5>${sponsored}</h5>
+          <h5 style="display: none">${sponsored}</h5>
         </div>
       `;
 

@@ -288,14 +288,6 @@ function refreshMapMarkers() {
   console.log("knownLocations updated from Minyanim data:", window.knownLocations);
 }
 
-// ===========================================
-//  RESTAURANT/BUSINESS MARKERS
-// ===========================================
-
-/**
- * Draws an array of items (finalItems) as *blue markers* on the map (clustered).
- * Each item must have lat, lng, head (marker title), html (popup content), category, etc.
- */
 function drawMarkers(finalItems) {
   // Clear old markers
   markerCluster.clearMarkers();
@@ -331,15 +323,21 @@ function drawMarkers(finalItems) {
     if (!item.address1 || !item.address1.trim()) {
       return; // Do not create a marker for this item
     }
-    
+
     const lat = Number(item.lat) || 0;
     const lng = Number(item.lng) || 0;
     const head = item.head || "(No title)";
     const html = item.html || "";
 
+    // Choose marker color based on `sponsored` property
+    const iconUrl =
+      item.sponsored === "True"
+        ? "https://maps.google.com/mapfiles/ms/icons/green-dot.png"
+        : "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+
     const marker = new google.maps.Marker({
       position: { lat, lng },
-      icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+      icon: iconUrl,
       title: head,
       metaData: {
         category: item.category || "",
@@ -357,8 +355,11 @@ function drawMarkers(finalItems) {
         fax: item.fax || "",
         sponsored: item.sponsored || ""
       },
-      htmlContent: html, 
+      htmlContent: html,
     });
+
+
+
 
     // On click => show InfoWindow
     marker.addListener("click", () => {

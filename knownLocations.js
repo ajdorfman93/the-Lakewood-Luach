@@ -65,7 +65,7 @@ function displayKnownLocations() {
             <p>${loc.details.email}</p>
             <h5><a href="${loc.details.website}" target="_blank" rel="noopener">${loc.details.website}</a></h5>
             <h5>${loc.details.address1}</h5>
-            <h5>${loc.details.sponsored}</h5>
+            <h5 style="display: none">${loc.details.sponsored}</h5>
           </div>
         `;
       }
@@ -121,7 +121,7 @@ function displayKnownLocations() {
           <p>${loc.details.email}</p>
           <h5><a href="${loc.details.website}" target="_blank" rel="noopener">${loc.details.website}</a></h5>
           <h5>${loc.details.address1}</h5>
-          <h5>${loc.details.sponsored}</h5>
+          <h5 style="display: none">${loc.details.sponsored}</h5>
         </div>
       `;
       ulSponsored.appendChild(li);
