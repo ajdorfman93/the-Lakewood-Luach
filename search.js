@@ -42,7 +42,7 @@ function onPlaceChanged() {
   searchMarker = new google.maps.Marker({
     position: place.geometry.location,
     map: searchMap,
-    icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+    icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
     title: "Searched Location",
   });
 }

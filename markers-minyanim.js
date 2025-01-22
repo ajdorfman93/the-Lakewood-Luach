@@ -31,7 +31,7 @@ const initMinyanimMap = () => {
       searchMarker = new google.maps.Marker({
         position: place.geometry.location,
         map: mapMinyanim,
-        icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+        icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
         title: "Searched Location",
       });
     }

@@ -58,7 +58,7 @@ function initMap() {
         searchMarker = new google.maps.Marker({
           position: results[0].geometry.location,
           map,
-          icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+          icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
           title: "Searched Location",
         });
       } else {
@@ -83,7 +83,7 @@ function initMap() {
       searchMarker = new google.maps.Marker({
         position: place.geometry.location,
         map,
-        icon: "http://maps.google.com/mapfiles/ms/icons/red.png",
+        icon: "https://maps.google.com/mapfiles/ms/icons/red.png",
         title: "Searched Location",
       });
     }
