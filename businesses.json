@@ -34985,7 +34985,7 @@
         "Website": "",
         "Fax2": "",
         "Address_Line_2": "",
-        "Sponsored2": true,
+        "Sponsored2": false,
         "Lat": 40.0807404,
         "Lng": -74.2061931,
         "City": 26,
@@ -34995,7 +34995,7 @@
           "-"
         ],
         "Logo": "",
-        "Sponsored": "True",
+        "Sponsored": "False",
         "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E732-338-9697\u003C/h5\u003E",
         "Fax": "",
         "Api_key": [
@@ -35021,7 +35021,7 @@
         "Website": null,
         "Fax2": "",
         "Address_Line_2": "",
-        "Sponsored2": true,
+        "Sponsored2": false,
         "Lat": 40.0807404,
         "Lng": -74.2061931,
         "City": 26,
@@ -35031,7 +35031,7 @@
           "-"
         ],
         "Logo": "",
-        "Sponsored": "True",
+        "Sponsored": "False",
         "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E818-333-6452\u003C/h5\u003E",
         "Fax": "",
         "Api_key": [
@@ -35057,7 +35057,7 @@
         "Website": null,
         "Fax2": "",
         "Address_Line_2": "",
-        "Sponsored2": true,
+        "Sponsored2": false,
         "Lat": 40.0807404,
         "Lng": -74.2061931,
         "City": 26,
@@ -35067,7 +35067,7 @@
           "-"
         ],
         "Logo": "",
-        "Sponsored": "True",
+        "Sponsored": "False",
         "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E917-743-4416\u003C/h5\u003E",
         "Fax": "",
         "Api_key": [
@@ -35093,7 +35093,7 @@
         "Website": "",
         "Fax2": "",
         "Address_Line_2": "",
-        "Sponsored2": true,
+        "Sponsored2": false,
         "Lat": 40.0807404,
         "Lng": -74.2061931,
         "City": 26,
@@ -35103,7 +35103,7 @@
           "-"
         ],
         "Logo": "",
-        "Sponsored": "True",
+        "Sponsored": "False",
         "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E732-366-1172\u003C/h5\u003E",
         "Fax": "",
         "Api_key": [
@@ -35129,7 +35129,7 @@
         "Website": "wolfinspectionsllc.com",
         "Fax2": "",
         "Address_Line_2": "",
-        "Sponsored2": true,
+        "Sponsored2": false,
         "Lat": 40.0807404,
         "Lng": -74.2061931,
         "City": 26,
@@ -35139,7 +35139,7 @@
           "-"
         ],
         "Logo": "",
-        "Sponsored": "True",
+        "Sponsored": "False",
         "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E732-523-1688\u003C/h5\u003E",
         "Fax": "",
         "Api_key": [
