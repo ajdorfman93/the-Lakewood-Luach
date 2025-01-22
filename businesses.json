@@ -43976,15 +43976,15 @@
     {
       "id": 1220,
       "fields": {
-        "Name": "EZ\n  MIZ Movers",
+        "Name": "EZ MIZ Movers",
         "Phone": "732-543-4061",
         "Address1": "",
         "Type": 125,
         "Email2": "",
-        "Website": "",
+        "Website": "https://wa.link/j746uc",
         "Fax2": "",
         "Address_Line_2": "",
-        "Sponsored2": false,
+        "Sponsored2": true,
         "Lat": 40.0807404,
         "Lng": -74.2061931,
         "City": 26,
@@ -43994,7 +43994,7 @@
           "-"
         ],
         "Logo": "",
-        "Sponsored": "False",
+        "Sponsored": "True",
         "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E732-543-4061\u003C/h5\u003E",
         "Fax": "",
         "Api_key": [
@@ -49847,33 +49847,34 @@
     {
       "id": 1382,
       "fields": {
-        "Name": "Gluck\n  Plumbing LLC",
-        "Phone": "523-1836 | 687-4066",
-        "Address1": "",
+        "Name": "Gluck Plumbing LLC",
+        "Phone": "732.523.1836",
+        "Address1": "1499 Towers St",
         "Type": 144,
         "Email2": "serviceoffice@gluckplumbing.com",
-        "Website": null,
+        "Website": "https://www.bit.ly/Gluckplumbing",
         "Fax2": "",
         "Address_Line_2": "",
-        "Sponsored2": false,
-        "Lat": 40.0807404,
-        "Lng": -74.2061931,
+        "Sponsored2": true,
+        "Lat": 40.0648901,
+        "Lng": -74.1932151,
         "City": 26,
         "Zip_Code": 43,
         "Categories": [
           "L",
-          "-"
+          "-",
+          "Home & Maintenance"
         ],
         "Logo": "",
-        "Sponsored": "False",
-        "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E523-1836 | 687-4066\u003C/h5\u003E",
+        "Sponsored": "True",
+        "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E732.523.1836\u003C/h5\u003E",
         "Fax": "",
         "Api_key": [
           "R",
           "Api_key",
           1],
         "Key": "AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU",
-        "Address2": " Lakewood NJ 08701",
+        "Address2": "1499 Towers St Lakewood NJ 08701",
         "State": "NJ",
         "strCity": "Lakewood",
         "strTyp": "Plumbers / Plumbing Supply",
@@ -56394,6 +56395,147 @@
         "strCity": "Lakewood",
         "strTyp": "Insurance Consultants / Billing",
         "Email": "\u003Ch5\u003E\u003Cspan class=\"fa fa-envelope\"\u003E\u003C/span\u003Ejoel@jfpublicadjusters.com\u003C/h5\u003E"
+      }
+    },
+    {
+      "id": 1564,
+      "fields": {
+        "Name": "Caulk It",
+        "Phone": "732.481.7992",
+        "Address1": "",
+        "Type": 42,
+        "Email2": "info@caulkit.net",
+        "Website": "https://wa.link/6x4svc",
+        "Fax2": "",
+        "Address_Line_2": "",
+        "Sponsored2": true,
+        "Lat": 40.0807404,
+        "Lng": -74.2061931,
+        "City": 26,
+        "Zip_Code": 43,
+        "Categories": [
+          "L",
+          "Home & Maintenance"
+        ],
+        "Logo": "https://iili.io/2ijPwaR.jpg",
+        "Sponsored": "True",
+        "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E732.481.7992\u003C/h5\u003E",
+        "Fax": "",
+        "Api_key": [
+          "R",
+          "Api_key",
+          1],
+        "Key": "AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU",
+        "Address2": " Lakewood NJ 08701",
+        "State": "NJ",
+        "strCity": "Lakewood",
+        "strTyp": "Construction / Repairs",
+        "Email": "\u003Ch5\u003E\u003Cspan class=\"fa fa-envelope\"\u003E\u003C/span\u003Einfo@caulkit.net\u003C/h5\u003E"
+      }
+    },
+    {
+      "id": 1565,
+      "fields": {
+        "Name": "Sofer Stam - Harav Flintenstein",
+        "Phone": "848.525.7467",
+        "Address1": "55 Finchley Blvd",
+        "Type": 160,
+        "Email2": "batimmacher@gmail.com",
+        "Website": "https://www.t2ll.com/smsRedirect.aspx/?phoneNumber=7324408482&msg=Hi%2C%20Saw%20your%20ad%20on%20The%20Click",
+        "Fax2": "",
+        "Address_Line_2": "",
+        "Sponsored2": true,
+        "Lat": 40.061,
+        "Lng": -74.222343,
+        "City": 26,
+        "Zip_Code": 43,
+        "Categories": [
+          "L",
+          "Judaica"
+        ],
+        "Logo": "https://iili.io/2ijPNvp.jpg",
+        "Sponsored": "True",
+        "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E848.525.7467\u003C/h5\u003E",
+        "Fax": "",
+        "Api_key": [
+          "R",
+          "Api_key",
+          1],
+        "Key": "AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU",
+        "Address2": "55 Finchley Blvd Lakewood NJ 08701",
+        "State": "NJ",
+        "strCity": "Lakewood",
+        "strTyp": "Sofer Stam",
+        "Email": "\u003Ch5\u003E\u003Cspan class=\"fa fa-envelope\"\u003E\u003C/span\u003Ebatimmacher@gmail.com\u003C/h5\u003E"
+      }
+    },
+    {
+      "id": 1566,
+      "fields": {
+        "Name": "Inkland",
+        "Phone": "732.719.2122",
+        "Address1": "644 Cross St\n",
+        "Type": 149,
+        "Email2": "info@inklandprinting.com",
+        "Website": "http://www.inklandprinting.com/",
+        "Fax2": "",
+        "Address_Line_2": "#2",
+        "Sponsored2": true,
+        "Lat": 40.0687982,
+        "Lng": -74.243167,
+        "City": 26,
+        "Zip_Code": 43,
+        "Categories": [
+          "L",
+          "Marketing & Media"
+        ],
+        "Logo": "https://iili.io/2ikZ9FS.jpg",
+        "Sponsored": "True",
+        "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E732.719.2122\u003C/h5\u003E",
+        "Fax": "",
+        "Api_key": [
+          "R",
+          "Api_key",
+          1],
+        "Key": "AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU",
+        "Address2": "644 Cross St\n Lakewood NJ 08701",
+        "State": "NJ",
+        "strCity": "Lakewood",
+        "strTyp": "Printers",
+        "Email": "\u003Ch5\u003E\u003Cspan class=\"fa fa-envelope\"\u003E\u003C/span\u003Einfo@inklandprinting.com\u003C/h5\u003E"
+      }
+    },
+    {
+      "id": 1567,
+      "fields": {
+        "Name": "",
+        "Phone": "",
+        "Address1": "",
+        "Type": 0,
+        "Email2": "",
+        "Website": "",
+        "Fax2": "",
+        "Address_Line_2": "",
+        "Sponsored2": false,
+        "Lat": 0,
+        "Lng": 0,
+        "City": 0,
+        "Zip_Code": 0,
+        "Categories": null,
+        "Logo": "",
+        "Sponsored": "False",
+        "fa_phone": "\u003Ch5\u003E\u003Cspan class=\"fa fa-phone\"\u003E\u003C/span\u003E\u003C/h5\u003E",
+        "Fax": "",
+        "Api_key": [
+          "R",
+          "Api_key",
+          1],
+        "Key": "AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU",
+        "Address2": "   ",
+        "State": "",
+        "strCity": "",
+        "strTyp": "",
+        "Email": ""
       }
     }
   ]
