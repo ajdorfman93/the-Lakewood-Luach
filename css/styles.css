@@ -281,9 +281,6 @@
           background: #000;
         }
   
-   
-
-
         /* Mobile menu container: hidden by default, slides down when checked */
         .nav-links {
           position: absolute;
@@ -345,6 +342,30 @@
     margin-right: auto;
     margin-left: auto;
     display: block;
+    overflow-x: hidden;
+}
+.containerBusinesses {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    overflow: hidden;
+}
+#mainContainer {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    margin-bottom: 45px;
+}
+.container-list {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
 }
 /* on mobile devices below 600px, change the value of '--multiplier' 
  * to adjust the values of base font size and vertical space unit.
@@ -376,6 +397,14 @@ background-color: #f6f8f9;
     margin-left: auto;
     display: block;
 }
+#locations #mainContainer {
+    max-height: 630px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
 
 #locations span {
 	font-weight: 400;
@@ -387,8 +416,11 @@ background-color: #f6f8f9;
 	background-color: #fff;
 	box-shadow: 0 0 1px 0 rgba(0,12,32,0.04);
 	border-radius: 20px;
-	padding: 5px;
+	padding: 5px 80px 5px 5px;
 	margin: 5px;
+}
+.box {
+    padding-right: 80px;
 }
 .box h6 {
 	font-size: 18px;
@@ -720,7 +752,9 @@ template {
 [hidden] {
     display : none;
 }
-
+.cluster {
+    color: rgba(181, 226, 140, 0.6);
+    }
 
 #map-container {
     display: flex;
@@ -3618,7 +3652,7 @@ img.u-pull-left {
 
       
   #map {
-    min-height: 420px;
+    min-height: 360px;
 }
 
 
@@ -3689,6 +3723,23 @@ img.u-pull-left {
             padding: 0px;
         }
         
+#locations .container {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
+#locations #mainContainer {
+    max-height: 1000px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
         .box h6 {
             font-size: 18px;
             font-weight: 700;
@@ -3702,10 +3753,14 @@ img.u-pull-left {
         }
 
     }
-    @media (min-width: 992px) {
+    @media (min-width: 1200px) {
         .container {
-            width: 1200px;
+            max-width: 1200px;
         }
+
+#mainContainer {
+    max-width: 1200px;
+}
 }
 .gm-style-iw .gm-style-iw-c {
     height: fit-content;

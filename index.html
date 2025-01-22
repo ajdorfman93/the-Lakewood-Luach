@@ -6,6 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Google Fonts -->
     <link href="https://db.onlinewebfonts.com/c/22db60d19480ba0274c9eb6ba877ea9b?family=Aharoni+Bold+V1" rel="stylesheet">
+    <script src="categories.js"></script>
     <script src="responsive-navbar.js"></script>
     <script src="time.js"></script>
     <script src="filter-ui.js"></script>
@@ -13,6 +14,7 @@
     <script src="zmanim.js" defer></script>
     <!-- Google Maps API  -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOtVjKr3D0vZmwg1QlxCy6SR4rVQenaPU&libraries=places" async defer></script>
+    <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
     <script src="markers.js"></script>
      <!-- <script src="markers-minyanim.js"></script> -->
     <script src="search-autocomplete.js"></script>
@@ -179,31 +181,9 @@
         </div>
       </section>
       <section id="locations">
-        <div class="container">
-           <!-- DEFAULT CONTAINER (shown initially) -->
-  <div id="default-container" class="category-container">
-    <h2 style="margin-left: -8px;">Welcome</h2>
-    <p>Please select a category above to see the corresponding locations.</p>
-  </div>
-
-  <!-- CATEGORY CONTAINERS (hidden initially) -->
-  <div id="minyanim-container" class="category-container">
-    <h2 style="margin-left: -8px;">Minyanim Locations</h2>
-  </div>
-
-  <div id="restaurants-container" class="category-container">
-    <h2 style="margin-left: -8px;">Restaurants Locations</h2>
-  </div>
-
-  <div id="businesses-container" class="category-container">
-    <h2 style="margin-left: -8px;">Businesses Locations</h2>
-  </div>
-  <div id="locations-list">
-  </div>
-</div>
-      </section>
-        </div>      
-      <section id="zmanim">
+        <div id="mainContainer"></div>
+</section>
+  <section id="zmanim">
         <div class="container">
           <div class="md-12">
             <h2>DAILY ZMANIM</h2>
@@ -268,5 +248,8 @@
           </div>
         </div>
       </section>
+</div>
+      </section>
+        </div>    
     </body>
 </html>

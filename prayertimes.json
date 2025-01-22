@@ -26,7 +26,7 @@
         "Condition": [
           "L",
           "Sunday to Friday (Excluded on Major Yomtov)(Mincha & Maariv Excluded on Erev Major Yomtov)",
-          "Earliest (Zman Start Time) Of The Week + (Zman Start Adjustment)"
+          "Earliest (Zman Start Time) Of The Wee + (Zman Start Adjustment)"
         ],
         "strCode": "['#SF', '#ERS']",
         "strZman_Start_Time": "sunrise",
