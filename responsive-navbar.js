@@ -14,6 +14,7 @@ $(function () {
     }
   });
 
+  
   // Highlight active nav link while scrolling.
   if (typeof $.fn.scrollspy === 'function') {
     $('body').scrollspy({
