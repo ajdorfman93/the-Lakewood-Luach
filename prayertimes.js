@@ -252,8 +252,7 @@ records.sort((a, b) => {
         await handleUSTLogic(filteredRecords, entryTime);  // #UST
         await handleUCTLogic(filteredRecords, entryTime);  // #UCT
         await handleRETLogic(filteredRecords, entryTime);  // #RET
-        await handleCUTLogic(filteredRecords, entryTime);  // #CUT
-        await handleCATLogic(filteredRecords, entryTime);  // #CAT
+        await handleCUTLogic(filteredRecords, entryTime);  // #CUT/#CAT combined
 
         // 5) Display the resulting records
         displayRecords(filteredRecords);

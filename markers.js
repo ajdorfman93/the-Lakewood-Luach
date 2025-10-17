@@ -2,8 +2,6 @@
 
 let map;              // The single Google Map instance
 let infoWindow;       // A single reusable InfoWindow
-let autocomplete;     // For Autocomplete on #search-input
-let searchMarker;     // Red marker for the “searched location”
 let markerCluster;    // MarkerClusterer instance
 let markers = [];     // Current array of google.maps.Marker objects
 
@@ -18,6 +16,8 @@ function initMap() {
     zoom: 12,
     disableDefaultUI: true,
   });
+
+  window.__mapInitialized = true;
 
   // 2) Create an InfoWindow with a pixelOffset so it appears above the marker.
   infoWindow = new google.maps.InfoWindow({
@@ -42,52 +42,12 @@ function initMap() {
 
     this.setContent(wrapper);
   };
-  // 3) Prepare #search-input + Autocomplete
-  const input = document.getElementById("search-input");
-  autocomplete = new google.maps.places.Autocomplete(input);
-
-  // 4) Attempt to geocode whatever is currently in #search-input (if any)
-  const geocoder = new google.maps.Geocoder();
-  const searchValue = input.value.trim();
-  if (searchValue) {
-    geocoder.geocode({ address: searchValue }, (results, status) => {
-      if (status === "OK" && results[0]) {
-        map.setCenter(results[0].geometry.location);
-        map.setZoom(14);
-
-        searchMarker = new google.maps.Marker({
-          position: results[0].geometry.location,
-          map,
-          icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
-          title: "Searched Location",
-        });
-      } else {
-        console.warn("Could not geocode initial input:", status);
-      }
-    });
+  // Wire the shared search input up to this map instance.
+  if (typeof window.setSearchMap === "function") {
+    window.setSearchMap(map);
+  } else if (typeof window.initSearchInput === "function") {
+    window.initSearchInput();
   }
-
-  // 5) Listen for Autocomplete selection changes
-  autocomplete.addListener("place_changed", () => {
-    const place = autocomplete.getPlace();
-    if (place.geometry && place.geometry.location) {
-      map.setCenter(place.geometry.location);
-      map.setZoom(14);
-
-      // Remove old search marker (if any)
-      if (searchMarker) {
-        searchMarker.setMap(null);
-      }
-
-      // Place a new red marker at the searched location
-      searchMarker = new google.maps.Marker({
-        position: place.geometry.location,
-        map,
-        icon: "https://maps.google.com/mapfiles/ms/icons/red.png",
-        title: "Searched Location",
-      });
-    }
-  });
 
   // 6) Create the MarkerClusterer.
   markerCluster = new MarkerClusterer(map, [], {
@@ -386,3 +346,13 @@ function drawMarkers(finalItems) {
 
   console.log("knownLocations updated from finalItems:", window.knownLocations);
 }
+
+// Expose key functions for other scripts.
+window.initMarkersMap = initMap;
+window.initMinyanimMap = function initMinyanimMap() {
+  if (!map) {
+    initMap();
+    return;
+  }
+  refreshMapMarkers();
+};

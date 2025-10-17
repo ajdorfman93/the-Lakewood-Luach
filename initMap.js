@@ -1,24 +1,49 @@
-        //initMap.js
-        // Keep track of which category is currently loaded, to avoid re-initializing
-        let currentCategory = "";
-        document.addEventListener("DOMContentLoaded", () => {
-          // By default, let’s load the "Markers" map for restaurants/businesses
-          currentCategory = "restaurants";
-          initMarkersMap();
-          // Listen on each category button
-          document.querySelectorAll(".category-button").forEach((btn) => {
-            btn.addEventListener("click", () => {
-              const category = btn.dataset.category;
-              // If we’re already on that category, do nothing
-              if (category === currentCategory) return;
-              currentCategory = category;
-              if (category === "minyanim") {
-                // Initialize the minyanim map
-                initMinyanimMap();
-              } else {
-                // Restaurants/Businesses => use the markers map
-                initMarkersMap();
-              }
-            });
-          });
-        });
+(function () {
+  let currentCategory = "restaurants";
+
+  function callInitMarkers(force = false) {
+    if (!force && window.__mapInitialized) {
+      return;
+    }
+
+    if (typeof window.initMarkersMap === "function") {
+      window.initMarkersMap();
+      window.__mapInitialized = true;
+    } else if (typeof window.initMap === "function") {
+      window.initMap();
+      window.__mapInitialized = true;
+    } else {
+      console.warn("No marker map initializer found.");
+    }
+  }
+
+  function callInitMinyanim() {
+    if (typeof window.initMinyanimMap === "function") {
+      window.initMinyanimMap();
+    } else if (typeof window.refreshMapMarkers === "function") {
+      window.refreshMapMarkers();
+    } else {
+      console.warn("No minyanim map initializer found.");
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    callInitMarkers(false);
+
+    document.querySelectorAll(".category-button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const category = btn.dataset.category;
+        if (!category || category === currentCategory) {
+          return;
+        }
+
+        currentCategory = category;
+        if (category === "minyanim") {
+          callInitMinyanim();
+        } else {
+          callInitMarkers(true);
+        }
+      });
+    });
+  });
+})();

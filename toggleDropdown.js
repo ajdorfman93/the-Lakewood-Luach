@@ -1,53 +1,62 @@
-//toggleDropdown.js
-  // Toggle dropdown menu visibility
+// toggleDropdown.js
+(function () {
+  function getDropdownElements() {
+    return {
+      menu: document.getElementById('dropdownMenu'),
+      toggle: document.getElementById('dropdownToggle'),
+      selectedOutput: document.getElementById('selectedPricePointOptions'),
+    };
+  }
+
   function toggleDropdown() {
-    var menu = document.getElementById('dropdownMenu');
-    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-  }
-
-  // Update the button text with selected options
-  function updateSelection() {
-    var checkboxes = document.querySelectorAll('#dropdownMenu input[type="checkbox"]');
-    var selectedValues = [];
-    
-    checkboxes.forEach(function(checkbox) {
-      if (checkbox.checked) {
-        selectedValues.push(checkbox.value);
-      }
-    });
-    
-    var toggleButton = document.getElementById('dropdownToggle');
-    toggleButton.textContent = selectedValues.length > 0 ? selectedValues.join(', ') : 'Select Price Range';
-  }
-
-  // Close dropdown when clicking outside
-  window.addEventListener('click', function(event) {
-    var dropdown = document.querySelector('.dropdown');
-    if (!dropdown.contains(event.target)) {
-      document.getElementById('dropdownMenu').style.display = 'none';
+    const { menu } = getDropdownElements();
+    if (!menu) {
+      return;
     }
-  });
-
-  // Prevent dropdown from closing when interacting inside
-  document.getElementById('dropdownMenu').addEventListener('click', function(event) {
-    event.stopPropagation();
-  });
-  function toggleDropdown() {
-    var menu = document.getElementById('dropdownMenu');
-    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    const isOpen = menu.style.display === 'block';
+    menu.style.display = isOpen ? 'none' : 'block';
   }
 
   function updateSelectedOptions() {
-    var checkboxes = document.querySelectorAll('#dropdownMenu input[type="checkbox"]');
-    var selected = [];
-    
-    checkboxes.forEach(function(checkbox) {
-      if (checkbox.checked) {
-        selected.push(checkbox.value);
-      }
-    });
-    
-    var selectedOptions = document.getElementById('selectedPricePointOptions');
-    selectedOptions.textContent = selected.length > 0 ? selected.join(', ') : '';
+    const { menu, toggle, selectedOutput } = getDropdownElements();
+    if (!menu) {
+      return;
+    }
+
+    const checkboxes = menu.querySelectorAll('input[type="checkbox"]');
+    const selectedValues = Array.from(checkboxes)
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.value);
+
+    if (toggle) {
+      toggle.textContent = selectedValues.length ? selectedValues.join(', ') : 'Select Price Range';
+    }
+
+    if (selectedOutput) {
+      selectedOutput.textContent = selectedValues.length ? selectedValues.join(', ') : '';
+    }
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const { menu } = getDropdownElements();
+    if (!menu) {
+      return;
+    }
+
+    window.addEventListener('click', (event) => {
+      const dropdown = document.querySelector('.dropdown');
+      if (!dropdown || dropdown.contains(event.target)) {
+        return;
+      }
+      menu.style.display = 'none';
+    });
+
+    menu.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+  });
+
+  window.toggleDropdown = toggleDropdown;
+  window.updateSelectedOptions = updateSelectedOptions;
+})();
 

@@ -1,62 +1,99 @@
 // search.js
+(function () {
+  let autocomplete = null;
+  let searchMap = null; // Currently active Google Map instance
+  let searchMarker = null; // Marker displayed for the searched location
+  let isListenerAttached = false;
 
-let autocomplete = null;
-let searchMap = null; // Points to the currently active Google Map
-let searchMarker = null; // Red marker placed by the search
+  function initSearchInput() {
+    if (autocomplete) {
+      return autocomplete;
+    }
 
-/**
- * Initialize the #search-input autocomplete (only called once).
- * The map is not set here yet, so we won't attach it to any map
- * until we call setSearchMap().
- */
-function initSearchInput() {
-  const input = document.getElementById("search-input");
-  if (!input) {
-    console.warn("No element found with ID #search-input. Skipping initSearchInput().");
-    return;
-  }
-  autocomplete = new google.maps.places.Autocomplete(input);
-  autocomplete.addListener("place_changed", onPlaceChanged);
-}
+    const input = document.getElementById("search-input");
+    if (!input) {
+      console.warn("No element found with ID #search-input. Skipping initSearchInput().");
+      return null;
+    }
 
-/**
- * Called whenever the place in the #search-input changes.
- * We place a red marker on the currently-active map (searchMap).
- */
-function onPlaceChanged() {
-  if (!autocomplete || !searchMap) return;
+    if (!window.google || !google.maps || !google.maps.places) {
+      console.warn("Google Maps places library is not available yet.");
+      return null;
+    }
 
-  const place = autocomplete.getPlace();
-  if (!place.geometry || !place.geometry.location) return;
-
-  // Center & zoom on the new location
-  searchMap.setCenter(place.geometry.location);
-  searchMap.setZoom(14);
-
-  // Clear out an old marker if present
-  if (searchMarker) {
-    searchMarker.setMap(null);
+    autocomplete = new google.maps.places.Autocomplete(input);
+    attachPlaceChangedListener();
+    return autocomplete;
   }
 
-  // Place a new red marker at the selected location
-  searchMarker = new google.maps.Marker({
-    position: place.geometry.location,
-    map: searchMap,
-    icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
-    title: "Searched Location",
-  });
-}
+  function attachPlaceChangedListener() {
+    if (!autocomplete || isListenerAttached) {
+      return;
+    }
 
-/**
- * Dynamically set which map the search input should control.
- * Whenever we switch categories/maps, we can call this to update
- * the search input to use the new map.
- * @param {google.maps.Map} map - The current map object
- */
-function setSearchMap(map) {
-  searchMap = map;
-}
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry || !place.geometry.location) {
+        return;
+      }
+      panMapToLocation(place.geometry.location);
+    });
 
-// Expose our functions in case we want to import them in a module-based setup
-window.initSearchInput = initSearchInput;
-window.setSearchMap = setSearchMap;
+    isListenerAttached = true;
+  }
+
+  function panMapToLocation(location) {
+    if (!searchMap || !location) {
+      return;
+    }
+
+    searchMap.setCenter(location);
+    searchMap.setZoom(14);
+
+    if (searchMarker) {
+      searchMarker.setMap(null);
+    }
+
+    searchMarker = new google.maps.Marker({
+      position: location,
+      map: searchMap,
+      icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+      title: "Searched Location",
+    });
+  }
+
+  function geocodeInitialSearchValue() {
+    if (!searchMap || !window.google || !google.maps) {
+      return;
+    }
+
+    const input = document.getElementById("search-input");
+    if (!input) {
+      return;
+    }
+
+    const searchValue = input.value.trim();
+    if (!searchValue) {
+      return;
+    }
+
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: searchValue }, (results, status) => {
+      if (status === "OK" && results[0]) {
+        panMapToLocation(results[0].geometry.location);
+      } else if (status !== "ZERO_RESULTS" && status !== "INVALID_REQUEST") {
+        console.warn("Geocode failed:", status);
+      }
+    });
+  }
+
+  function setSearchMap(map) {
+    searchMap = map;
+    initSearchInput();
+    geocodeInitialSearchValue();
+  }
+
+  window.initSearchInput = initSearchInput;
+  window.setSearchMap = setSearchMap;
+  window.geocodeInitialSearchValue = geocodeInitialSearchValue;
+})();
